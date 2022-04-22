@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Badge, Menu } from "antd";
-import {
-  AppstoreOutlined,
-} from "@ant-design/icons";
+import { AppstoreOutlined } from "@ant-design/icons";
 import "./Header.scss";
 import logo from "../../../assets/images/others/logo.png";
 import searchIcon from "../../../assets/svg/search.svg";
@@ -19,21 +17,20 @@ export const Header = () => {
   useEffect(() => {
     const handleClickOutSide = (e) => {
       // !refMenuMini.current.contains(e.target) : didn't have any impact on this.
-      if(refMenuMini.current && !refMenuMini.current.contains(e.target)){
+      if (refMenuMini.current && !refMenuMini.current.contains(e.target)) {
         setToggleMenuMini(false);
       }
-    }    
+    };
     // List and remove listen after click is finished
-    document.addEventListener('click', handleClickOutSide, true);
+    document.addEventListener("click", handleClickOutSide, true);
     // return () => {
     //   document.removeEventListener('click', handleClickOutSide, true);
     // }
-  }, [toggleMenuMini])
-  
+  }, [toggleMenuMini]);
 
   return (
     <>
-      <div className="lg:block hidden">
+      <div className="lg:block hidden absolute z-10 w-full">
         <div className="flex justify-between items-center my-7 mx-12">
           <div>
             <NavLink to="/home">
@@ -102,7 +99,7 @@ export const Header = () => {
             {toggleMenuMini && (
               <div className="relative">
                 <Menu
-                  className="absolute"
+                  className="absolute z-10"
                   // defaultSelectedKeys={["mail"]}
                 >
                   <Menu.Item key="mail">
@@ -143,7 +140,7 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      <Carousel/>
+      <Carousel />
     </>
   );
 };
