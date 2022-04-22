@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Badge, Menu } from "antd";
 import {
-  MailOutlined,
   AppstoreOutlined,
-  SettingOutlined,
 } from "@ant-design/icons";
 import "./Header.scss";
 import logo from "../../../assets/images/others/logo.png";
@@ -13,9 +11,25 @@ import heartIcon from "../../../assets/svg/heart-svgrepo-com.svg";
 import cartIcon from "../../../assets/svg/shopping-basket-svgrepo-com.svg";
 import menuIcon from "../../../assets/svg/menuu.svg";
 import { NavLink } from "react-router-dom";
+import { Carousel } from "../Carousel/Carousel";
 
 export const Header = () => {
-  const [toggleMenuMini, settoggleMenuMini] = useState(false);
+  const [toggleMenuMini, setToggleMenuMini] = useState(false);
+  const refMenuMini = useRef(null);
+  useEffect(() => {
+    const handleClickOutSide = (e) => {
+      // !refMenuMini.current.contains(e.target) : didn't have any impact on this.
+      if(refMenuMini.current && !refMenuMini.current.contains(e.target)){
+        setToggleMenuMini(false);
+      }
+    }    
+    // List and remove listen after click is finished
+    document.addEventListener('click', handleClickOutSide, true);
+    // return () => {
+    //   document.removeEventListener('click', handleClickOutSide, true);
+    // }
+  }, [toggleMenuMini])
+  
 
   return (
     <>
@@ -77,16 +91,19 @@ export const Header = () => {
         </div>
       </div>
       <div className="lg:hidden block">
-        <div className="flex justify-between items-center my-7 mx-8">
-          <div>
-            <div onClick={()=> settoggleMenuMini(!toggleMenuMini)}>
+        <div
+          className="flex justify-between items-center my-7 mx-8"
+          onBlur={() => setToggleMenuMini(false)}
+        >
+          <div ref={refMenuMini}>
+            <div onClick={() => setToggleMenuMini(!toggleMenuMini)}>
               <img className="cursor-pointer" src={menuIcon} alt="menuIcon" />
             </div>
             {toggleMenuMini && (
-              <>
+              <div className="relative">
                 <Menu
-                  className=""                 
-                  defaultSelectedKeys={["mail"]}
+                  className="absolute"
+                  // defaultSelectedKeys={["mail"]}
                 >
                   <Menu.Item key="mail">
                     <NavLink to="/home">HOME</NavLink>
@@ -111,7 +128,7 @@ export const Header = () => {
                     <NavLink to="/contact">CONTACT</NavLink>
                   </Menu.Item>
                 </Menu>
-              </>
+              </div>
             )}
           </div>
           <div>
@@ -126,6 +143,7 @@ export const Header = () => {
           </div>
         </div>
       </div>
+      <Carousel/>
     </>
   );
 };
