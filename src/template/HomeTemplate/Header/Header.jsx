@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Avatar, Badge, Menu } from "antd";
+import { Menu } from "antd";
 import { AppstoreOutlined } from "@ant-design/icons";
 import "./Header.scss";
 import logo from "../../../assets/images/others/logo.png";
-import searchIcon from "../../../assets/svg/search.svg";
-import userIcon from "../../../assets/svg/user-svgrepo-com.svg";
-import heartIcon from "../../../assets/svg/heart-svgrepo-com.svg";
-import cartIcon from "../../../assets/svg/shopping-basket-svgrepo-com.svg";
 import menuIcon from "../../../assets/svg/menuu.svg";
 import { NavLink } from "react-router-dom";
-import { Carousel } from "../Carousel/Carousel";
+import { ItemCart, ItemsMenu } from "../../../components/ItemsMenu/ItemsMenu";
 
 export const Header = () => {
   const [toggleMenuMini, setToggleMenuMini] = useState(false);
@@ -63,28 +59,7 @@ export const Header = () => {
               </Menu.Item>
             </Menu>
           </div>
-          <div className="flex space-x-3">
-            <img
-              className="cursor-pointer hover:-translate-y-1 ease-out duration-200"
-              src={searchIcon}
-              alt="heartIcon"
-            />
-            <img
-              className="cursor-pointer hover:-translate-y-1 ease-out duration-200"
-              src={userIcon}
-              alt="userIcon"
-            />
-            <div className="background_badge_heart hover:-translate-y-1 ease-out duration-200">
-              <Badge size="small" count={5}>
-                <Avatar shape="square" size="large" src={heartIcon} />
-              </Badge>
-            </div>
-            <div className="background_badge_cart drop-shadow-lg">
-              <Badge size="small" count={5}>
-                <Avatar shape="square" size="large" src={cartIcon} />
-              </Badge>
-            </div>
-          </div>
+          <ItemsMenu />
         </div>
       </div>
       <div className="lg:hidden block">
@@ -105,7 +80,10 @@ export const Header = () => {
                   <Menu.Item key="mail">
                     <NavLink to="/home">HOME</NavLink>
                   </Menu.Item>
-                  <Menu.SubMenu key="SubMenu" title="SHOP">
+                  <Menu.Item key="mail">
+                    <NavLink to="/shop">SHOP</NavLink>
+                  </Menu.Item>
+                  {/* <Menu.SubMenu key="SubMenu" title="SHOP">
                     <Menu.ItemGroup title="Item 1">
                       <Menu.Item key="app" icon={<AppstoreOutlined />}>
                         Navigation Two
@@ -114,7 +92,7 @@ export const Header = () => {
                         Navigation Three
                       </Menu.Item>
                     </Menu.ItemGroup>
-                  </Menu.SubMenu>
+                  </Menu.SubMenu> */}
                   <Menu.Item>
                     <NavLink to="/product">PRODUCT</NavLink>
                   </Menu.Item>
@@ -134,13 +112,10 @@ export const Header = () => {
             </NavLink>
           </div>
           <div className="background_badge_cart drop-shadow-lg">
-            <Badge size="small" count={5}>
-              <Avatar shape="square" size="large" src={cartIcon} />
-            </Badge>
+            <ItemCart/>
           </div>
         </div>
       </div>
-      <Carousel />
     </>
   );
 };

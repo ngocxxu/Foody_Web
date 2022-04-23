@@ -7,6 +7,7 @@ import slider3 from "../../../assets/images/carousel/slider-10.jpg";
 
 export const Carousel = () => {
   const settings = {
+    lazyLoad: true,
     dots: false,
     fade: true,
     infinite: true,
@@ -20,6 +21,7 @@ export const Carousel = () => {
   };
 
   const settings_2 = {
+    lazyLoad: true,
     dots: false,
     fade: true,
     infinite: true,

@@ -1,0 +1,2 @@
+export const SET_DRAWER_TABLE = 'SET_DRAWER_TABLE';
+export const SET_ITEM_MODAL = 'SET_ITEM_MODAL';
