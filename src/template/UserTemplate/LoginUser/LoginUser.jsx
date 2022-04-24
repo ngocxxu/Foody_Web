@@ -1,8 +1,11 @@
 import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import "./LoginUser.scss";
+import { TOGGLE_CREATE_ACCOUNT } from "../../../redux/consts/const";
+import { useDispatch } from "react-redux";
 
 export const LoginUser = () => {
+  const dispatch = useDispatch();
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -77,6 +80,12 @@ export const LoginUser = () => {
               block
               shape="round"
               size="large"
+              onClick={() =>
+                dispatch({
+                  type: TOGGLE_CREATE_ACCOUNT,
+                  createAcount: true,
+                })
+              }
             >
               CREATE AN ACCOUNT
             </Button>

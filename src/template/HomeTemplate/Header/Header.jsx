@@ -38,16 +38,9 @@ export const Header = () => {
               <Menu.Item key="mail">
                 <NavLink to="/home">HOME</NavLink>
               </Menu.Item>
-              <Menu.SubMenu key="SubMenu" title="SHOP">
-                <Menu.ItemGroup title="Item 1">
-                  <Menu.Item key="app" icon={<AppstoreOutlined />}>
-                    Navigation Two
+              <Menu.Item>
+                    <NavLink to="/shop">SHOP</NavLink>
                   </Menu.Item>
-                  <Menu.Item key="disabled" disabled>
-                    Navigation Three
-                  </Menu.Item>
-                </Menu.ItemGroup>
-              </Menu.SubMenu>
               <Menu.Item>
                 <NavLink to="/product">PRODUCT</NavLink>
               </Menu.Item>

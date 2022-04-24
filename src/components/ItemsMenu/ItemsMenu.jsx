@@ -10,9 +10,14 @@ import cartIcon from "../../assets/svg/shopping-basket-svgrepo-com.svg";
 import emptyCartIcon from "../../assets/svg/cart_remove.svg";
 import removeIcon from "../../assets/svg/remove_items.svg";
 import product1 from "../../assets/images/product/Products-1-600x600.jpg";
-import { SET_DRAWER_TABLE, SET_ITEM_MODAL } from "../../redux/consts/const";
+import {
+  SET_DRAWER_TABLE,
+  SET_ITEM_MODAL,
+  SET_WHISHLIST_MODAL,
+} from "../../redux/consts/const";
 import { ItemDrawer } from "../ItemDrawer/ItemDrawer";
 import { ItemModal } from "../Modal/ItemModal";
+import { WishlistModal } from "../WishlistModal/WishlistModal";
 
 const ItemCart = () => {
   const contentCart = (
@@ -111,8 +116,19 @@ const ItemsMenu = () => {
         alt="userIcon"
       />
       <div className="background_badge_heart hover:-translate-y-1 ease-out duration-200">
+        <WishlistModal />
         <Badge size="small" count={5}>
-          <Avatar shape="square" size="large" src={heartIcon} />
+          <Avatar
+            shape="square"
+            size="large"
+            src={heartIcon}
+            onClick={() => {
+              dispatch({
+                type: SET_WHISHLIST_MODAL,
+                modalWishlist: true,
+              });
+            }}
+          />
         </Badge>
       </div>
       <div className="background_badge_cart drop-shadow-lg">
