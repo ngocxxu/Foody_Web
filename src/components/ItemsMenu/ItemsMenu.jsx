@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Avatar, Badge, Popover, Progress } from "antd";
 import "./ItemsMenu.scss";

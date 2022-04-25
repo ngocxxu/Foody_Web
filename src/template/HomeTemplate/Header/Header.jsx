@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Menu } from "antd";
-import { AppstoreOutlined } from "@ant-design/icons";
 import "./Header.scss";
 import logo from "../../../assets/images/others/logo.png";
 import menuIcon from "../../../assets/svg/menuu.svg";
