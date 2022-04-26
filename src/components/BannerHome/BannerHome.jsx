@@ -7,8 +7,8 @@ import "./BannerHome.scss";
 export const BannerHome = () => {
   return (
     <>
-      <div className="lg:block hidden">
-        <div className="flex justify-center items-center -translate-y-3/4">
+      <div className="lg:block hidden relative">
+        <div className="flex justify-center items-center -translate-y-3/4 absolute top-0 left-0 right-0">
           <div className="relative">
             <div className="banner_banner1 ">
               <img src={banner1} alt="banner1" />

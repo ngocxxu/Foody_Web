@@ -56,7 +56,7 @@ export const Carousel = () => {
 
   return (
     <div className="">
-      <div className="lg:block hidden">
+      <div className="carousel-slick lg:block hidden">
         <Slider {...settings}>
           <div>
             {/* <img src={slider1} alt="slider1" /> */}
