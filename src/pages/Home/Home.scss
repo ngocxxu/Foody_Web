@@ -4,17 +4,28 @@ $color-black: #272727;
 $color-white: #ffffff;
 $color-green: #00a950;
 $color-gray: #a0a0a0;
+$color-gray-200: #b7b4ad;
+$color-gray-400: #8d8d8d;
 $color-redred: #bb2d2f;
 $color-blue: #285dcd;
+$color-yellow-200: #f3efe6;
 
 .bg-border-slider {
   transform: translateY(-40px);
 }
 
-.bg-poster-time{
+.bg-poster-time {
   text-align: center;
-  background: url(../../assets/images/carousel/banner-16.jpg) no-repeat center center;
+  background: url(../../assets/images/carousel/back-30.jpg) no-repeat center
+    center;
   width: 100%;
-  height: 500px;
+  height: 570px;
+  background-color: $color-yellow-200;
   // background-size: contain;
+}
+
+.time-hour {
+  display: inline-block;
+  clip-path: polygon(13% 0, 100% 0, 87% 100%, 0 100%);
+  padding: 0 30px;
 }
