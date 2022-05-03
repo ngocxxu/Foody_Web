@@ -70,6 +70,16 @@ const ButtonCustom7 = ({ textButton, ...props }) => {
   );
 };
 
+const ButtonCustom8 = ({ textButton, ...props }) => {
+  return (
+    <>
+      <button className="border-[#272727] border text-[#272727] text-xs font-bold  rounded-full px-7 py-3 hover:border-[#f1252b] hover:bg-[#f1252b] hover:text-white ease-out duration-300">
+        {textButton}
+      </button>
+    </>
+  );
+};
+
 
 
 export {
@@ -79,5 +89,6 @@ export {
   ButtonCustom4,
   ButtonCustom5,
   ButtonBigCustom6,
-  ButtonCustom7
+  ButtonCustom7,
+  ButtonCustom8
 };

@@ -3,10 +3,11 @@ import { Carousel } from "../../template/HomeTemplate/Carousel/Carousel";
 import borderSlider from "../../assets/images/others/back-42.png";
 import "./Home.scss";
 import { BannerHome } from "../../components/BannerHome/BannerHome";
-import { TrendingFood } from "../../components/TrendingFood/TrendingFood";
 import { ButtonBigCustom3 } from "../../components/Button/Button";
 import fastDelivery from "../../assets/svg/fast-delivery.svg";
 import { Blog } from "../../template/HomeTemplate/Blog/Blog";
+import { SaleProduct } from "../../template/HomeTemplate/SaleProduct/SaleProduct";
+import { LibraryPicture } from "../../template/HomeTemplate/LibraryPicture/LibraryPicture";
 
 export const Home = () => {
   return (
@@ -58,7 +59,9 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <TrendingFood />
+      <div className="mt-14 flex justify-center items-center">
+        <SaleProduct />
+      </div>
       {/* Rush Hours Component */}
       <div className="bg-poster-time mt-20 lg:mt-40 relative">
         <div className="absolute top-1/4 left-0 right-0">
@@ -78,7 +81,10 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <Blog/>
+      <div className="flex justify-center items-center">
+        <Blog />
+      </div>
+      <LibraryPicture/>
     </div>
   );
 };
