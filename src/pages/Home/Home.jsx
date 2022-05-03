@@ -6,6 +6,7 @@ import { BannerHome } from "../../components/BannerHome/BannerHome";
 import { TrendingFood } from "../../components/TrendingFood/TrendingFood";
 import { ButtonBigCustom3 } from "../../components/Button/Button";
 import fastDelivery from "../../assets/svg/fast-delivery.svg";
+import { Blog } from "../../template/HomeTemplate/Blog/Blog";
 
 export const Home = () => {
   return (
@@ -77,7 +78,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      
+      <Blog/>
     </div>
   );
 };

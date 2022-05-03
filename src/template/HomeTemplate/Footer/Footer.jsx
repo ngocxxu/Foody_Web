@@ -117,7 +117,7 @@ export const Footer = () => {
             <p className="text-white font-bold text-2xl hover:italic ease-out duration-400 my-auto cursor-pointer">
               NEWSLETTER
             </p>
-            <div>
+            <div className="my-4 lg:my-0">
               <input className="input_mail lg:px-40 py-3" type="text" placeholder="Your Email" />
             </div>
             <p className="text-white font-bold text-2xl hover:italic ease-out duration-400 my-auto cursor-pointer">
