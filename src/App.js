@@ -6,7 +6,7 @@ import { Home } from "./pages/Home/Home";
 import "./App.scss";
 import { ErrorTemplate } from "./template/ErrorTemplate/ErrorTemplate";
 import { Shop } from "./pages/Shop/Shop";
-import { Blog } from "./pages/Blog/Blog";
+import { BlogDetail } from "./pages/BlogDetail/BlogDetail";
 import { Product } from "./pages/Product/Product";
 import { Contact } from "./pages/Contact/Contact";
 
@@ -19,7 +19,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product" element={<Product />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
         </Route>
         <Route path="*" element={<ErrorTemplate />}></Route>

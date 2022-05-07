@@ -36,7 +36,7 @@ const settings = {
 export const Blog = () => {
   return (
     <>
-      <div className="blog py-16 w-full lg:w-3/4">
+      <div className="blog py-16 w-full lg:w-4/5">
         <Slider {...settings}>
           <div>
             <BlogItem

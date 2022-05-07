@@ -1,6 +1,7 @@
 import React from "react";
 import { Carousel } from "../../template/HomeTemplate/Carousel/Carousel";
 import borderSlider from "../../assets/images/others/back-42.png";
+import borderSliderWhite from "../../assets/images/others/back-23.png";
 import "./Home.scss";
 import { BannerHome } from "../../components/BannerHome/BannerHome";
 import { ButtonBigCustom3 } from "../../components/Button/Button";
@@ -8,6 +9,7 @@ import fastDelivery from "../../assets/svg/fast-delivery.svg";
 import { Blog } from "../../template/HomeTemplate/Blog/Blog";
 import { SaleProduct } from "../../template/HomeTemplate/SaleProduct/SaleProduct";
 import { LibraryPicture } from "../../template/HomeTemplate/LibraryPicture/LibraryPicture";
+import { ListProduct } from "../../template/HomeTemplate/ListProduct/ListProduct";
 
 export const Home = () => {
   return (
@@ -63,7 +65,7 @@ export const Home = () => {
         <SaleProduct />
       </div>
       {/* Rush Hours Component */}
-      <div className="bg-poster-time mt-20 lg:mt-40 relative">
+      <div className="bg-poster-time mt-20 relative">
         <div className="absolute top-1/4 left-0 right-0">
           <div className="lg:text-right ">
             <div className="flex justify-center items-center">
@@ -81,6 +83,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      <ListProduct/>
       <div className="flex justify-center items-center">
         <Blog />
       </div>

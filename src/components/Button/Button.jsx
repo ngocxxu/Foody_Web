@@ -50,10 +50,10 @@ const ButtonCustom5 = ({ textButton, ...props }) => {
   );
 };
 
-const ButtonBigCustom6 = ({ textButton, ...props }) => {
+const ButtonBigCustom6 = ({ textButton, className, ...props }) => {
   return (
     <>
-      <button className="bg-[#f1252b] border text-white text-base font-bold  rounded-full px-8 py-4 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-white ease-out duration-300">
+      <button className={`bg-[#f1252b] border text-white text-base font-bold  rounded-full px-8 py-4 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-white ease-out duration-300 ${className}`}>
         {textButton}
       </button>
     </>

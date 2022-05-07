@@ -7,9 +7,9 @@ const settings = {
   infinite: true,
   slidesToShow: 5,
   swipeToSlide: true,
-  autoplay: true,
-  autoplaySpeed: 5000,
-  speed: 4000,
+  // autoplay: true,
+  // autoplaySpeed: 5000,
+  // speed: 2000,
   responsive: [
     {
       breakpoint: 1024,

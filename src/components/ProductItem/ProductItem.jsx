@@ -7,13 +7,13 @@ import { NavLink } from "react-router-dom";
 
 export const ProductItem = () => {
   return (
-    <div className="product-item bg-white rounded-3xl p-4 m-4">
+    <div className="product-item bg-white rounded-3xl p-4 m-4 ease-out duration-500">
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
-          <div className="bg-[#00a950] text-xs rounded-full w-10 h-10 flex items-center justify-center text-white font-semibold">
+          <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
             Hot
           </div>
-          <div className="bg-[#f1252b] text-xs ml-2 rounded-full w-10 h-10 flex items-center justify-center text-white font-semibold">
+          <div className="bg-[#f1252b] drop-shadow-lg text-xs ml-2 rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
             -50%
           </div>
         </div>
@@ -29,7 +29,7 @@ export const ProductItem = () => {
       </div>
       <div className="text-center">
         <div>
-          <div className="text-lg font-bold">
+          <div className="lg:text-lg text-sm font-bold">
             <NavLink to="/product" className="text-black hover:text-[#f1252b]">
               PIZZA PALACE
             </NavLink>
