@@ -1,7 +1,6 @@
 import { Tabs } from "antd";
-import React, { useContext } from "react";
+import React from "react";
 import { ProductItem } from "../../../../components/ProductItem/ProductItem";
-import { StoreContext } from "../../../../redux/context/storeContext";
 import "./OptionsFood.scss";
 
 const { TabPane } = Tabs;

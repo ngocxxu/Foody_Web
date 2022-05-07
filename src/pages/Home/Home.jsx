@@ -1,7 +1,6 @@
 import React from "react";
 import { Carousel } from "../../template/HomeTemplate/Carousel/Carousel";
 import borderSlider from "../../assets/images/others/back-42.png";
-import borderSliderWhite from "../../assets/images/others/back-23.png";
 import "./Home.scss";
 import { BannerHome } from "../../components/BannerHome/BannerHome";
 import { ButtonBigCustom3 } from "../../components/Button/Button";
