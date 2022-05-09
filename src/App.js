@@ -17,7 +17,15 @@ function App() {
         <Route element={<HomeTemplate />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop" element={<Shop />}/>
+          <Route path="/shop/burgers" element={<Shop />}/>
+          <Route path="/shop/sauces" element={<Shop />}/>
+          <Route path="/shop/starbucks" element={<Shop />}/>
+          <Route path="/shop/sandwich" element={<Shop />}/>
+          <Route path="/shop/kids-menu" element={<Shop />}/>
+          <Route path="/shop/combo-offer" element={<Shop />}/>
+          <Route path="/shop/kids-menu" element={<Shop />}/>
+          <Route path="/shop/pizza-menu" element={<Shop />}/>
           <Route path="/product" element={<Product />} />
           <Route path="/blog" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />

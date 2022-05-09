@@ -56,10 +56,10 @@ export const ItemsFoodSlick = () => {
 
   return (
     <>
-      <div className="slick-items-food mx-auto mt-36 lg:block hidden">
+      <div className="slick-items-food mx-auto mt-10 lg:block hidden">
         <Slider {...settings}>
           <NavLink
-            to="/product"
+            to="/shop/burgers"
             className=" relative cursor-pointer"
             style={{ width: 200 }}
           >
@@ -75,7 +75,7 @@ export const ItemsFoodSlick = () => {
               BURGERS
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/combo-offer" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
@@ -88,7 +88,7 @@ export const ItemsFoodSlick = () => {
               COMBO OFFER
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/kids-menu" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
@@ -101,7 +101,7 @@ export const ItemsFoodSlick = () => {
               KIDS MENU
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/pizza-menu" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
@@ -114,7 +114,7 @@ export const ItemsFoodSlick = () => {
               PIZZA MENU
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/sandwich" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
@@ -127,7 +127,7 @@ export const ItemsFoodSlick = () => {
               SANDWICH
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/sauces" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
@@ -140,7 +140,7 @@ export const ItemsFoodSlick = () => {
               SAUCES
             </h3>
           </NavLink>
-          <NavLink to="/product" className=" relative cursor-pointer">
+          <NavLink to="/shop/starbucks" className=" relative cursor-pointer">
             <div className="item-category">
               <img
                 className="img-category block mx-auto ease-in duration-300"
