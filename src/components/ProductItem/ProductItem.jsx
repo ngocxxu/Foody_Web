@@ -5,7 +5,7 @@ import product1 from "../../assets/images/product/Products-14-600x600.jpg";
 import { ButtonCustom8 } from "../Button/Button";
 import { NavLink } from "react-router-dom";
 
-export const ProductItem = () => {
+export const ProductItem = ({ foodItem, ...props}) => {
   return (
     <div className="product-item bg-white rounded-3xl p-4 m-4 ease-out duration-500">
       <div className="flex justify-between items-center">
