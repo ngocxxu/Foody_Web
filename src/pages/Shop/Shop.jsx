@@ -41,7 +41,7 @@ export const Shop = () => {
   }
 
   return (
-    <div className="container-shop ">
+    <div className="container-shop">
       <div className="flex justify-center items-center pt-28">
         <div className="bg-shop py-8">
           <TitleBreadcrumb />
@@ -49,7 +49,7 @@ export const Shop = () => {
           <ItemsFoodSlick />
         </div>
       </div>
-      <div className="contain-items grid grid-cols-4 gap-2 mx-auto">
+      <div className="contain-items grid grid-cols-4 gap-2 mx-auto mt-10">
         <div className="contain-items-category">
           <div>
             <h1 className="text-lg">CATEGORIES</h1>

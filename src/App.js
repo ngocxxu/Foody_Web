@@ -9,6 +9,17 @@ import { Shop } from "./pages/Shop/Shop";
 import { BlogDetail } from "./pages/BlogDetail/BlogDetail";
 import { Product } from "./pages/Product/Product";
 import { Contact } from "./pages/Contact/Contact";
+import { FoodProduct } from "./pages/Shop/FoodProduct/FoodProduct";
+
+const arrayCategory = [
+  "burgers",
+  "sauces",
+  "starbucks",
+  "sandwich",
+  "combo-offer",
+  "kids-menu",
+  "pizza-menu",
+];
 
 function App() {
   return (
@@ -17,15 +28,13 @@ function App() {
         <Route element={<HomeTemplate />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/shop" element={<Shop />}/>
-          <Route path="/shop/burgers" element={<Shop />}/>
-          <Route path="/shop/sauces" element={<Shop />}/>
-          <Route path="/shop/starbucks" element={<Shop />}/>
-          <Route path="/shop/sandwich" element={<Shop />}/>
-          <Route path="/shop/kids-menu" element={<Shop />}/>
-          <Route path="/shop/combo-offer" element={<Shop />}/>
-          <Route path="/shop/kids-menu" element={<Shop />}/>
-          <Route path="/shop/pizza-menu" element={<Shop />}/>
+          <Route path="/shop" element={<Shop />} />
+          {arrayCategory.map((item, index) => (
+            <Route key={index} path={`/shop/${item}`} element={<Shop />} />
+          ))}
+          {arrayCategory.map((item, index) => (
+            <Route key={index} path={`/shop/${item}/:foodId`} element={<FoodProduct />} />
+          ))}
           <Route path="/product" element={<Product />} />
           <Route path="/blog" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />

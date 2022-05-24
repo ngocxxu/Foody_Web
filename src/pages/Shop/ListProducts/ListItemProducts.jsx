@@ -1,123 +1,71 @@
-import { Table } from "antd";
+import { Card, Pagination, Table } from "antd";
 import React, { useEffect, useState } from "react";
+import { ProductItem } from "../../../components/ProductItem/ProductItem";
+import { SortProduct } from "../SortProduct/SortProduct";
 import "./ListItemProducts.scss";
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-      {
-        text: "Jim",
-        value: "Jim",
-      },
-      {
-        text: "Submenu",
-        value: "Submenu",
-        children: [
-          {
-            text: "Green",
-            value: "Green",
-          },
-          {
-            text: "Black",
-            value: "Black",
-          },
-        ],
-      },
-    ],
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
-    sorter: (a, b) => a.name.length - b.name.length,
-    sortDirections: ["descend"],
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    defaultSortOrder: "descend",
-    sorter: (a, b) => a.age - b.age,
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    filters: [
-      {
-        text: "London",
-        value: "London",
-      },
-      {
-        text: "New York",
-        value: "New York",
-      },
-    ],
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-];
-
-function onChange(pagination, filters, sorter, extra) {
-  console.log("params", pagination, filters, sorter, extra);
-}
-
 export const ListItemProducts = () => {
+  const [dataTable, setDataTable] = useState({
+    minValue: 0,
+    maxValue: 9,
+  });
+
+  let data = [
+    { title: "Card title1", value: "Card content1" },
+    { title: "Card title2", value: "Card content2" },
+    { title: "Card title3", value: "Card content3" },
+    { title: "Card title4", value: "Card content4" },
+    { title: "Card title5", value: "Card content5" },
+    { title: "Card title6", value: "Card content6" },
+    { title: "Card title7", value: "Card content7" },
+    { title: "Card title8", value: "Card content8" },
+    { title: "Card title9", value: "Card content9" },
+    { title: "Card title10", value: "Card content10" },
+    { title: "Card title11", value: "Card content11" },
+    { title: "Card title12", value: "Card content12" },
+    { title: "Card title13", value: "Card content13" },
+    { title: "Card title14", value: "Card content14" },
+    { title: "Card title15", value: "Card content15" },
+  ];
+
+  const handleChange = (page) => {
+    if (page <= 1) {
+      setDataTable({
+        minValue: 0,
+        maxValue: 9,
+      });
+    } else {
+      setDataTable({
+        minValue: dataTable.maxValue,
+        maxValue: page * 9,
+      });
+    }
+  };
+
   return (
-    <>
-      <Table columns={columns} dataSource={data} onChange={onChange} pagination={{ pageSize: 4 }} />
-    </>
+    <div className="mb-12">
+      <div className="flex justify-between items-center">
+        <div>
+          {`Showing ${dataTable.minValue + 1} - ${dataTable.maxValue} of ${
+            data.length
+          } item(s)`}
+        </div>
+        <SortProduct />
+      </div>
+      <div className="grid grid-cols-3 gap-2 ">
+        {data &&
+          data.length > 0 &&
+          data
+            .slice(dataTable.minValue, dataTable.maxValue)
+            .map((product) => <ProductItem product={product} />)}
+      </div>
+      <Pagination
+        className="flex justify-center items-center"
+        defaultCurrent={1}
+        defaultPageSize={9}
+        onChange={handleChange}
+        total={15}
+      />
+    </div>
   );
 };
