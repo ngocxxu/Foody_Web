@@ -29,6 +29,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          {/* <Route path={`/shop/:foodId`} element={<FoodProduct />} /> */}
           {arrayCategory.map((item, index) => (
             <Route key={index} path={`/shop/${item}`} element={<Shop />} />
           ))}

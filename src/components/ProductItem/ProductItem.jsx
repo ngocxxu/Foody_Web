@@ -30,7 +30,7 @@ export const ProductItem = ({ foodItem, product,...props}) => {
       <div className="text-center">
         <div>
           <div className="lg:text-lg text-sm font-bold">
-            <NavLink to="/product" className="text-black hover:text-[#f1252b]">
+            <NavLink to="/shop/burgers/12" className="text-black hover:text-[#f1252b]">
               PIZZA PALACE
             </NavLink>
           </div>

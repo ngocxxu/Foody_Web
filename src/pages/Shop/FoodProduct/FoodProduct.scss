@@ -2,4 +2,13 @@
   .ant-input-number-handler-wrap{
     opacity: 1;
   }
+  .ant-tabs-top > .ant-tabs-nav::before{
+    border-bottom: none;
+  }
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    font-size: 26px;
+  }
+  .ant-tabs-tab{
+    font-size: 26px;
+  }
 }

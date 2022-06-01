@@ -77,7 +77,7 @@ const ItemCart = () => {
   );
   return (
     <>
-      <Popover trigger="click" content={contentCart} placement="bottomRight">
+      <Popover      content={contentCart} placement="bottomRight">
         <Badge size="small" count={5}>
           <Avatar shape="square" size="large" src={cartIcon} />
         </Badge>
