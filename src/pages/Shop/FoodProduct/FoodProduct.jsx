@@ -1,5 +1,5 @@
 import React from "react";
-import { InputNumber, Rate, Tabs } from "antd";
+import { Form, Input, Button, InputNumber, Rate, Tabs } from "antd";
 import "./FoodProduct.scss";
 import { ReactComponent as HeartSVG } from "../../../assets/svg/heart-2.svg";
 import {
@@ -19,23 +19,111 @@ const onChangeTab = (key) => {
   // console.log(key);
 };
 
+const onFinish = (values) => {
+  //console.log('Finish:', values);
+};
+
 const FoodReview = () => {
+  const [form] = Form.useForm();
+
   return (
     <div className="mt-6 lg:mb-12 text-base">
-      <h1 className='text-2xl'>Reviews</h1>
-      <p className="lg:mb-12 mb-6">There are no reviews yet.</p>
-      <div className='border-2 rounded-full inline p-6'>
-        <EditOutlined style={{ fontSize: "30px" }} />
-        <span className='pl-4'>BE THE FIRST TO REVIEW “CHEESECAKE”</span>
+      <div>
+        <h1 className="text-2xl">
+          1 review for <span className="text-[#f1252b]">Alsatian</span>
+        </h1>
+        <div className="border p-5 rounded-xl">
+          <div className="lg:flex justify-between items-center">
+            <div className="flex justify-center items-center">
+              <div className="w-12 h-12 bg-red-400 rounded-full"></div>
+              <div className="ml-4 my-auto">
+                <div className="text-black font-semibold">WPBINGO</div>
+                <div>February 22, 2021</div>
+              </div>
+            </div>
+            <div className="mb-auto ml-20 lg:ml-0">
+              <Rate defaultValue={2} />
+            </div>
+          </div>
+          <div className="mt-4">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </div>
+        </div>
+        <div className="lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4">
+          <EditOutlined style={{ fontSize: "25px" }} />
+          <span className="pl-4">ADD A REVIEW</span>
+        </div>
       </div>
-      <p className='lg:mt-12 mt-6'>
-        Your email address will not be published. Required fields are marked{" "}
+      {/* <div>
+        <h1 className="text-2xl">Reviews</h1>
+        <p className="lg:mb-12 mb-6">There are no reviews yet.</p>
+        <div className="border-2 border-gray-500 rounded-full w-fit p-4">
+          <EditOutlined style={{ fontSize: "30px" }} />
+          <span className="pl-4">BE THE FIRST TO REVIEW “CHEESECAKE”</span>
+        </div>
+      </div> */}
+      <p className="lg:mt-12 mt-6">
+        Your email address will not be published. Required fields are marked
         <span className="text-[#f1252b]">*</span>
       </p>
-      <div>
-        Your rating <Rate defaultValue={2} />
-      </div>
-      <div></div>
+      <Form form={form} onFinish={onFinish}>
+        <Form.Item name="rate" label="Your Rating">
+          <Rate defaultValue={2} />
+        </Form.Item>
+        <div className="lg:grid grid-cols-2 gap-5">
+          <div>
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: "Please input your Name!" }]}
+            >
+              <Input size="large" placeholder="Name*" />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+                {
+                  required: true,
+                  message: "Please input your E-mail!",
+                },
+              ]}
+            >
+              <Input size="large" placeholder="Email*" />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                className="mt-2"
+                size="large"
+                block
+                htmlType="submit"
+                type="primary"
+              >
+                SUBMIT
+              </Button>
+            </Form.Item>
+          </div>
+          <div>
+            <Form.Item
+              name="intro"
+              rules={[{ required: true, message: "Please input your Reviews" }]}
+            >
+              <Input.TextArea
+                size="large"
+                placeholder="Your Reviews*"
+                showCount
+                maxLength={100}
+                rows={7}
+              />
+            </Form.Item>
+          </div>
+        </div>
+      </Form>
     </div>
   );
 };
@@ -46,7 +134,7 @@ export const FoodProduct = () => {
       <div className="border-t py-4">
         <BreadcrumbURL />
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="lg:grid grid-cols-2 gap-2">
         <div>Image</div>
         <div>
           <h1 className="text-3xl font-medium">Alsatian</h1>
@@ -73,11 +161,11 @@ export const FoodProduct = () => {
               />
             </div>
             <ButtonCustom9
-              className="py-4 text-base  "
+              className="lg:py-4 lg:text-base"
               textButton="ADD TO CART"
             />
           </div>
-          <ButtonCustom10 className="py-4 text-base " textButton="BUY IT NOW" />
+          <ButtonCustom10 className="py-4 lg:text-base " textButton="BUY IT NOW" />
           <div className="cursor-pointer group flex py-7">
             <div className="group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300">
               <HeartSVG className="group-hover:fill-[#fff]" fill="#8d8d8d" />
@@ -103,7 +191,11 @@ export const FoodProduct = () => {
       <hr className="border-t" />
       <div className="mt-6">
         <Tabs defaultActiveKey="1" centered large onChange={onChangeTab}>
-          <TabPane className="text-[#8d8d8d] text-base leading-7 mt-6 lg:mb-12" tab="Description" key="1">
+          <TabPane
+            className="text-[#8d8d8d] text-base leading-7 mt-6 lg:mb-12"
+            tab="Description"
+            key="1"
+          >
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -122,7 +214,7 @@ export const FoodProduct = () => {
             magnam aliquam quaerat voluptatem.
           </TabPane>
           <TabPane className="text-[#8d8d8d]" tab="Reviews (0)" key="2">
-            <FoodReview/>
+            <FoodReview />
           </TabPane>
         </Tabs>
       </div>

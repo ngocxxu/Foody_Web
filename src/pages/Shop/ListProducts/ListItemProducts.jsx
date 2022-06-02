@@ -1,5 +1,5 @@
-import { Card, Pagination, Table } from "antd";
-import React, { useEffect, useState } from "react";
+import { Pagination } from "antd";
+import React, { useState } from "react";
 import { ProductItem } from "../../../components/ProductItem/ProductItem";
 import { SortProduct } from "../SortProduct/SortProduct";
 import "./ListItemProducts.scss";
@@ -44,23 +44,23 @@ export const ListItemProducts = () => {
 
   return (
     <div className="mb-12">
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="lg:flex justify-between items-center lg:ml-0 ml-4">
+        <div className="hidden lg:block">
           {`Showing ${dataTable.minValue + 1} - ${dataTable.maxValue} of ${
             data.length
           } item(s)`}
         </div>
         <SortProduct />
       </div>
-      <div className="grid grid-cols-3 gap-2 ">
+      <div className="lg:grid lg:grid-cols-3 gap-2 ">
         {data &&
           data.length > 0 &&
           data
             .slice(dataTable.minValue, dataTable.maxValue)
-            .map((product) => <ProductItem product={product} />)}
+            .map((product) => <ProductItem product={product} width={40} />)}
       </div>
       <Pagination
-        className="flex justify-center items-center"
+        className="lg:flex justify-center items-center"
         defaultCurrent={1}
         defaultPageSize={9}
         onChange={handleChange}
