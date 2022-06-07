@@ -57,7 +57,7 @@ export const ListItemProducts = () => {
           data.length > 0 &&
           data
             .slice(dataTable.minValue, dataTable.maxValue)
-            .map((product) => <ProductItem product={product} width={40} />)}
+            .map((product) => <ProductItem product={product} />)}
       </div>
       <Pagination
         className="lg:flex justify-center items-center"

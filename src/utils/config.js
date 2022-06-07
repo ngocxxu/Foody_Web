@@ -1,0 +1,1 @@
+export const BASE_URL_IMAGE = "../../../assets/images/product";

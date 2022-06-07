@@ -5,9 +5,9 @@ import product1 from "../../assets/images/product/Products-14-600x600.jpg";
 import { ButtonCustom8 } from "../Button/Button";
 import { NavLink } from "react-router-dom";
 
-export const ProductItem = ({ foodItem, product, width, ...props}) => {
+export const ProductItem = ({ foodItem, product, ...props}) => {
   return (
-    <div className={`product-item bg-white rounded-3xl p-4 m-4 ease-out duration-700 lg:w-full w-${width}`}>
+    <div className={`product-item bg-white rounded-3xl p-4 m-4 ease-out duration-700`}>
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
           <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">

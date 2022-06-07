@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Button, InputNumber, Rate, Tabs } from "antd";
+import Slider from "react-slick";
 import "./FoodProduct.scss";
 import { ReactComponent as HeartSVG } from "../../../assets/svg/heart-2.svg";
 import {
@@ -8,6 +9,61 @@ import {
 } from "../../../components/Button/Button";
 import { BreadcrumbURL } from "../../../components/Breadcrumb/BreadcrumbURL";
 import { EditOutlined } from "@ant-design/icons";
+import { SaleProduct } from "../../../template/HomeTemplate/SaleProduct/SaleProduct";
+
+const settings = {
+  customPaging: function (i) {
+    return (
+      <a>
+        <img
+          alt="product"
+          src={require(`../../../assets/images/product/Products-${
+            i + 14
+          }-600x600.jpg`)}
+        />
+      </a>
+    );
+  },
+  dots: true,
+  fade: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
+const CarouselFood = () => {
+  return (
+    <div>
+      <Slider {...settings}>
+        <div>
+          <img
+            alt="product"
+            src={require("../../../assets/images/product/Products-14-600x600.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            alt="product"
+            src={require("../../../assets/images/product/Products-15-600x600.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            alt="product"
+            src={require("../../../assets/images/product/Products-16-600x600.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            alt="product"
+            src={require("../../../assets/images/product/Products-17-600x600.jpg")}
+          />
+        </div>
+      </Slider>
+    </div>
+  );
+};
 
 const onChange = (value) => {
   // console.log("changed", value);
@@ -128,6 +184,23 @@ const FoodReview = () => {
   );
 };
 
+const RelatedProducts = () => {
+  return (
+    <>
+      <h1
+        className="relative text-center text-3xl mt-8 after:content-[''] 
+      after:w-20 after:h-0.5 after:bg-red-500 after:absolute 
+      after:top-12 after:left-1/2 after:-translate-x-1/2"
+      >
+        Related Products
+      </h1>
+      <div className="flex items-center justify-center">
+        <SaleProduct />
+      </div>
+    </>
+  );
+};
+
 export const FoodProduct = () => {
   return (
     <div className="container-food w-3/4 pt-28 mx-auto">
@@ -135,8 +208,10 @@ export const FoodProduct = () => {
         <BreadcrumbURL />
       </div>
       <div className="lg:grid grid-cols-2 gap-2">
-        <div>Image</div>
         <div>
+          <CarouselFood />
+        </div>
+        <div className="mt-16 lg:mt-0">
           <h1 className="text-3xl font-medium">Alsatian</h1>
           <h2 className="text-2xl text-[#f1252b] font-medium">$75.00</h2>
           <Rate disabled defaultValue={2} />
@@ -165,7 +240,10 @@ export const FoodProduct = () => {
               textButton="ADD TO CART"
             />
           </div>
-          <ButtonCustom10 className="py-4 lg:text-base " textButton="BUY IT NOW" />
+          <ButtonCustom10
+            className="py-4 lg:text-base "
+            textButton="BUY IT NOW"
+          />
           <div className="cursor-pointer group flex py-7">
             <div className="group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300">
               <HeartSVG className="group-hover:fill-[#fff]" fill="#8d8d8d" />
@@ -188,7 +266,7 @@ export const FoodProduct = () => {
           </div>
         </div>
       </div>
-      <hr className="border-t" />
+      <hr className="border-t mt-6" />
       <div className="mt-6">
         <Tabs defaultActiveKey="1" centered large onChange={onChangeTab}>
           <TabPane
@@ -218,6 +296,8 @@ export const FoodProduct = () => {
           </TabPane>
         </Tabs>
       </div>
+      <hr className="border-t mt-6" />
+      <RelatedProducts />
     </div>
   );
 };

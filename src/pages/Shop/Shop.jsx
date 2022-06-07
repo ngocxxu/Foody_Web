@@ -90,7 +90,7 @@ const DrawerSearch = () => {
   );
 };
 
-export const TitleBreadcrumb = () => {
+const TitleBreadcrumb = () => {
   const location = useLocation();
   const pathSnippets = location.pathname.split("/").filter((i) => i);
 
