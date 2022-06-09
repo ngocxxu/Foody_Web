@@ -2,12 +2,15 @@ import React from "react";
 import "./ProductItem.scss";
 import { ReactComponent as HeartSVG } from "../../assets/svg/heart-2.svg";
 import product1 from "../../assets/images/product/Products-14-600x600.jpg";
+import product2 from "../../assets/images/product/Products-15-600x600.jpg";
 import { ButtonCustom8 } from "../Button/Button";
 import { NavLink } from "react-router-dom";
 
-export const ProductItem = ({ foodItem, product, ...props}) => {
+export const ProductItem = ({ foodItem, product, ...props }) => {
   return (
-    <div className={`product-item bg-white rounded-3xl p-4 m-4 ease-out duration-700`}>
+    <div
+      className={`product-item bg-white rounded-3xl p-4 m-4 ease-out duration-700`}
+    >
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
           <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
@@ -24,13 +27,22 @@ export const ProductItem = ({ foodItem, product, ...props}) => {
           />
         </div>
       </div>
-      <div>
+      <NavLink
+        to="/shop/burgers/12"
+        className="containerImage relative"
+      >
         <img src={product1} alt="product1" />
-      </div>
+        <div className="overlay">
+          <img src={product2} alt="product2" />
+        </div>
+      </NavLink>
       <div className="text-center">
         <div>
           <div className="lg:text-lg text-sm font-bold">
-            <NavLink to="/shop/burgers/12" className="text-black hover:text-[#f1252b]">
+            <NavLink
+              to="/shop/burgers/12"
+              className="text-black hover:text-[#f1252b]"
+            >
               PIZZA PALACE
             </NavLink>
           </div>

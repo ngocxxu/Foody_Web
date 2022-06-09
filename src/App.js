@@ -10,6 +10,9 @@ import { BlogDetail } from "./pages/BlogDetail/BlogDetail";
 import { Product } from "./pages/Product/Product";
 import { Contact } from "./pages/Contact/Contact";
 import { FoodProduct } from "./pages/Shop/FoodProduct/FoodProduct";
+import { ShoppingCart } from "./pages/CartAndCheckout/ShoppingCart/ShoppingCart";
+import { Checkout } from "./pages/CartAndCheckout/Checkout/Checkout";
+import { CartAndCheckout } from "./pages/CartAndCheckout/CartAndCheckout";
 
 const arrayCategory = [
   "burgers",
@@ -34,11 +37,18 @@ function App() {
             <Route key={index} path={`/shop/${item}`} element={<Shop />} />
           ))}
           {arrayCategory.map((item, index) => (
-            <Route key={index} path={`/shop/${item}/:foodId`} element={<FoodProduct />} />
+            <Route
+              key={index}
+              path={`/shop/${item}/:foodId`}
+              element={<FoodProduct />}
+            />
           ))}
           <Route path="/product" element={<Product />} />
           <Route path="/blog" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/shopping-cart" element={<ShoppingCart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart-checkout/:id" element={<CartAndCheckout />} />
         </Route>
         <Route path="*" element={<ErrorTemplate />}></Route>
         {/* The default page web will navigate to /home */}

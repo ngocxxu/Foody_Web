@@ -63,13 +63,23 @@ const ItemCart = () => {
             className="bg_slider_button bg_slider2_button ease-out duration-300"
             type="button"
           >
-            VIEW CART
+            <NavLink
+              className="text-white hover:text-white"
+              to="/cart-checkout/1"
+            >
+              VIEW CART
+            </NavLink>
           </button>
           <button
             className="bg_slider_button bg_slider3_button ease-out duration-300"
             type="button"
           >
-            CHECK OUT
+            <NavLink
+              className="text-white hover:text-white"
+              to="/cart-checkout/2"
+            >
+              CHECK OUT
+            </NavLink>
           </button>
         </div>
       </div>
@@ -77,7 +87,7 @@ const ItemCart = () => {
   );
   return (
     <>
-      <Popover      content={contentCart} placement="bottomRight">
+      <Popover content={contentCart} placement="bottomRight">
         <Badge size="small" count={5}>
           <Avatar shape="square" size="large" src={cartIcon} />
         </Badge>
