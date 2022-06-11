@@ -106,6 +106,16 @@ const ButtonCustom10 = ({ textButton, className, ...props }) => {
   );
 };
 
+const ButtonCustom11 = ({ textButton, className, ...props }) => {
+  return (
+    <>
+      <button className={`hover:border-[#272727] border hover:text-[#272727] text-xs font-bold rounded-full hover:bg-transparent bg-black px-7 py-3 text-white ease-out duration-300 ${className}`}>
+        {textButton}
+      </button>
+    </>
+  );
+};
+
 export {
   ButtonCustom1,
   ButtonCustom2,
@@ -117,4 +127,5 @@ export {
   ButtonCustom8,
   ButtonCustom9,
   ButtonCustom10,
+  ButtonCustom11
 };
