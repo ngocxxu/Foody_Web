@@ -6,16 +6,21 @@ import product2 from "../../assets/images/product/Products-15-600x600.jpg";
 import { ButtonCustom8 } from "../Button/Button";
 import { NavLink } from "react-router-dom";
 
-export const ProductItem = ({ foodItem, product, ...props }) => {
+export const ProductItem = ({ product, ...props }) => {
+  console.log(product);
+  const { id, name, price, assets, categories } = product;
+
   return (
     <div
       className={`product-item bg-white rounded-3xl p-4 m-4 ease-out duration-700`}
     >
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
-          <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
-            Hot
-          </div>
+          {categories.find((i) => i.name === "Hot")?.name && (
+            <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
+              Hot
+            </div>
+          )}
           <div className="bg-[#f1252b] drop-shadow-lg text-xs ml-2 rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
             -50%
           </div>
@@ -27,13 +32,10 @@ export const ProductItem = ({ foodItem, product, ...props }) => {
           />
         </div>
       </div>
-      <NavLink
-        to="/shop/burgers/12"
-        className="containerImage relative"
-      >
-        <img src={product1} alt="product1" />
+      <NavLink to="/shop/burgers/12" className="containerImage relative">
+        <img src={assets[0].url} alt="product1" />
         <div className="overlay">
-          <img src={product2} alt="product2" />
+          <img src={assets[1].url} alt="product2" />
         </div>
       </NavLink>
       <div className="text-center">
@@ -41,12 +43,14 @@ export const ProductItem = ({ foodItem, product, ...props }) => {
           <div className="lg:text-lg text-sm font-bold">
             <NavLink
               to="/shop/burgers/12"
-              className="text-black hover:text-[#f1252b]"
+              className="text-black hover:text-[#f1252b] uppercase"
             >
-              PIZZA PALACE
+              {name}
             </NavLink>
           </div>
-          <div className="text-lg font-bold text-[#f1252b]">$400.00</div>
+          <div className="text-lg font-bold text-[#f1252b]">
+            {price.formatted_with_symbol}
+          </div>
         </div>
         <div className="my-6">
           <ButtonCustom8 textButton="ADD TO CART" />

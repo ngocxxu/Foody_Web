@@ -5,15 +5,6 @@ import product11 from "../../../assets/images/product/Products-11-600x600.jpg";
 import { ButtonCustom11 } from "../../../components/Button/Button";
 import "./Checkout.scss";
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-
 const validateMessages = {
   required: "${label} is required!",
   types: {
@@ -33,14 +24,13 @@ export const Checkout = () => {
   return (
     <>
       <Form
-        {...layout}
         layout="vertical"
         name="nest-messages"
         onFinish={onFinish}
         validateMessages={validateMessages}
       >
         <Row>
-          <Col span={16}>
+          <Col span={14}>
             <h1 className="text-2xl">Billing details</h1>
             <Form.Item
               name={["user", "name"]}
@@ -110,7 +100,7 @@ export const Checkout = () => {
               />
             </Form.Item>
           </Col>
-          <Col className="border p-8 rounded-lg h-fit" span={8}>
+          <Col className="border p-8 rounded-lg h-fit" span={8} offset={2}>
             <h1 className="text-2xl">Product</h1>
             <Row className="p-4 pb-0">
               <Col span={16}>

@@ -206,7 +206,7 @@ export const FoodProduct = () => {
   return (
     <div className="container-food w-3/4 pt-28 mx-auto">
       <div className="border-t py-4">
-        <BreadcrumbURL />
+        <BreadcrumbURL/>
       </div>
       <div className="lg:grid grid-cols-2 gap-2">
         <div>

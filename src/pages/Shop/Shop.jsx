@@ -107,7 +107,7 @@ export const Shop = () => {
   return (
     <div className="container-shop">
       <div className="flex justify-center items-center lg:pt-28">
-        <div className="bg-shop py-8">
+        <div className="bg-shop py-8 flex flex-col items-center justify-center">
           <TitleBreadcrumb />
           <BreadcrumbURL />
           <ItemsFoodSlick />
