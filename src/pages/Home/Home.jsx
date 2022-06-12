@@ -93,7 +93,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      {/* <ListProduct /> */}
+      <ListProduct />
       <div className="flex justify-center items-center">
         <Blog />
       </div>

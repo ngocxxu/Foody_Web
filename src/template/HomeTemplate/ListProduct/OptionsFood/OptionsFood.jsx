@@ -35,85 +35,52 @@ export const OptionsFood = () => {
         <Tabs type="card">
           <TabPane tab="BURGERS" key="1">
             <div className="flex justify-center items-center flex-wrap mt-6">
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
+              {dataProductList !== null &&
+                dataProductList.map((product) => (
+                  <div>
+                    <ProductItem product={product} />
+                  </div>
+                ))}
             </div>
           </TabPane>
           <TabPane tab="COMBO OFFER" key="2">
-          <div className="flex justify-center items-center flex-wrap mt-6">
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
+            <div className="flex justify-center items-center flex-wrap mt-6">
+              {dataProductList !== null &&
+                dataProductList.map((product) => (
+                  <div>
+                    <ProductItem product={product} />
+                  </div>
+                ))}
             </div>
           </TabPane>
           <TabPane tab="KIDS MENU" key="3">
-          <div className="flex justify-center items-center flex-wrap mt-6">
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
+            <div className="flex justify-center items-center flex-wrap mt-6">
+              {dataProductList !== null &&
+                dataProductList.map((product) => (
+                  <div>
+                    <ProductItem product={product} />
+                  </div>
+                ))}
             </div>
           </TabPane>
           <TabPane tab="PIZZA MENU" key="4">
-          <div className="flex justify-center items-center flex-wrap mt-6">
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
+            <div className="flex justify-center items-center flex-wrap mt-6">
+              {dataProductList !== null &&
+                dataProductList.map((product) => (
+                  <div>
+                    <ProductItem product={product} />
+                  </div>
+                ))}
             </div>
           </TabPane>
           <TabPane tab="SANDWICH" key="5">
-          <div className="flex justify-center items-center flex-wrap mt-6">
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
-              <div className="card-item">
-                <ProductItem />
-              </div>
+            <div className="flex justify-center items-center flex-wrap mt-6">
+              {dataProductList !== null &&
+                dataProductList.map((product) => (
+                  <div>
+                    <ProductItem product={product} />
+                  </div>
+                ))}
             </div>
           </TabPane>
         </Tabs>
