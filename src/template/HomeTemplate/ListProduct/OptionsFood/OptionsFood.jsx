@@ -1,5 +1,8 @@
 import { Tabs } from "antd";
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../../../../services/ProductsService";
 import { ProductItem } from "../../../../components/ProductItem/ProductItem";
 import "./OptionsFood.scss";
 
@@ -18,6 +21,13 @@ export const OptionsFood = () => {
   //       return null;
   //   }
   // };
+
+  const { dataProductList } = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   return (
     <div className="options-food">

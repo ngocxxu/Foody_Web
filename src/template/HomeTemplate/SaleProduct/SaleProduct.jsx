@@ -1,6 +1,9 @@
 import React from "react";
+import { useEffect } from "react";
 import Slider from "react-slick";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductItem } from "../../../components/ProductItem/ProductItem";
+import { getAllProducts } from "../../../services/ProductsService";
 import "./SaleProduct.scss";
 
 const settings = {
@@ -32,39 +35,22 @@ const settings = {
   ],
 };
 export const SaleProduct = () => {
+  const { dataProductList } = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
   return (
     <div className="sale-product w-3/4 lg:w-11/12">
       <Slider {...settings}>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
-        <div>
-          <ProductItem />
-        </div>
+        {dataProductList !== null &&
+          dataProductList.map((product) => (
+            <div>
+              <ProductItem product={product} />
+            </div>
+          ))}
       </Slider>
     </div>
   );

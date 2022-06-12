@@ -1,18 +1,19 @@
-import React from 'react';
 import { Pagination } from "antd";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductItem } from "../../../components/ProductItem/ProductItem";
-import commerce from "../../../utils/settings";
+import { getAllProducts } from "../../../services/ProductsService";
 import { SortProduct } from "../SortProduct/SortProduct";
 import "./ListItemProducts.scss";
 
 export const ListItemProducts = () => {
+  const { dataProductList } = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+
   const [dataTable, setDataTable] = useState({
     minValue: 0,
     maxValue: 9,
   });
-
-  const [dataProducts, setDataProducts] = useState([] || null);
 
   const handleChange = (page) => {
     if (page <= 1) {
@@ -28,39 +29,26 @@ export const ListItemProducts = () => {
     }
   };
 
-  const getAllProducts = async () => {
-    try {
-      const result = await commerce.products.list();
-      if (result.data) {
-        setDataProducts(result.data);
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   return (
     <div className="mb-12">
       <div className="lg:flex justify-between items-center lg:ml-0 ml-4">
         <div className="hidden lg:block">
           {`Showing ${dataTable.minValue + 1} - ${dataTable.maxValue} of ${
-            dataProducts.length
+            dataProductList.length
           } item(s)`}
         </div>
         <SortProduct />
       </div>
       <>
         <div className="lg:grid lg:grid-cols-3 gap-2 ">
-          {dataProducts !== null &&
-            dataProducts
+          {dataProductList !== null &&
+            dataProductList
               .slice(dataTable.minValue, dataTable.maxValue)
-              .map((product) => (
-                  <ProductItem product={product} />
-              ))}
+              .map((product) => <ProductItem product={product} />)}
         </div>
         <Pagination
           className="lg:flex justify-center items-center"

@@ -1,10 +1,7 @@
-import React from "react";
-import "./ProductItem.scss";
-import { ReactComponent as HeartSVG } from "../../assets/svg/heart-2.svg";
-import product1 from "../../assets/images/product/Products-14-600x600.jpg";
-import product2 from "../../assets/images/product/Products-15-600x600.jpg";
-import { ButtonCustom8 } from "../Button/Button";
 import { NavLink } from "react-router-dom";
+import { ReactComponent as HeartSVG } from "../../assets/svg/heart-2.svg";
+import { ButtonCustom8 } from "../Button/Button";
+import "./ProductItem.scss";
 
 export const ProductItem = ({ product, ...props }) => {
   console.log(product);
