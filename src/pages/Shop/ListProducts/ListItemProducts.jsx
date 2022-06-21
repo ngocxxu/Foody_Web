@@ -1,13 +1,15 @@
-import { Pagination } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ProductItem } from "../../../components/ProductItem/ProductItem";
-import { getAllProducts } from "../../../services/ProductsService";
-import { SortProduct } from "../SortProduct/SortProduct";
-import "./ListItemProducts.scss";
+import { Pagination } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
+import { ProductItem } from '../../../components/ProductItem/ProductItem';
+import { getAllProducts } from '../../../services/ProductsService';
+import { SortProduct } from '../SortProduct/SortProduct';
+import './ListItemProducts.scss';
 
 export const ListItemProducts = () => {
   const { dataProductList } = useSelector((state) => state.productReducer);
+  const { isLazyLoading } = useSelector((state) => state.othersReducer);
   const dispatch = useDispatch();
 
   const [dataTable, setDataTable] = useState({
@@ -43,21 +45,25 @@ export const ListItemProducts = () => {
         </div>
         <SortProduct />
       </div>
-      <>
-        <div className="lg:grid lg:grid-cols-3 gap-2 ">
-          {dataProductList !== null &&
-            dataProductList
-              .slice(dataTable.minValue, dataTable.maxValue)
-              .map((product) => <ProductItem product={product} />)}
-        </div>
-        <Pagination
-          className="lg:flex justify-center items-center"
-          defaultCurrent={1}
-          defaultPageSize={9}
-          onChange={handleChange}
-          total={15}
-        />
-      </>
+      {isLazyLoading ? (
+        <LazyLoading />
+      ) : (
+        <>
+          <div className="lg:grid lg:grid-cols-3 gap-2 ">
+            {dataProductList !== null &&
+              dataProductList
+                .slice(dataTable.minValue, dataTable.maxValue)
+                .map((product) => <ProductItem product={product} />)}
+          </div>
+          <Pagination
+            className="lg:flex justify-center items-center"
+            defaultCurrent={1}
+            defaultPageSize={9}
+            onChange={handleChange}
+            total={15}
+          />
+        </>
+      )}
     </div>
   );
 };
