@@ -23,7 +23,7 @@ export const Footer = () => {
                     className="group fa_icon border rounded-full p-4 hover:border-[#f1252b] hover:bg-[#f1252b]"
                     href="#"
                   >
-                    <i class="fa-brands fa-twitter text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
+                    <i className="fa-brands fa-twitter text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
                   </a>
                 </li>
                 <li className="block mt-3">
@@ -31,7 +31,7 @@ export const Footer = () => {
                     className="group fa_icon border rounded-full p-4 hover:border-[#f1252b] hover:bg-[#f1252b]"
                     href="#"
                   >
-                    <i class="fa-brands fa-instagram text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
+                    <i className="fa-brands fa-instagram text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
                   </a>
                 </li>
                 <li className="block mt-3">
@@ -39,7 +39,7 @@ export const Footer = () => {
                     className="group fa_icon border rounded-full p-4 hover:border-[#f1252b] hover:bg-[#f1252b]"
                     href="#"
                   >
-                    <i class="fa-brands fa-dribbble text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
+                    <i className="fa-brands fa-dribbble text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
                   </a>
                 </li>
                 <li className="block mt-3">
@@ -47,7 +47,7 @@ export const Footer = () => {
                     className="group fa_icon border rounded-full p-4 hover:border-[#f1252b] hover:bg-[#f1252b]"
                     href="#"
                   >
-                    <i class="fa-brands fa-behance text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
+                    <i className="fa-brands fa-behance text-[#8d8d8d] text-lg group-hover:text-white ease-out duration-300"></i>
                   </a>
                 </li>
               </ul>

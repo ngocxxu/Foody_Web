@@ -16,7 +16,7 @@ export const LibraryPicture = () => {
         </a>
         <div className="overlay">
           <div className="overlay_text">
-            <i class="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram"></i>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@ export const LibraryPicture = () => {
         </a>
         <div className="overlay">
           <div className="overlay_text">
-            <i class="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram"></i>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@ export const LibraryPicture = () => {
         </a>
         <div className="overlay">
           <div className="overlay_text">
-            <i class="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram"></i>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@ export const LibraryPicture = () => {
         </a>
         <div className="overlay">
           <div className="overlay_text">
-            <i class="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram"></i>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ export const LibraryPicture = () => {
         </a>
         <div className="overlay">
           <div className="overlay_text">
-            <i class="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-instagram"></i>
           </div>
         </div>
       </div>

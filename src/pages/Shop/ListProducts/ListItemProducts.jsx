@@ -1,4 +1,6 @@
 import { Pagination } from 'antd';
+import { useCallback } from 'react';
+import { memo } from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
@@ -7,7 +9,7 @@ import { getAllProducts } from '../../../services/ProductsService';
 import { SortProduct } from '../SortProduct/SortProduct';
 import './ListItemProducts.scss';
 
-export const ListItemProducts = () => {
+export const ListItemProducts = memo(() => {
   const { dataProductList } = useSelector((state) => state.productReducer);
   const { isLazyLoading } = useSelector((state) => state.othersReducer);
   const dispatch = useDispatch();
@@ -17,19 +19,22 @@ export const ListItemProducts = () => {
     maxValue: 9,
   });
 
-  const handleChange = (page) => {
-    if (page <= 1) {
-      setDataTable({
-        minValue: 0,
-        maxValue: 9,
-      });
-    } else {
-      setDataTable({
-        minValue: dataTable.maxValue,
-        maxValue: page * 9,
-      });
-    }
-  };
+  const handleChange = useCallback(
+    (page) => {
+      if (page <= 1) {
+        setDataTable({
+          minValue: 0,
+          maxValue: 9,
+        });
+      } else {
+        setDataTable({
+          minValue: dataTable.maxValue,
+          maxValue: page * 9,
+        });
+      }
+    },
+    [dataTable]
+  );
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -53,7 +58,7 @@ export const ListItemProducts = () => {
             {dataProductList !== null &&
               dataProductList
                 .slice(dataTable.minValue, dataTable.maxValue)
-                .map((product) => <ProductItem product={product} />)}
+                .map((product) => <ProductItem key={product.id} product={product} />)}
           </div>
           <Pagination
             className="lg:flex justify-center items-center"
@@ -66,4 +71,4 @@ export const ListItemProducts = () => {
       )}
     </div>
   );
-};
+});

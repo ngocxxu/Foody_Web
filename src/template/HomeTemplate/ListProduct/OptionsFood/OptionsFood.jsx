@@ -50,7 +50,7 @@ export const OptionsFood = () => {
                 <div className="flex justify-center items-center flex-wrap mt-6">
                   {dataProductList !== null &&
                     dataProductList.map((product) => (
-                      <div>
+                      <div key={product.id}>
                         <ProductItem product={product} />
                       </div>
                     ))}

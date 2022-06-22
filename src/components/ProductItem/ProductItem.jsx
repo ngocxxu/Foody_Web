@@ -1,9 +1,10 @@
-import { NavLink } from "react-router-dom";
-import { ReactComponent as HeartSVG } from "../../assets/svg/heart-2.svg";
-import { ButtonCustom8 } from "../Button/Button";
-import "./ProductItem.scss";
+import { memo } from 'react';
+import { NavLink } from 'react-router-dom';
+import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
+import { ButtonCustom8 } from '../Button/Button';
+import './ProductItem.scss';
 
-export const ProductItem = ({ product, ...props }) => {
+export const ProductItem = memo(({ product, ...props }) => {
   // console.log(product);
   const { id, name, price, assets, categories } = product;
 
@@ -13,7 +14,7 @@ export const ProductItem = ({ product, ...props }) => {
     >
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
-          {categories.find((i) => i.name === "Hot")?.name && (
+          {categories.find((i) => i.name === 'Hot')?.name && (
             <div className="bg-[#00a950] drop-shadow-lg text-xs rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
               Hot
             </div>
@@ -55,4 +56,4 @@ export const ProductItem = ({ product, ...props }) => {
       </div>
     </div>
   );
-};
+});

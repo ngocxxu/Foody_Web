@@ -1,12 +1,10 @@
-import React from 'react';
 import { useEffect } from 'react';
-import Slider from 'react-slick';
 import { useDispatch, useSelector } from 'react-redux';
+import Slider from 'react-slick';
+import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
 import { ProductItem } from '../../../components/ProductItem/ProductItem';
 import { getAllProducts } from '../../../services/ProductsService';
 import './SaleProduct.scss';
-import { Col, Row, Space, Spin } from 'antd';
-import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
 
 const settings = {
   infinite: true,
@@ -54,7 +52,7 @@ export const SaleProduct = () => {
         <Slider {...settings}>
           {dataProductList !== null &&
             dataProductList.map((product) => (
-              <div>
+              <div key={product.id}>
                 <ProductItem product={product} />
               </div>
             ))}
