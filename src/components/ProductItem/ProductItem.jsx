@@ -5,7 +5,7 @@ import { ButtonCustom8 } from '../Button/Button';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product, ...props }) => {
-  // console.log(product);
+  // console.log({product});
   const { id, name, price, assets, categories } = product;
 
   return (
