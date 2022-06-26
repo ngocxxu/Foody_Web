@@ -1,98 +1,29 @@
-import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { BreadcrumbURL } from "../../components/Breadcrumb/BreadcrumbURL";
-import { ItemsFoodSlick } from "../../components/ItemsFoodSlick/ItemsFoodSlick";
-import { categoryList } from "./categoryList";
-import "./Shop.scss";
-import { Button, Drawer, Slider, Space } from "antd";
-import { ListItemProducts } from "./ListProducts/ListItemProducts";
-import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
-
-function onChange(value) {
-  console.log("onChange: ", value);
-}
-
-function onAfterChange(value) {
-  console.log("onAfterChange: ", value);
-}
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { BreadcrumbURL } from '../../components/Breadcrumb/BreadcrumbURL';
+import { ItemsFoodSlick } from '../../components/ItemsFoodSlick/ItemsFoodSlick';
+import { categoryList } from './categoryList';
+import './Shop.scss';
+import { Button, Drawer, Slider, Space } from 'antd';
+import { ListItemProducts } from './ListProducts/ListItemProducts';
+import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
+import { SET_RANGE_PRICE } from '../../redux/consts/const';
+import { useDispatch } from 'react-redux';
 
 const breadcrumbNameMap = {
-  shop: "Shop",
-  burgers: "Burgers",
-  sauces: "Sauces",
-  starbucks: "Starbucks",
-  sandwich: "Sandwich",
-  "combo-offer": "Combo Offer",
-  "kids-menu": "Kids Menu",
-  "pizza-menu": "Pizza Menu",
-};
-
-const DrawerSearch = () => {
-  const [visible, setVisible] = useState(false);
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
-
-  return (
-    <>
-      <Space>
-        <Button size='large' type="primary" icon={<BarsOutlined />} onClick={showDrawer} />
-      </Space>
-      <Drawer
-        placement="left"
-        width={250}
-        onClose={onClose}
-        visible={visible}
-        extra={
-          <Space>
-            <Button onClick={onClose} icon={<CloseOutlined />}/>
-          </Space>
-        }
-      >
-        <div className="contain-items-category">
-          <div>
-            <h1 className="text-lg">CATEGORIES</h1>
-            <div>
-              {categoryList.map((item, index) => {
-                return (
-                  <NavLink to={item.url} className="text-[#868686]" key={index}>
-                    <div className="flex justify-between items-center">
-                      <p>{item.nameCategory}</p>
-                      <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
-                        {item.numberOfCategories}
-                      </p>
-                    </div>
-                  </NavLink>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h1 className="text-lg">PRICE</h1>
-            <div>
-              <Slider
-                range
-                defaultValue={[20, 50]}
-                onChange={onChange}
-                onAfterChange={onAfterChange}
-              />
-            </div>
-            <p>Range : $13 - $286</p>
-          </div>
-        </div>
-      </Drawer>
-    </>
-  );
+  shop: 'Shop',
+  burgers: 'Burgers',
+  sauces: 'Sauces',
+  starbucks: 'Starbucks',
+  sandwich: 'Sandwich',
+  'combo-offer': 'Combo Offer',
+  'kids-menu': 'Kids Menu',
+  'pizza-menu': 'Pizza Menu',
 };
 
 const TitleBreadcrumb = () => {
   const location = useLocation();
-  const pathSnippets = location.pathname.split("/").filter((i) => i);
+  const pathSnippets = location.pathname.split('/').filter((i) => i);
 
   return (
     <>
@@ -104,6 +35,92 @@ const TitleBreadcrumb = () => {
 };
 
 export const Shop = () => {
+  const [foodPrice, setFoodPrice] = useState([20, 50]);
+  const dispatch = useDispatch();
+
+  const onChangePrice = (value) => {
+    setFoodPrice(value);
+  };
+
+  const onAfterChangePrice = (value) => {
+    dispatch({
+      type: SET_RANGE_PRICE,
+      payload: value,
+    })
+  }
+
+  const DrawerSearch = () => {
+    const [visible, setVisible] = useState(false);
+
+    const showDrawer = () => {
+      setVisible(true);
+    };
+
+    const onClose = () => {
+      setVisible(false);
+    };
+
+    return (
+      <>
+        <Space>
+          <Button
+            size="large"
+            type="primary"
+            icon={<BarsOutlined />}
+            onClick={showDrawer}
+          />
+        </Space>
+        <Drawer
+          placement="left"
+          width={250}
+          onClose={onClose}
+          visible={visible}
+          extra={
+            <Space>
+              <Button onClick={onClose} icon={<CloseOutlined />} />
+            </Space>
+          }
+        >
+          <div className="contain-items-category">
+            <div>
+              <h1 className="text-lg">CATEGORIES</h1>
+              <div>
+                {categoryList.map((item, index) => {
+                  return (
+                    <NavLink
+                      to={item.url}
+                      className="text-[#868686]"
+                      key={index}
+                    >
+                      <div className="flex justify-between items-center">
+                        <p>{item.nameCategory}</p>
+                        <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
+                          {item.numberOfCategories}
+                        </p>
+                      </div>
+                    </NavLink>
+                  );
+                })}
+              </div>
+            </div>
+            <div>
+              <h1 className="text-lg">PRICE</h1>
+              <div>
+                <Slider
+                  range
+                  defaultValue={[20, 50]}
+                  onChange={onChangePrice}
+                  onAfterChange={onAfterChangePrice}
+                />
+              </div>
+              <p>Range : $13 - $286</p>
+            </div>
+          </div>
+        </Drawer>
+      </>
+    );
+  };
+
   return (
     <div className="container-shop">
       <div className="flex justify-center items-center lg:pt-28">
@@ -141,11 +158,11 @@ export const Shop = () => {
               <Slider
                 range
                 defaultValue={[20, 50]}
-                onChange={onChange}
-                onAfterChange={onAfterChange}
+                onChange={onChangePrice}
+                onAfterChange={onAfterChangePrice}
               />
             </div>
-            <p>Range : $13 - $286</p>
+            <p>{`Range : $${foodPrice[0]} - $${foodPrice[1]}`}</p>
           </div>
         </div>
         <div className="contain-items-products lg:col-span-3">

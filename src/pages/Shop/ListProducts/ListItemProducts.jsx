@@ -11,6 +11,7 @@ import './ListItemProducts.scss';
 export const ListItemProducts = memo(() => {
   const { dataProductList } = useSelector((state) => state.productReducer);
   const { isLazyLoading } = useSelector((state) => state.othersReducer);
+  const { rangePrice } = useSelector((state) => state.shopReducer);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 

@@ -7,4 +7,5 @@ export const SET_IS_PENDING = "SET_IS_PENDING";
 export const ON_LAZY_LOADING = "ON_LAZY_LOADING";
 export const OFF_LAZY_LOADING = "OFF_LAZY_LOADING";
 export const AMOUNT_KIND_FOOD = "AMOUNT_KIND_FOOD";
+export const SET_RANGE_PRICE = "SET_RANGE_PRICE";
 
