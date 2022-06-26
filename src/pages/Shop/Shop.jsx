@@ -113,7 +113,7 @@ export const Shop = () => {
           <ItemsFoodSlick />
         </div>
       </div>
-      <div className="contain-items grid lg:grid-cols-4 gap-2 mx-auto lg:mt-10">
+      <div className="contain-items lg:w-[1200px] grid lg:grid-cols-4 gap-2 mx-auto lg:mt-10">
         <div className="contain-items-category block lg:hidden m-4">
           <DrawerSearch />
         </div>

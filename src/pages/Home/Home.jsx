@@ -75,7 +75,7 @@ export const Home = () => {
         <SaleProduct />
       </div>
       {/* Rush Hours Component */}
-      <div className="bg-poster-time mt-20 relative">
+      <div className="bg-poster-time mt-5 lg:mt-20 relative">
         <div className="absolute top-1/4 left-0 right-0">
           <div className="lg:text-right ">
             <div className="flex justify-center items-center">

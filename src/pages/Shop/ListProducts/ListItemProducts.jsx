@@ -1,9 +1,7 @@
 import { Pagination } from 'antd';
-import { useCallback } from 'react';
-import { memo } from 'react';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
 import { ProductItem } from '../../../components/ProductItem/ProductItem';
 import { getAllProducts } from '../../../services/ProductsService';
@@ -91,12 +89,12 @@ export const ListItemProducts = memo(() => {
         <LazyLoading />
       ) : (
         <>
-          <div className="lg:grid lg:grid-cols-3 gap-2 ">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-2 mt-6 mx-auto">
             {dataProductList !== null && handleRenderCategoryFood()}
           </div>
           {handleArrayDataProductList().length >= 9 && (
             <Pagination
-              className="lg:flex justify-center items-center"
+              className="flex justify-center items-center"
               defaultCurrent={1}
               defaultPageSize={9}
               onChange={handleChange}

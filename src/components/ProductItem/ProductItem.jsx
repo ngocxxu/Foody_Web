@@ -50,7 +50,7 @@ export const ProductItem = memo(({ product, ...props }) => {
             {price.formatted_with_symbol}
           </div>
         </div>
-        <div className="my-6">
+        <div className="my-3 lg:my-6">
           <ButtonCustom8 textButton="ADD TO CART" />
         </div>
       </div>

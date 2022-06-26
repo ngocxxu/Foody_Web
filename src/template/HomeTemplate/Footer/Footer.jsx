@@ -9,8 +9,8 @@ export const Footer = () => {
   return (
     <>
       <div className="section_footer">
-        <div className="content_footer mx-auto pt-12">
-          <div className="lg:flex items-center justify-between">
+        <div className="content_footer lg:w-[1290px] mx-auto pt-12">
+          <div className="ml-4 lg:flex items-center justify-between">
             <div>
               <img src={logoFooter} alt="logoFooter" width='140px' />
             </div>
@@ -53,7 +53,7 @@ export const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="lg:flex items-center justify-between py-10">
+          <div className="ml-4 lg:flex items-center justify-between py-10">
             <div>
               <h4 className="text-white text-lg font-bold">BOOK A TABLE</h4>
               <p className="text-[#8d8d8d] font-semibold">
@@ -113,7 +113,7 @@ export const Footer = () => {
               <p className="text-[#8d8d8d] font-semibold">01-800-81200</p>
             </div>
           </div>
-          <div className="lg:flex items-center justify-around bg-[#f1252b] py-5">
+          <div className="flex flex-col lg:flex-row items-center justify-around bg-[#f1252b] py-5">
             <p className="text-white font-bold text-2xl hover:italic ease-out duration-400 my-auto cursor-pointer">
               NEWSLETTER
             </p>
@@ -124,7 +124,7 @@ export const Footer = () => {
               SUBSCRIBE
             </p>
           </div>
-          <div className="lg:flex items-center justify-between py-6">
+          <div className="ml-4 lg:flex items-center justify-between py-6">
             <p className="text-[#8d8d8d] font-semibold my-auto">Copyright © 2022 Papzi. Ngoc Quach</p>
             <div>
               <img className="block my-auto" src={creditIcon} alt='creditIcon' />
