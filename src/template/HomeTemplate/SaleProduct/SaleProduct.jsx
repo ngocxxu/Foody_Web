@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
 import { ProductItem } from '../../../components/ProductItem/ProductItem';
-import { getAllProducts } from '../../../services/ProductsService';
+import {
+  getAllProducts,
+  getAllSaleProducts,
+} from '../../../services/ProductsService';
 import './SaleProduct.scss';
 
 const settings = {
@@ -35,14 +38,26 @@ const settings = {
   ],
 };
 export const SaleProduct = () => {
-  const { dataProductList } = useSelector((state) => state.productReducer);
+  const { dataProductList, dataProductSaleList } = useSelector(
+    (state) => state.productReducer
+  );
   const { isLazyLoading } = useSelector((state) => state.othersReducer);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllSaleProducts());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   console.log({ dataProductSaleList });
+  //   if(dataProductSaleList.length > 0){
+  //     console.log(dataProductSaleList[0]);
+  //     let abcd = dataProductList.filter(item => dataProductSaleList[0]?.product_ids?.includes(item.id));
+  //     console.log({abcd})
+  //   }
+  // }, [dataProductSaleList,dataProductList]);
 
   return (
     <div className="sale-product w-3/4 lg:w-11/12">

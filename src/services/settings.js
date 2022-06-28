@@ -5,7 +5,7 @@ export const TOKEN_COMMERCEJS = "";
 export const DOMAIN = "https://api.chec.io/v1";
 export const USER_LOGIN = "userLogin";
 export const ACCESSTOKEN =
-  "pk_test_42845e6b1b61237211932de88dbd4d0e3885cb36b9572";
+  "sk_42845df8d6ccf92ba0a0d3ab31964e37bd2d92226671a";
 export const BASE_URL_IMAGE = "../../../assets/images/product";
 const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
 
@@ -39,3 +39,4 @@ export default new Commerce(
   false,
   http,
 );
+
