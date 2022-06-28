@@ -2,7 +2,7 @@ import { AMOUNT_KIND_FOOD, SET_RANGE_PRICE } from '../consts/const';
 
 const initialState = {
   amountKindFood: 0,
-  rangePrice: []
+  rangePrice: [0, 100]
 };
 
 export const shopReducer = (state = initialState, action) => {

@@ -65,14 +65,24 @@ export const ListItemProducts = memo(() => {
   const handleRenderCategoryFood = useCallback(() => {
     return handleArrayDataProductList()
       .slice(dataTable.minValue, dataTable.maxValue)
+      .filter(
+        (item) =>
+          item.price.raw > rangePrice[0] && item.price.raw < rangePrice[1]
+      )
       .map((product) => {
+        console.log({ product });
         return (
           <div key={product.id}>
             <ProductItem product={product} />
           </div>
         );
       });
-  }, [handleArrayDataProductList, dataTable.minValue, dataTable.maxValue]);
+  }, [
+    handleArrayDataProductList,
+    dataTable.minValue,
+    dataTable.maxValue,
+    rangePrice,
+  ]);
 
   return (
     <div className="mb-12">

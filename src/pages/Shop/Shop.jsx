@@ -35,7 +35,7 @@ const TitleBreadcrumb = () => {
 };
 
 export const Shop = () => {
-  const [foodPrice, setFoodPrice] = useState([20, 50]);
+  const [foodPrice, setFoodPrice] = useState([0, 100]);
   const dispatch = useDispatch();
 
   const onChangePrice = (value) => {
@@ -46,8 +46,8 @@ export const Shop = () => {
     dispatch({
       type: SET_RANGE_PRICE,
       payload: value,
-    })
-  }
+    });
+  };
 
   const DrawerSearch = () => {
     const [visible, setVisible] = useState(false);
@@ -108,12 +108,12 @@ export const Shop = () => {
               <div>
                 <Slider
                   range
-                  defaultValue={[20, 50]}
+                  defaultValue={[0, 100]}
                   onChange={onChangePrice}
                   onAfterChange={onAfterChangePrice}
                 />
               </div>
-              <p>Range : $13 - $286</p>
+              <p>{`Range : $${foodPrice[0]} - $${foodPrice[1]}`}</p>
             </div>
           </div>
         </Drawer>
@@ -157,7 +157,7 @@ export const Shop = () => {
             <div>
               <Slider
                 range
-                defaultValue={[20, 50]}
+                defaultValue={[0, 100]}
                 onChange={onChangePrice}
                 onAfterChange={onAfterChangePrice}
               />
