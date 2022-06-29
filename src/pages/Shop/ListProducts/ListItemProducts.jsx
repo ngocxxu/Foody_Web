@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
 import { ProductItem } from '../../../components/ProductItem/ProductItem';
-import { getAllProducts } from '../../../services/ProductsService';
+import { getAllProducts, getAllSaleProducts } from '../../../services/ProductsService';
 import { SortProduct } from '../SortProduct/SortProduct';
 import './ListItemProducts.scss';
 
@@ -37,8 +37,11 @@ export const ListItemProducts = memo(() => {
     [dataTable]
   );
 
+  console.log({dataProductList})
+
   useEffect(() => {
     dispatch(getAllProducts());
+    dispatch(getAllSaleProducts());
   }, [dispatch]);
 
   // Prepare f.slug === 'burgers' - pathname.split('/').filter((i) => i).pop() === 'burgers'
@@ -70,7 +73,6 @@ export const ListItemProducts = memo(() => {
           item.price.raw > rangePrice[0] && item.price.raw < rangePrice[1]
       )
       .map((product) => {
-        console.log({ product });
         return (
           <div key={product.id}>
             <ProductItem product={product} />

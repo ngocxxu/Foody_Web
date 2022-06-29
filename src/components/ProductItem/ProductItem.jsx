@@ -1,9 +1,9 @@
-import { memo, useEffect } from 'react';
+import clsx from 'clsx';
+import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { ButtonCustom8 } from '../Button/Button';
-import clsx from 'clsx';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product, ...props }) => {
@@ -12,10 +12,13 @@ export const ProductItem = memo(({ product, ...props }) => {
     dataProductSaleList: { data },
   } = useSelector((state) => state.productReducer);
   const { id, name, price, assets, categories } = product;
-  const { product_ids, code, starts_on, expires_on, quantity, value } = data[0];
+  const { product_ids, code, starts_on, expires_on, quantity, value } =
+    (data ?? [])[0] ?? {};
 
-  const handleFindIdSaleProduct = () =>
-    product_ids.find((idItem) => idItem === id);
+  const handleFindIdSaleProduct = useCallback(
+    () => product_ids?.find((idItem) => idItem === id),
+    [product_ids, id]
+  );
 
   // useEffect(() => {
   //   console.log(product_ids?.find((idItem) => idItem === id));
