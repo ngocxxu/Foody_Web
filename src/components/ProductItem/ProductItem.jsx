@@ -1,12 +1,25 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { ButtonCustom8 } from '../Button/Button';
+import clsx from 'clsx';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product, ...props }) => {
   // console.log({product});
+  const {
+    dataProductSaleList: { data },
+  } = useSelector((state) => state.productReducer);
   const { id, name, price, assets, categories } = product;
+  const { product_ids, code, starts_on, expires_on, quantity, value } = data[0];
+
+  const handleFindIdSaleProduct = () =>
+    product_ids.find((idItem) => idItem === id);
+
+  // useEffect(() => {
+  //   console.log(product_ids?.find((idItem) => idItem === id));
+  // }, [product_ids, id]);
 
   return (
     <div
@@ -19,9 +32,13 @@ export const ProductItem = memo(({ product, ...props }) => {
               Hot
             </div>
           )}
-          <div className="bg-[#f1252b] drop-shadow-lg text-xs ml-2 rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
-            -50%
-          </div>
+          {handleFindIdSaleProduct() ? (
+            <div className="bg-[#f1252b] drop-shadow-lg text-xs ml-2 rounded-full w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center text-white font-semibold">
+              {value}%
+            </div>
+          ) : (
+            <div className="bg-[#fff] w-8 h-8 lg:w-10 lg:h-10"></div>
+          )}
         </div>
         <div className="cursor-pointer group">
           <HeartSVG
@@ -46,8 +63,22 @@ export const ProductItem = memo(({ product, ...props }) => {
               {name}
             </NavLink>
           </div>
-          <div className="text-lg font-bold text-[#f1252b]">
-            {price.formatted_with_symbol}
+          <div className="text-lg font-bold text-[#f1252b] flex justify-center items-center">
+            <div
+              className={clsx({
+                'line-through': handleFindIdSaleProduct(),
+                'text-sm': handleFindIdSaleProduct(),
+                'text-gray-400': handleFindIdSaleProduct(),
+                'mr-2': handleFindIdSaleProduct(),
+              })}
+            >
+              {price.formatted_with_symbol}
+            </div>
+            {handleFindIdSaleProduct() && (
+              <div>
+                {` $${Math.floor(price.raw - (price.raw * value) / 100)}.00`}
+              </div>
+            )}
           </div>
         </div>
         <div className="my-3 lg:my-6">

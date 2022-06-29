@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
@@ -50,14 +50,19 @@ export const SaleProduct = () => {
     dispatch(getAllSaleProducts());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log({ dataProductSaleList });
-  //   if(dataProductSaleList.length > 0){
-  //     console.log(dataProductSaleList[0]);
-  //     let abcd = dataProductList.filter(item => dataProductSaleList[0]?.product_ids?.includes(item.id));
-  //     console.log({abcd})
-  //   }
-  // }, [dataProductSaleList,dataProductList]);
+  const handleGetProductSaleList = useCallback(() => {
+    const listSaleProduct = dataProductList.filter((item) =>
+      dataProductSaleList.data[0]?.product_ids?.includes(item.id)
+    );
+
+    return listSaleProduct.map((product) => (
+      <div key={product.id}>
+        <ProductItem
+          product={product}
+        />
+      </div>
+    ));
+  }, [dataProductSaleList, dataProductList]);
 
   return (
     <div className="sale-product w-3/4 lg:w-11/12">
@@ -65,12 +70,7 @@ export const SaleProduct = () => {
         <LazyLoading />
       ) : (
         <Slider {...settings}>
-          {dataProductList !== null &&
-            dataProductList.map((product) => (
-              <div key={product.id}>
-                <ProductItem product={product} />
-              </div>
-            ))}
+          {dataProductList !== null && handleGetProductSaleList()}
         </Slider>
       )}
     </div>
