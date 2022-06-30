@@ -50,7 +50,7 @@ export const ProductItem = memo(({ product, ...props }) => {
           />
         </div>
       </div>
-      <NavLink to="/shop/burgers/12" className="containerImage relative">
+      <NavLink to={`/shop/burgers/${id}`} className="containerImage relative">
         <img src={assets[0].url} alt="product1" />
         <div className="overlay">
           <img src={assets[1].url} alt="product2" />
@@ -58,10 +58,11 @@ export const ProductItem = memo(({ product, ...props }) => {
       </NavLink>
       <div className="text-center">
         <div>
-          <div className="lg:text-lg text-sm font-bold">
+          <div className="lg:text-lg text-sm font-bold w-full h-[56px] table text-center">
             <NavLink
-              to="/shop/burgers/12"
-              className="text-black hover:text-[#f1252b] uppercase"
+              state={{ productURL: product }}
+              to={`/shop/burgers/${id}`}
+              className="text-black hover:text-[#f1252b] uppercase table-cell align-middle"
             >
               {name}
             </NavLink>

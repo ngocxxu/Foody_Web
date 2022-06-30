@@ -57,6 +57,10 @@ export const Shop = () => {
     dispatch(getListCategory());
   }, [dispatch]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const DrawerSearch = () => {
     const [visible, setVisible] = useState(false);
 
@@ -93,22 +97,29 @@ export const Shop = () => {
             <div>
               <h1 className="text-lg">CATEGORIES</h1>
               <div>
-                {categoryList.map((item, index) => {
-                  return (
-                    <NavLink
-                      to={item.url}
-                      className="text-[#868686]"
-                      key={index}
-                    >
-                      <div className="flex justify-between items-center">
-                        <p>{item.nameCategory}</p>
-                        <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
-                          {item.numberOfCategories}
-                        </p>
-                      </div>
-                    </NavLink>
-                  );
-                })}
+                {listCategories
+                  ?.filter((i) =>
+                    categoryList.find((item) => item.nameCategory === i.name)
+                  )
+                  .map((item) => {
+                    return (
+                      <NavLink
+                        to={
+                          categoryList.find((i) => i.nameCategory === item.name)
+                            ?.url
+                        }
+                        className="text-[#868686]"
+                        key={item.id}
+                      >
+                        <div className="flex justify-between items-center">
+                          <p>{item.name}</p>
+                          <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
+                            {item.products}
+                          </p>
+                        </div>
+                      </NavLink>
+                    );
+                  })}
               </div>
             </div>
             <div>

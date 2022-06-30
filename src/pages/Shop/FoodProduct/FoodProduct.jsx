@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-import { Form, Input, Button, InputNumber, Rate, Tabs } from "antd";
-import Slider from "react-slick";
-import "./FoodProduct.scss";
-import { ReactComponent as HeartSVG } from "../../../assets/svg/heart-2.svg";
+import { EditOutlined } from '@ant-design/icons';
+import { Button, Form, Input, InputNumber, Rate, Tabs } from 'antd';
+import { memo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import Slider from 'react-slick';
+import { ReactComponent as HeartSVG } from '../../../assets/svg/heart-2.svg';
+import { BreadcrumbURL } from '../../../components/Breadcrumb/BreadcrumbURL';
 import {
   ButtonCustom10,
-  ButtonCustom9,
-} from "../../../components/Button/Button";
-import { BreadcrumbURL } from "../../../components/Breadcrumb/BreadcrumbURL";
-import { EditOutlined } from "@ant-design/icons";
-import { SaleProduct } from "../../../template/HomeTemplate/SaleProduct/SaleProduct";
+  ButtonCustom9
+} from '../../../components/Button/Button';
+import { SaleProduct } from '../../../template/HomeTemplate/SaleProduct/SaleProduct';
+import './FoodProduct.scss';
 
 const settings = {
   customPaging: function (i) {
@@ -33,38 +34,43 @@ const settings = {
   slidesToScroll: 1,
 };
 
-const CarouselFood = () => {
+const CarouselFood = memo(({ assets }) => {
   return (
     <div>
       <Slider {...settings}>
-        <div>
+        {assets.map((img) => (
+          <div key={img.id}>
+            <img alt={img.filename} src={img.url} />
+          </div>
+        ))}
+        {/* <div>
           <img
             alt="product"
-            src={require("../../../assets/images/product/Products-14-600x600.jpg")}
+            src={require('../../../assets/images/product/Products-14-600x600.jpg')}
+          />
+        </div> */}
+        {/* <div>
+          <img
+            alt="product"
+            src={require('../../../assets/images/product/Products-15-600x600.jpg')}
           />
         </div>
         <div>
           <img
             alt="product"
-            src={require("../../../assets/images/product/Products-15-600x600.jpg")}
+            src={require('../../../assets/images/product/Products-16-600x600.jpg')}
           />
         </div>
         <div>
           <img
             alt="product"
-            src={require("../../../assets/images/product/Products-16-600x600.jpg")}
+            src={require('../../../assets/images/product/Products-17-600x600.jpg')}
           />
-        </div>
-        <div>
-          <img
-            alt="product"
-            src={require("../../../assets/images/product/Products-17-600x600.jpg")}
-          />
-        </div>
+        </div> */}
       </Slider>
     </div>
   );
-};
+});
 
 const onChange = (value) => {
   // console.log("changed", value);
@@ -110,7 +116,7 @@ const FoodReview = () => {
           </div>
         </div>
         <div className="lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4">
-          <EditOutlined style={{ fontSize: "25px" }} />
+          <EditOutlined style={{ fontSize: '25px' }} />
           <span className="pl-4">ADD A REVIEW</span>
         </div>
       </div>
@@ -134,7 +140,7 @@ const FoodReview = () => {
           <div>
             <Form.Item
               name="username"
-              rules={[{ required: true, message: "Please input your Name!" }]}
+              rules={[{ required: true, message: 'Please input your Name!' }]}
             >
               <Input size="large" placeholder="Name*" />
             </Form.Item>
@@ -142,12 +148,12 @@ const FoodReview = () => {
               name="email"
               rules={[
                 {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
                 },
                 {
                   required: true,
-                  message: "Please input your E-mail!",
+                  message: 'Please input your E-mail!',
                 },
               ]}
             >
@@ -168,7 +174,7 @@ const FoodReview = () => {
           <div>
             <Form.Item
               name="intro"
-              rules={[{ required: true, message: "Please input your Reviews" }]}
+              rules={[{ required: true, message: 'Please input your Reviews' }]}
             >
               <Input.TextArea
                 size="large"
@@ -203,27 +209,33 @@ const RelatedProducts = () => {
 };
 
 export const FoodProduct = () => {
+  const location = useLocation();
+  const { productURL } = location.state;
+  const { id, name, price, assets, categories, description, sku } = productURL;
+
+  console.log({ productURL });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container-food w-3/4 pt-28 mx-auto">
       <div className="border-t py-4">
-        <BreadcrumbURL/>
+        <BreadcrumbURL />
       </div>
       <div className="lg:grid grid-cols-2 gap-2">
         <div>
-          <CarouselFood />
+          <CarouselFood assets={assets} />
         </div>
         <div className="mt-16 lg:mt-0">
-          <h1 className="text-3xl font-medium">Alsatian</h1>
-          <h2 className="text-2xl text-[#f1252b] font-medium">$75.00</h2>
+          <h1 className="text-3xl font-medium">{name}</h1>
+          <h2 className="text-2xl text-[#f1252b] font-medium">
+            {price.formatted_with_symbol}
+          </h2>
           <Rate disabled defaultValue={2} />
           <hr />
-          <p className="py-7 text-[#8d8d8d] text-base">
-            The EcoSmart Fleece Hoodie full-zip hooded jacket provides medium
-            weight fleece comfort all year around. Feel better in this
-            sweatshirt because Hanes keeps plastic bottles of landfills by using
-            recycled polyester.7.8 ounce fleece sweatshirt made with up to 5
-            percent polyester created from recycled plastic.
-          </p>
+          <p className="py-7 text-[#8d8d8d] text-base">{description}</p>
           <div className="grid grid-cols-2 gap-2 my-2">
             <div className="my-auto">
               <InputNumber
@@ -256,10 +268,15 @@ export const FoodProduct = () => {
           <hr />
           <div className="py-4">
             <p className="text-xs text-[#8d8d8d]">
-              SKU: <span className="text-black">D1118</span>
+              SKU: <span className="text-black">{sku}</span>
             </p>
             <p className="text-xs text-[#8d8d8d]">
-              CATEGORY: <span className="text-black">BURGERS</span>
+              CATEGORY:{' '}
+              {categories.map((item, index) => (
+                <span key={index} className="text-black uppercase">
+                  {item.name}
+                </span>
+              ))}
             </p>
             <p className="text-xs text-[#8d8d8d]">
               TAGS: <span className="text-black">HOT, MEN</span>
