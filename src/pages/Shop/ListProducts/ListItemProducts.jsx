@@ -37,7 +37,7 @@ export const ListItemProducts = memo(() => {
     [dataTable]
   );
 
-  console.log({dataProductList})
+  // console.log({dataProductList})
 
   useEffect(() => {
     dispatch(getAllProducts());

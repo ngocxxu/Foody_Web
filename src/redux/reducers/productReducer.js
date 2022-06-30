@@ -1,6 +1,7 @@
 import {
   GET_PRODUCT_LIST_DATA,
   GET_PRODUCT_SALE_LIST_DATA,
+  PRICE_HIGH_LOW_SEARCH,
   PRICE_LOW_HIGH_SEARCH,
 } from '../consts/const';
 
@@ -22,14 +23,20 @@ export const productReducer = (state = initialState, action) => {
     case PRICE_LOW_HIGH_SEARCH:
       const newDataProductList = [...state.dataProductList];
 
-      // Sort còn bị sai do dính Discount
       const sortLowHighPrice = newDataProductList.sort(
         (productBefore, productAfter) =>
           productBefore.price.raw - productAfter.price.raw
       );
-      
-      state.dataProductList = sortLowHighPrice
 
+      state.dataProductList = sortLowHighPrice;
+
+      return { ...state };
+
+    case PRICE_HIGH_LOW_SEARCH:
+      state.dataProductList = [...state.dataProductList].sort(
+        (productBefore, productAfter) =>
+        productAfter.price.raw - productBefore.price.raw
+      );
       return { ...state };
 
     default:

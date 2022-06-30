@@ -12,7 +12,6 @@ const { Option } = Select;
 export const SortProduct = () => {
   const dispatch = useDispatch();
   const handleChange = useCallback((value) => {
-    console.log(`selected ${value}`);
     switch (value) {
       case 'defaultSorting':
         dispatch({
@@ -38,7 +37,7 @@ export const SortProduct = () => {
       default:
         break;
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
+import { Button, Drawer, Slider, Space } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 import { BreadcrumbURL } from '../../components/Breadcrumb/BreadcrumbURL';
 import { ItemsFoodSlick } from '../../components/ItemsFoodSlick/ItemsFoodSlick';
-import { categoryList } from './categoryList';
-import './Shop.scss';
-import { Button, Drawer, Slider, Space } from 'antd';
-import { ListItemProducts } from './ListProducts/ListItemProducts';
-import { BarsOutlined, CloseOutlined } from '@ant-design/icons';
 import { SET_RANGE_PRICE } from '../../redux/consts/const';
-import { useDispatch } from 'react-redux';
+import { getListCategory } from '../../services/ProductsService';
+import { categoryList } from './categoryList';
+import { ListItemProducts } from './ListProducts/ListItemProducts';
+import './Shop.scss';
 
 const breadcrumbNameMap = {
   shop: 'Shop',
@@ -35,6 +36,9 @@ const TitleBreadcrumb = () => {
 };
 
 export const Shop = () => {
+  const {
+    listCategory: { data: listCategories },
+  } = useSelector((state) => state.shopReducer);
   const [foodPrice, setFoodPrice] = useState([0, 100]);
   const dispatch = useDispatch();
 
@@ -48,6 +52,10 @@ export const Shop = () => {
       payload: value,
     });
   };
+
+  useEffect(() => {
+    dispatch(getListCategory());
+  }, [dispatch]);
 
   const DrawerSearch = () => {
     const [visible, setVisible] = useState(false);
@@ -138,18 +146,29 @@ export const Shop = () => {
           <div>
             <h1 className="text-lg">CATEGORIES</h1>
             <div>
-              {categoryList.map((item, index) => {
-                return (
-                  <NavLink to={item.url} className="text-[#868686]" key={index}>
-                    <div className="flex justify-between items-center">
-                      <p>{item.nameCategory}</p>
-                      <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
-                        {item.numberOfCategories}
-                      </p>
-                    </div>
-                  </NavLink>
-                );
-              })}
+              {listCategories
+                ?.filter((i) =>
+                  categoryList.find((item) => item.nameCategory === i.name)
+                )
+                .map((item) => {
+                  return (
+                    <NavLink
+                      to={
+                        categoryList.find((i) => i.nameCategory === item.name)
+                          ?.url
+                      }
+                      className="text-[#868686]"
+                      key={item.id}
+                    >
+                      <div className="flex justify-between items-center">
+                        <p>{item.name}</p>
+                        <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
+                          {item.products}
+                        </p>
+                      </div>
+                    </NavLink>
+                  );
+                })}
             </div>
           </div>
           <div>

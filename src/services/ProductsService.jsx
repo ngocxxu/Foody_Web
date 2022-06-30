@@ -1,8 +1,9 @@
 import {
   GET_PRODUCT_LIST_DATA,
   GET_PRODUCT_SALE_LIST_DATA,
+  LIST_CATEGORY,
   OFF_LAZY_LOADING,
-  ON_LAZY_LOADING
+  ON_LAZY_LOADING,
 } from '../redux/consts/const';
 import commerce, { http } from '../services/settings';
 
@@ -46,6 +47,30 @@ export const getAllSaleProducts = () => {
           dispatch({
             type: OFF_LAZY_LOADING,
           }),
+        ]);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+export const getListCategory = () => {
+  return async (dispatch) => {
+    try {
+      // dispatch({
+      //   type: ON_LAZY_LOADING,
+      // });
+      const { data } = await http.get('/categories');
+      if (data) {
+        Promise.all([
+          dispatch({
+            type: LIST_CATEGORY,
+            payload: data,
+          }),
+          // dispatch({
+          //   type: OFF_LAZY_LOADING,
+          // }),
         ]);
       }
     } catch (error) {

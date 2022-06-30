@@ -75,12 +75,12 @@ export const ProductItem = memo(({ product, ...props }) => {
                 'mr-2': handleFindIdSaleProduct(),
               })}
             >
-              {price.formatted_with_symbol}
+              {handleFindIdSaleProduct()
+                ? `$${Math.floor(price.raw + (price.raw * value) / 100)}.00`
+                : price.formatted_with_symbol}
             </div>
             {handleFindIdSaleProduct() && (
-              <div>
-                {` $${Math.floor(price.raw - (price.raw * value) / 100)}.00`}
-              </div>
+              <div>{price.formatted_with_symbol}</div>
             )}
           </div>
         </div>
@@ -91,3 +91,5 @@ export const ProductItem = memo(({ product, ...props }) => {
     </div>
   );
 });
+
+// {`${value} ? $${price.raw + Math.floor((price.raw * value) / 100)}.00 : ${price.formatted_with_symbol}`}

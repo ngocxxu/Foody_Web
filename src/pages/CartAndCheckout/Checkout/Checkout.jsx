@@ -18,7 +18,7 @@ const validateMessages = {
 
 export const Checkout = () => {
   const onFinish = (values) => {
-    console.log(values);
+    // console.log(values);
   };
 
   return (
