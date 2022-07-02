@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import { LazyLoading } from '../../../components/LazyLoading/LazyLoading';
@@ -37,7 +37,7 @@ const settings = {
     },
   ],
 };
-export const SaleProduct = () => {
+export const SaleProduct = memo(({ relatedProducts }) => {
   const { dataProductList, dataProductSaleList } = useSelector(
     (state) => state.productReducer
   );
@@ -57,12 +57,23 @@ export const SaleProduct = () => {
 
     return listSaleProduct.map((product) => (
       <div key={product.id}>
-        <ProductItem
-          product={product}
-        />
+        <ProductItem product={product} />
       </div>
     ));
   }, [dataProductSaleList, dataProductList]);
+
+  const handleRenderRelatedProduct = useCallback(() => {
+    const idRelatedProducts = relatedProducts.map((i) => i.id);
+    const newDataProductList = dataProductList.filter((item) =>
+      idRelatedProducts.find((i) => i === item.id)
+    );
+
+    return newDataProductList.map((product) => (
+      <div key={product.id}>
+        <ProductItem product={product} />
+      </div>
+    ));
+  }, [relatedProducts, dataProductList]);
 
   return (
     <div className="sale-product w-3/4 lg:w-11/12">
@@ -70,9 +81,11 @@ export const SaleProduct = () => {
         <LazyLoading />
       ) : (
         <Slider {...settings}>
-          {dataProductList !== null && handleGetProductSaleList()}
+          {dataProductList !== null && relatedProducts
+            ? handleRenderRelatedProduct()
+            : handleGetProductSaleList()}
         </Slider>
       )}
     </div>
   );
-};
+});

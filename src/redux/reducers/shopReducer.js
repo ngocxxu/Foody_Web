@@ -1,4 +1,4 @@
-import { AMOUNT_KIND_FOOD, SET_RANGE_PRICE, LIST_CATEGORY } from '../consts/const';
+import { AMOUNT_KIND_FOOD, SET_RANGE_PRICE, LIST_CATEGORY, IS_RELATED } from '../consts/const';
 
 const initialState = {
   amountKindFood: 0,

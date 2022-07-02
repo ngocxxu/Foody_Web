@@ -15,6 +15,7 @@ import './FoodProduct.scss';
 
 const settings = {
   customPaging: function (i) {
+    console.log(i);
     return (
       <a>
         <img
@@ -26,10 +27,12 @@ const settings = {
       </a>
     );
   },
-  dots: true,
+  autoplay: true,
+  swipeToSlide: true,
+  // dots: true,
   fade: true,
   infinite: true,
-  speed: 500,
+  speed: 1000,
   slidesToShow: 1,
   slidesToScroll: 1,
 };
@@ -191,7 +194,7 @@ const FoodReview = () => {
   );
 };
 
-const RelatedProducts = () => {
+const RelatedProducts = memo(({relatedProducts}) => {
   return (
     <>
       <h1
@@ -202,18 +205,16 @@ const RelatedProducts = () => {
         Related Products
       </h1>
       <div className="flex items-center justify-center">
-        <SaleProduct />
+        <SaleProduct relatedProducts = {relatedProducts} />
       </div>
     </>
   );
-};
+});
 
 export const FoodProduct = () => {
   const location = useLocation();
   const { productURL } = location.state;
-  const { id, name, price, assets, categories, description, sku } = productURL;
-
-  console.log({ productURL });
+  const { id, name, price, assets, categories, description, sku, related_products } = productURL;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -224,7 +225,7 @@ export const FoodProduct = () => {
       <div className="border-t py-4">
         <BreadcrumbURL />
       </div>
-      <div className="lg:grid grid-cols-2 gap-2">
+      <div className="lg:grid grid-cols-2 gap-14">
         <div>
           <CarouselFood assets={assets} />
         </div>
@@ -235,7 +236,10 @@ export const FoodProduct = () => {
           </h2>
           <Rate disabled defaultValue={2} />
           <hr />
-          <p className="py-7 text-[#8d8d8d] text-base">{description}</p>
+          <div
+            className="py-7 text-[#8d8d8d] text-base"
+            dangerouslySetInnerHTML={{ __html: description }}
+          ></div>
           <div className="grid grid-cols-2 gap-2 my-2">
             <div className="my-auto">
               <InputNumber
@@ -315,7 +319,7 @@ export const FoodProduct = () => {
         </Tabs>
       </div>
       <hr className="border-t mt-6" />
-      <RelatedProducts />
+      <RelatedProducts relatedProducts = {related_products} />
     </div>
   );
 };
