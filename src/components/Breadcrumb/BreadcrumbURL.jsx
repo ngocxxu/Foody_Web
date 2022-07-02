@@ -7,7 +7,7 @@ import { NavLink, useLocation } from "react-router-dom";
 const breadcrumbNameMap = {
   "/shop": "Shop",
   "/shop/burgers": "Burgers",
-  "/shop/sauces": "Sauces",
+  "/shop/soda-water": "Soda Water",
   "/shop/starbucks": "Starbucks",
   "/shop/sandwich": "Sandwich",
   "/shop/combo-offer": "Combo Offer",

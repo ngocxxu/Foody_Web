@@ -40,9 +40,9 @@ export const Header = () => {
               <Menu.Item>
                     <NavLink to="/shop">SHOP</NavLink>
                   </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 <NavLink to="/product">PRODUCT</NavLink>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
                 <NavLink to="/blog">BLOG</NavLink>
               </Menu.Item>

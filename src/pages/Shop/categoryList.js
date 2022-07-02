@@ -5,9 +5,9 @@ export const categoryList = [
     url: "/shop/burgers",
   },
   {
-    nameCategory: "Sauces",
+    nameCategory: "Soda Water",
     numberOfCategories: 8,
-    url: "/shop/sauces",
+    url: "/shop/soda-water",
   },
   {
     nameCategory: "Starbucks",

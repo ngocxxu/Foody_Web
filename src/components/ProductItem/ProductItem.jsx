@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { arrayCategory } from '../../App';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { ButtonCustom8 } from '../Button/Button';
 import './ProductItem.scss';
@@ -19,10 +20,6 @@ export const ProductItem = memo(({ product, ...props }) => {
     () => product_ids?.find((idItem) => idItem === id),
     [product_ids, id]
   );
-
-  // useEffect(() => {
-  //   console.log(product_ids?.find((idItem) => idItem === id));
-  // }, [product_ids, id]);
 
   return (
     <div
@@ -61,7 +58,7 @@ export const ProductItem = memo(({ product, ...props }) => {
           <div className="lg:text-lg text-sm font-bold w-full h-[56px] table text-center">
             <NavLink
               state={{ productURL: product }}
-              to={`/shop/burgers/${id}`}
+              to={`/shop/${categories.find((c) => c.name !== "Hot" )?.slug}/${id}`}
               className="text-black hover:text-[#f1252b] uppercase table-cell align-middle"
             >
               {name}

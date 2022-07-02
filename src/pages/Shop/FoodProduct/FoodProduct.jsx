@@ -14,19 +14,19 @@ import { SaleProduct } from '../../../template/HomeTemplate/SaleProduct/SaleProd
 import './FoodProduct.scss';
 
 const settings = {
-  customPaging: function (i) {
-    console.log(i);
-    return (
-      <a>
-        <img
-          alt="product"
-          src={require(`../../../assets/images/product/Products-${
-            i + 14
-          }-600x600.jpg`)}
-        />
-      </a>
-    );
-  },
+  // customPaging: function (i) {
+  //   console.log(i);
+  //   return (
+  //     <a>
+  //       <img
+  //         alt="product"
+  //         src={require(`../../../assets/images/product/Products-${
+  //           i + 14
+  //         }-600x600.jpg`)}
+  //       />
+  //     </a>
+  //   );
+  // },
   autoplay: true,
   swipeToSlide: true,
   // dots: true,
@@ -218,7 +218,7 @@ export const FoodProduct = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [location]);
 
   return (
     <div className="container-food w-3/4 pt-28 mx-auto">
@@ -275,10 +275,10 @@ export const FoodProduct = () => {
               SKU: <span className="text-black">{sku}</span>
             </p>
             <p className="text-xs text-[#8d8d8d]">
-              CATEGORY:{' '}
+              CATEGORY:
               {categories.map((item, index) => (
                 <span key={index} className="text-black uppercase">
-                  {item.name}
+                  {item.name},
                 </span>
               ))}
             </p>

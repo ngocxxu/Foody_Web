@@ -14,7 +14,7 @@ import './Shop.scss';
 const breadcrumbNameMap = {
   shop: 'Shop',
   burgers: 'Burgers',
-  sauces: 'Sauces',
+  'soda-water': 'Soda Water',
   starbucks: 'Starbucks',
   sandwich: 'Sandwich',
   'combo-offer': 'Combo Offer',

@@ -14,9 +14,9 @@ import { ShoppingCart } from "./pages/CartAndCheckout/ShoppingCart/ShoppingCart"
 import { Checkout } from "./pages/CartAndCheckout/Checkout/Checkout";
 import { CartAndCheckout } from "./pages/CartAndCheckout/CartAndCheckout";
 
-const arrayCategory = [
+export const arrayCategory = [
   "burgers",
-  "sauces",
+  "soda-water",
   "starbucks",
   "sandwich",
   "combo-offer",
@@ -43,7 +43,7 @@ function App() {
               element={<FoodProduct />}
             />
           ))}
-          <Route path="/product" element={<Product />} />
+          <Route path="/shop/burgers/:foodId" element={<Product />} />
           <Route path="/blog" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />

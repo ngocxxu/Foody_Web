@@ -57,7 +57,7 @@ export const ListItemProducts = memo(() => {
       )
     );
 
-    // Handle if URL only contain Shop (ex: /shop) and didn't have any category besides (ex: /shop/sauces)
+    // Handle if URL only contain Shop (ex: /shop) and didn't have any category besides (ex: /shop/soda-water)
     if (pathname.split('/').filter((i) => i).length <= 1) {
       return dataProductList;
     } else {
