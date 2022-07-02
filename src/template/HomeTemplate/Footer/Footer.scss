@@ -1,0 +1,44 @@
+$color-red: #f1252b;
+$color-yellow: #ffb219;
+$color-black: #272727;
+$color-white: #ffffff;
+$color-green: #00a950;
+$color-gray: #a0a0a0;
+$color-gray-200: #b7b4ad;
+$color-gray-400: #8d8d8d;
+$color-redred: #bb2d2f;
+$color-blue: #285dcd;
+$color-yellow-200: #f3efe6;
+
+.section_footer {
+  background-image: url(../../../assets/images/others/back-footer.jpg);
+  background-position: center center;
+  background-size: cover;
+  .content_footer {
+    // width: 1290px;
+
+    .divider_separator {
+      border-top: 1px dashed #8d8d8d;
+    }
+
+    .list_social_footer {
+      gap: 15px;
+      .fa_icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .input_mail {
+      border: 1px solid transparent;
+      text-align: center;
+      background: rgba(39, 39, 39, 0.2);
+      // padding: 15px 180px;
+      border-radius: 25px;
+      color: #fff;
+    }
+
+    .input_mail:focus {
+      outline: none;
+    }
+  }
+}

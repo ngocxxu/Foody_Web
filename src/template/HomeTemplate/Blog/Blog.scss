@@ -1,0 +1,8 @@
+$color-red: #f1252b;
+
+.blog {
+  // width: 1450px;
+  .slick-prev:before, .slick-next:before{
+    visibility: hidden;
+  }
+}

@@ -1,0 +1,91 @@
+$color-red: #f1252b;
+$color-yellow: #ffb219;
+$color-black: #272727;
+
+.ant-menu-horizontal {
+  border-bottom: none !important;
+  color: $color-black;
+  font-weight: bold;
+}
+
+.ant-menu-overflow {
+  justify-content: center;
+  background: none;
+}
+
+.ant-avatar-lg {
+  width: 25px;
+  height: 25px;
+}
+
+.ant-badge-count {
+  background: $color-yellow;
+  transform: translate(94%, -68%);
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected a {
+  color: $color-red;
+}
+
+.ant-menu-horizontal > .ant-menu-item a:hover {
+  color: $color-red;
+}
+
+.background_badge_heart {
+  cursor: pointer;
+  padding: 10px 6px 10px 6px;
+  border-radius: 50%;
+}
+.background_badge_cart {
+  cursor: pointer;
+  background-color: $color-red;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.ant-menu-light .ant-menu-submenu-title:hover {
+  color: $color-red;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover {
+  color: $color-red;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after {
+  color: $color-red;
+}
+
+.ant-menu-horizontal > .ant-menu-item a:hover {
+  color: $color-red;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border-bottom: 2px solid #f1252b;
+}
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover {
+  color: $color-red;
+}
+
+// MOBILE
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: $color-red;
+}
+.ant-menu-root.ant-menu-vertical,
+.ant-menu-root.ant-menu-vertical-left,
+.ant-menu-root.ant-menu-vertical-right,
+.ant-menu-root.ant-menu-inline {
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}

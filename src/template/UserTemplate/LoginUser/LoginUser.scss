@@ -1,0 +1,41 @@
+$color-red: #f1252b;
+$color-yellow: #ffb219;
+$color-black: #272727;
+$color-white: #ffffff;
+$color-green: #00a950;
+$color-gray: #a0a0a0;
+
+.ant-input-lg,
+.ant-input-affix-wrapper-lg {
+  padding: 14px 14px;
+  font-size: 16px;
+}
+
+.ant-row {
+  justify-content: center;
+}
+
+.ant-btn-primary {
+  border-color: $color-black;
+  background: $color-black;
+}
+.ant-btn-danger {
+  border-color: $color-gray;
+  background: $color-gray;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color:$color-black;
+  border-color:$color-black;
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  color: #fff;
+  border-color: $color-red;
+  background: $color-red;
+}
+.ant-btn-danger:hover, .ant-btn-danger:focus {
+  color: #fff;
+  border-color: $color-red;
+  background: $color-red;
+}

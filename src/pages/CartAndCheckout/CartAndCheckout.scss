@@ -1,0 +1,9 @@
+.container-cart_checkout {
+  width: calc(100% - 400px);
+  .ant-tabs-top > .ant-tabs-nav::before{
+    border-bottom: none;
+  }
+  .ant-tabs-tab .ant-tabs-tab-btn{
+    font-size: 1.5rem;
+  }
+}

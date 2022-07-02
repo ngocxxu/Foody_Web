@@ -1,0 +1,91 @@
+$color-red: #f1252b;
+$color-yellow: #ffb219;
+$color-black: #272727;
+$color-white: #ffffff;
+$color-green: #00a950;
+$color-gray: #a0a0a0;
+$color-gray-200: #b7b4ad;
+$color-gray-400: #8d8d8d;
+$color-redred: #bb2d2f;
+$color-blue: #285dcd;
+$color-yellow-200: #f3efe6;
+
+.options-food {
+  .card-item {
+    width: 341px;
+    //height: 100px;
+  }
+  .active-button {
+    border: 1px solid #ffb219;
+    background-color: #ffb219;
+    color: #000;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 9999px;
+    padding: 0.75rem 1.75rem 0.75rem 1.75rem;
+    transition: all 0.3s ease-out;
+  }
+  .unactive-button {
+    border: 1px solid #a0a0a0;
+    color: #b7b4ad;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 9999px;
+    padding: 0.75rem 1.75rem 0.75rem 1.75rem;
+    transition: all 0.3s ease-out;
+  }
+  .unactive-button:hover {
+    border: 1px solid #ffb219;
+    background-color: #ffb219;
+    color: #000;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 9999px;
+    transition: all 0.3s ease-out;
+  }
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+    color: #b7b4ad;
+    font-size: small;
+    font-weight: 600;
+    border-radius: 9999px;
+    margin: 0 0.5rem 0 0.5rem;
+    background-color: #f3efe6;
+    border: 1px solid #a0a0a0;
+    transition: all 0.1s ease-out;
+  }
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab:hover {
+    border: 1px solid #ffb219;
+    background-color: #ffb219;
+    color: #000;
+  }
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active {
+    border: 1px solid #ffb219;
+    background-color: #ffb219;
+  }
+  .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #000;
+  }
+  .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 1024px) {
+    .card-item {
+      width: 190px;
+    }
+    .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+      flex-direction: column;
+    }
+    .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+      margin-top: 0.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .ant-tabs-tab-btn {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .ant-tabs-top > .ant-tabs-nav {
+      margin: 0;
+    }
+  }
+}
