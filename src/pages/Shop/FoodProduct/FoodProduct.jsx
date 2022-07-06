@@ -282,9 +282,6 @@ export const FoodProduct = () => {
                 </span>
               ))}
             </p>
-            <p className="text-xs text-[#8d8d8d]">
-              TAGS: <span className="text-black">HOT, MEN</span>
-            </p>
           </div>
         </div>
       </div>

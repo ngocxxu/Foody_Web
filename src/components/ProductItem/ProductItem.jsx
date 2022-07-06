@@ -1,13 +1,15 @@
 import clsx from 'clsx';
 import { memo, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
+import { addProductToCart } from '../../services/CartService';
 import { ButtonCustom8 } from '../Button/Button';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product, ...props }) => {
   // console.log({product});
+  const dispatch = useDispatch();
   const {
     dataProductSaleList: { data },
   } = useSelector((state) => state.productReducer);
@@ -57,7 +59,9 @@ export const ProductItem = memo(({ product, ...props }) => {
           <div className="lg:text-lg text-sm font-bold w-full h-[56px] table text-center">
             <NavLink
               state={{ productURL: product }}
-              to={`/shop/${categories.find((c) => c.name !== "Hot" )?.slug}/${id}`}
+              to={`/shop/${
+                categories.find((c) => c.name !== 'Hot')?.slug
+              }/${id}`}
               className="text-black hover:text-[#f1252b] uppercase table-cell align-middle"
             >
               {name}
@@ -82,7 +86,17 @@ export const ProductItem = memo(({ product, ...props }) => {
           </div>
         </div>
         <div className="my-3 lg:my-6">
-          <ButtonCustom8 textButton="ADD TO CART" />
+          <ButtonCustom8
+            onClick={() => {
+              dispatch(
+                addProductToCart({
+                  id: id,
+                  quantity: 1,
+                })
+              );
+            }}
+            textButton="ADD TO CART"
+          />
         </div>
       </div>
     </div>
