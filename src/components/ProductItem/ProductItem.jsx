@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { arrayCategory } from '../../App';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { ButtonCustom8 } from '../Button/Button';
 import './ProductItem.scss';
