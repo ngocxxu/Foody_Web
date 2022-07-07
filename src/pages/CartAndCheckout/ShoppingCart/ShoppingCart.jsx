@@ -1,12 +1,12 @@
-import { Col, InputNumber, Row } from "antd";
-import { NavLink } from "react-router-dom";
-import product11 from "../../../assets/images/product/Products-11-600x600.jpg";
-import { ButtonCustom11 } from "../../../components/Button/Button";
+import { Col, InputNumber, Row } from 'antd';
+import { NavLink } from 'react-router-dom';
+import product11 from '../../../assets/images/product/Products-11-600x600.jpg';
+import { ButtonCustom11 } from '../../../components/Button/Button';
 
 export const ShoppingCart = () => {
   return (
     <Row>
-      <Col span={16}>
+      <Col lg={16}>
         <div className="border">
           <Row className="p-4 border-b">
             <Col span={9}>Product</Col>
@@ -22,7 +22,7 @@ export const ShoppingCart = () => {
                   <img className="w-10 lg:w-16" alt="food" src={product11} />
                 </Col>
                 <Col span={18}>
-                  <NavLink to="/shop/burgers/12">American Burgers</NavLink>
+                  <NavLink className='text-xs lg:text-base' to="/shop/burgers/12">American Burgers</NavLink>
                 </Col>
               </Row>
             </Col>
@@ -48,7 +48,7 @@ export const ShoppingCart = () => {
                   <img className="w-10 lg:w-16" alt="food" src={product11} />
                 </Col>
                 <Col span={18}>
-                  <NavLink to="/shop/burgers/12">American Burgers</NavLink>
+                  <NavLink className='text-xs lg:text-base' to="/shop/burgers/12">American Burgers</NavLink>
                 </Col>
               </Row>
             </Col>
@@ -68,16 +68,21 @@ export const ShoppingCart = () => {
             <Col span={2}></Col>
           </Row>
           <Row className="p-4">
-            <Col className="my-auto text-base" span={6} offset={11}>
+            <Col className="my-auto text-xs lg:text-base" md={{ span: 6, offset: 11 }}>
               <NavLink to="/shop">Continue Shopping</NavLink>
             </Col>
             <Col span={5}>
-              <ButtonCustom11 className="text-lg" textButton="Update Cart" />
+              <ButtonCustom11 className="text-md lg:text-lg" textButton="Update Cart" />
             </Col>
           </Row>
         </div>
       </Col>
-      <Col span={6} offset={2}>
+      <Col className='mt-4 lg:mt-0'
+        lg={{
+          span: 6,
+          offset: 2,
+        }}
+      >
         <div className="mb-8 lg:mb-12 border bg-[#f6f6f6]">
           <Row className="p-4 bg-[#e9e9e9]">
             <Col span={24}>Cart totals</Col>
