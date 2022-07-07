@@ -70,3 +70,19 @@ export const deleteProductToCart = (line_item_id) => {
     }
   };
 };
+
+export const updateProductToCart = (quantity, line_item_id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await http.put(
+        `/carts/cart_mOVKl4AEZKwprR/items/${line_item_id}`,
+        { quantity: quantity }
+      );
+      if (data) {
+        dispatch(getCart());
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};

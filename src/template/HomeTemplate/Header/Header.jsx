@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Menu } from 'antd';
-import './Header.scss';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import logo from '../../../assets/images/others/logo.png';
 import menuIcon from '../../../assets/svg/menuu.svg';
-import { NavLink } from 'react-router-dom';
-import { ItemCart, ItemsMenu } from '../../../components/ItemsMenu/ItemsMenu';
+import { ItemsMenu } from '../../../components/ItemsMenu/ItemsMenu';
+import './Header.scss';
 
 export const Header = () => {
   const [toggleMenuMini, setToggleMenuMini] = useState(false);

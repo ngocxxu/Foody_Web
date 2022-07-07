@@ -1,9 +1,23 @@
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { Col, InputNumber, Row } from 'antd';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import product11 from '../../../assets/images/product/Products-11-600x600.jpg';
 import { ButtonCustom11 } from '../../../components/Button/Button';
+import { updateProductToCart } from '../../../services/CartService';
+import './ShoppingCart.scss';
 
 export const ShoppingCart = () => {
+  const { cart } = useSelector((state) => state.cartReducer);
+  const { subtotal, line_items } = cart ?? {};
+  const dispatch = useDispatch();
+
+  const handleChangeQuantity = useCallback((quantity, idItem) => {
+    dispatch(updateProductToCart(quantity, idItem))
+  }, [dispatch]);
+
+  console.log({line_items})
+
   return (
     <Row>
       <Col lg={16}>
@@ -15,69 +29,59 @@ export const ShoppingCart = () => {
             <Col span={4}>Subtotal</Col>
             <Col span={2}></Col>
           </Row>
-          <Row className="border-b p-4" align="middle">
-            <Col span={9}>
-              <Row align="middle">
-                <Col span={6}>
-                  <img className="w-10 lg:w-16" alt="food" src={product11} />
-                </Col>
-                <Col span={18}>
-                  <NavLink className='text-xs lg:text-base' to="/shop/burgers/12">American Burgers</NavLink>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={3}>$79.00</Col>
-            <Col span={6}>
-              <InputNumber
-                size="large"
-                min={1}
-                max={50}
-                defaultValue={3}
-                // onChange={onChange}
-                style={{ width: 150 }}
-                title="Quantity"
-              />
-            </Col>
-            <Col span={4}>$79.00</Col>
-            <Col span={2}></Col>
-          </Row>
-          <Row className="border-b p-4" align="middle">
-            <Col span={9}>
-              <Row align="middle">
-                <Col span={6}>
-                  <img className="w-10 lg:w-16" alt="food" src={product11} />
-                </Col>
-                <Col span={18}>
-                  <NavLink className='text-xs lg:text-base' to="/shop/burgers/12">American Burgers</NavLink>
-                </Col>
-              </Row>
-            </Col>
-            <Col span={3}>$79.00</Col>
-            <Col span={6}>
-              <InputNumber
-                size="large"
-                min={1}
-                max={50}
-                defaultValue={3}
-                // onChange={onChange}
-                style={{ width: 150 }}
-                title="Quantity"
-              />
-            </Col>
-            <Col span={4}>$79.00</Col>
-            <Col span={2}></Col>
-          </Row>
-          <Row className="p-4">
-            <Col className="my-auto text-xs lg:text-base" md={{ span: 6, offset: 11 }}>
-              <NavLink to="/shop">Continue Shopping</NavLink>
-            </Col>
-            <Col span={5}>
-              <ButtonCustom11 className="text-md lg:text-lg" textButton="Update Cart" />
-            </Col>
-          </Row>
+          {line_items?.map((item) => (
+            <Row key={item.id} className="border-b p-4" align="middle">
+              <Col span={9}>
+                <Row align="middle">
+                  <Col span={6}>
+                    <img
+                      className="w-10 lg:w-16"
+                      alt={item.image.filename}
+                      src={item.image.url}
+                    />
+                  </Col>
+                  <Col span={18}>
+                    <NavLink
+                      className="text-xs lg:text-base break-all"
+                      to="/shop/burgers/12"
+                    >
+                      {item.product_name}
+                    </NavLink>
+                  </Col>
+                </Row>
+              </Col>
+              <Col span={3}>{item.price?.formatted_with_symbol}</Col>
+              <Col span={6}>
+                <InputNumber
+                  size="large"
+                  min={1}
+                  max={50}
+                  defaultValue={item.quantity}
+                  onChange={(value) => handleChangeQuantity(value, item.id)}
+                  style={{ width: 65 }}
+                  title="Quantity"
+                />
+              </Col>
+              <Col span={4}>{item.line_total?.formatted_with_symbol}</Col>
+              <Col span={2}>
+                <div className="mb-2 cursor-pointer">
+                  <CloseCircleOutlined />
+                </div>
+              </Col>
+            </Row>
+          ))}
+          <div className="m-4 lg:text-left text-center">
+            <NavLink
+              className="hover:border-[#272727] border hover:text-[#272727] text-xs font-bold rounded-full hover:bg-transparent bg-black px-7 py-3 text-white ease-out duration-300"
+              to="/shop"
+            >
+              Continue Shopping
+            </NavLink>
+          </div>
         </div>
       </Col>
-      <Col className='mt-4 lg:mt-0'
+      <Col
+        className="mt-4 lg:mt-0"
         lg={{
           span: 6,
           offset: 2,
@@ -89,7 +93,7 @@ export const ShoppingCart = () => {
           </Row>
           <Row className="p-4">
             <Col span={12}>Subtotal</Col>
-            <Col span={12}>$79.00</Col>
+            <Col span={12}>{subtotal?.formatted_with_symbol}</Col>
           </Row>
           <Row className="p-4" align="middle">
             <Col span={12}>Shipping</Col>
@@ -100,7 +104,7 @@ export const ShoppingCart = () => {
           <Row className="p-4" align="middle">
             <Col span={12}>Total</Col>
             <Col className="text-2xl" span={12}>
-              $79.00
+              {subtotal?.formatted_with_symbol}
             </Col>
           </Row>
           <div className="flex items-center justify-center pb-4">

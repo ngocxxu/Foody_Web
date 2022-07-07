@@ -17,4 +17,5 @@ export const LIST_CATEGORY = "LIST_CATEGORY";
 export const CREATE_CART = "CREATE_CART"
 export const GET_CART = "GET_CART"
 export const ADD_CART = "ADD_CART"
+export const UPDATE_CART = "UPDATE_CART"
 
