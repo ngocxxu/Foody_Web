@@ -8,3 +8,11 @@ export const LazyLoading = () => {
     </div>
   );
 };
+
+export const LazyButtonLoading = () => {
+  return (
+    <>
+      <Spin size="small" />
+    </>
+  );
+};

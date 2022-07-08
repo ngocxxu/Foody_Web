@@ -97,7 +97,7 @@ const ItemCart = memo(({ cart }) => {
                       Qty: {item.quantity}
                     </p>
                     <h2 className="text-lg text-red-500 font-bold">
-                      {item.price.formatted_with_symbol}
+                      {item?.price?.formatted_with_symbol}
                     </h2>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ const ItemCart = memo(({ cart }) => {
             <div className="flex items-center justify-between border-y border-black py-3">
               <div className="text-lg font-bold">Total:</div>
               <div className="text-2xl font-bold">
-                {subtotal.formatted_with_symbol}
+                {subtotal?.formatted_with_symbol}
               </div>
             </div>
             <div className="my-6">

@@ -1,9 +1,8 @@
+import { openNotificationWithIcon } from '../components/Notifications/Notifications';
 import {
-  ADD_CART,
   CREATE_CART,
   GET_CART,
-  OFF_LAZY_LOADING,
-  ON_LAZY_LOADING,
+  OFF_BUTTON_LAZY_LOADING, ON_BUTTON_LAZY_LOADING
 } from '../redux/consts/const';
 import { http } from './settings';
 
@@ -46,11 +45,21 @@ export const getCart = () => {
 export const addProductToCart = (params) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: ON_BUTTON_LAZY_LOADING,
+      });
       const { data } = await http.post('/carts/cart_mOVKl4AEZKwprR', params);
       if (data) {
-        Promise.all([dispatch(getCart())]);
+        Promise.all([
+          dispatch(getCart()),
+          dispatch({
+            type: OFF_BUTTON_LAZY_LOADING,
+          }),
+        ]);
+        openNotificationWithIcon('success')
       }
     } catch (error) {
+      openNotificationWithIcon('error')
       console.log({ error });
     }
   };
