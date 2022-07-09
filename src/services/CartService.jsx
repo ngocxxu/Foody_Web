@@ -93,6 +93,29 @@ export const deleteProductToCart = (line_item_id) => {
   };
 };
 
+export const empltyAllProductsToCart = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: ON_CART_LAZY_LOADING,
+      });
+      const { data } = await http.delete(
+        `/carts/cart_mOVKl4AEZKwprR/items`
+      );
+      if (data) {
+        Promise.all([
+          dispatch(getCart()),
+          dispatch({
+            type: OFF_CART_LAZY_LOADING,
+          }),
+        ]);
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
 export const updateProductToCart = (quantity, line_item_id) => {
   return async (dispatch) => {
     try {

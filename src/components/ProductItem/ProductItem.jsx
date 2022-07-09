@@ -8,7 +8,7 @@ import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product }) => {
-  // console.log({product});
+  console.log({product});
   const flagRef = useRef(false);
   const dispatch = useDispatch();
   const {
@@ -16,7 +16,7 @@ export const ProductItem = memo(({ product }) => {
   } = useSelector((state) => state.productReducer);
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { id, name, price, assets, categories } = product ?? {};
-  const { product_ids, code, starts_on, expires_on, quantity, value } =
+  const { product_ids, value } =
     (data ?? [])[0] ?? {};
 
   const handleFindIdSaleProduct = useCallback(

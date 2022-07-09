@@ -214,7 +214,7 @@ const RelatedProducts = memo(({relatedProducts}) => {
 export const FoodProduct = () => {
   const location = useLocation();
   const { productURL } = location.state ?? {};
-  const { id, name, price, assets, categories, description, sku, related_products } = productURL ?? {};
+  const { name, price, assets, categories, description, sku, related_products } = productURL ?? {};
 
   useEffect(() => {
     window.scrollTo(0, 0);

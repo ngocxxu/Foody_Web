@@ -1,7 +1,7 @@
 import { Avatar, Badge, Popover, Progress } from 'antd';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import emptyCartIcon from '../../assets/svg/cart_remove.svg';
 import removeIcon from '../../assets/svg/remove_items.svg';
 import searchIcon from '../../assets/svg/searchhh.svg';
@@ -16,7 +16,7 @@ import './ItemsMenu.scss';
 const ItemsMenu = () => {
   const { cart } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
-  // console.log({ cart });
+
   useEffect(() => {
     // dispatch(createCart());
     dispatch(getCart());
@@ -73,9 +73,26 @@ const ItemsMenu = () => {
 
 const ItemCart = memo(({ cart }) => {
   const { isPendingCart } = useSelector((state) => state.othersReducer);
+  const { dataProductList } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
-  const { subtotal, total_items, line_items, id } = cart ?? {};
+  const navigate = useNavigate();
+  const { subtotal, total_items, line_items } = cart ?? {};
   const flagRef = useRef(false);
+
+  const handleNavigateProduct = useCallback(
+    (idProductCart) => {
+      const product = dataProductList.find(
+        (product) => product.id === idProductCart
+      );
+      return navigate(
+        `/shop/${
+          product?.categories?.find((c) => c.name !== 'Hot')?.slug
+        }/${idProductCart}`,
+        { state: { productURL: product } }
+      );
+    },
+    [dataProductList, navigate]
+  );
 
   useEffect(() => {
     flagRef.current = false;
@@ -101,7 +118,12 @@ const ItemCart = memo(({ cart }) => {
                     alt={item.image.filename}
                   />
                   <div className="ml-4">
-                    <h3 className="mb-0 font-bold">{item.product_name}</h3>
+                    <h3
+                      onClick={() => handleNavigateProduct(item.product_id)}
+                      className="mb-0 font-bold hover:text-blue-500 cursor-pointer"
+                    >
+                      {item.product_name}
+                    </h3>
                     <p className="my-0 text-gray-500 font-semibold">
                       Qty: {item.quantity}
                     </p>
@@ -189,3 +211,4 @@ const ItemCart = memo(({ cart }) => {
 });
 
 export { ItemCart, ItemsMenu };
+

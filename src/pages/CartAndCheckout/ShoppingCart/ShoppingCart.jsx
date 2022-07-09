@@ -4,21 +4,25 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { ButtonCustom11 } from '../../../components/Button/Button';
+import emptyCartIcon from '../../../assets/svg/cart_remove.svg';
+
 import {
   updateProductToCart,
   deleteProductToCart,
+  empltyAllProductsToCart,
 } from '../../../services/CartService';
 import './ShoppingCart.scss';
 
 export const ShoppingCart = () => {
-  const { cart } = useSelector((state) => state.cartReducer);
   const { isShoppingCart, isPendingCart } = useSelector(
     (state) => state.othersReducer
   );
-  const { subtotal, line_items } = cart ?? {};
+  const { dataProductList } = useSelector((state) => state.productReducer);
+  const { cart } = useSelector((state) => state.cartReducer);
+  const { subtotal, line_items, total_unique_items } = cart ?? {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let { id } = useParams();
+  const { id } = useParams();
   const flagRef = useRef(false);
 
   const handleChangeQuantity = useCallback(
@@ -29,11 +33,28 @@ export const ShoppingCart = () => {
     [dispatch]
   );
 
+  const handleNavigateProduct = useCallback(
+    (idProductCart) => {
+      const product = dataProductList.find(
+        (product) => product.id === idProductCart
+      );
+      return navigate(
+        `/shop/${
+          product?.categories?.find((c) => c.name !== 'Hot')?.slug
+        }/${idProductCart}`,
+        { state: { productURL: product } }
+      );
+    },
+    [dataProductList, navigate]
+  );
+
   useEffect(() => {
     flagRef.current = false;
   }, [isShoppingCart]);
 
-  console.log({ line_items });
+  // useEffect(() => {
+  //   dispatch(getAllProducts());
+  // }, [dispatch]);
 
   return (
     <Row>
@@ -42,65 +63,90 @@ export const ShoppingCart = () => {
           <Row className="p-4 border-b">
             <Col span={9}>Product</Col>
             <Col span={3}>Price</Col>
-            <Col span={6}>Quantity</Col>
+            <Col span={5}>Quantity</Col>
             <Col span={4}>Subtotal</Col>
-            <Col span={2}></Col>
+            <Col span={3}>
+              <div
+                onClick={() => {
+                  flagRef.current = true;
+                  dispatch(empltyAllProductsToCart());
+                }}
+                className="text-red-500 font-medium cursor-pointer hover:underline"
+              >
+                Clear All
+              </div>
+            </Col>
           </Row>
-          {line_items?.map((item) => (
-            <Row
-              key={item.id}
-              className={`border-b p-4 ${
-                (isPendingCart || isShoppingCart) &&
-                flagRef.current === true &&
-                'opacity-40'
-              }`}
-              align="middle"
-            >
-              <Col span={9}>
-                <Row align="middle">
-                  <Col span={6}>
-                    <img
-                      className="w-10 lg:w-16"
-                      alt={item.image.filename}
-                      src={item.image.url}
-                    />
-                  </Col>
-                  <Col span={18}>
-                    <NavLink
-                      className="text-xs lg:text-base break-all"
-                      to="/shop/burgers/12"
-                    >
-                      {item.product_name}
-                    </NavLink>
-                  </Col>
-                </Row>
-              </Col>
-              <Col span={3}>{item.price?.formatted_with_symbol}</Col>
-              <Col span={6}>
-                <InputNumber
-                  size="large"
-                  min={1}
-                  max={50}
-                  defaultValue={item.quantity}
-                  onChange={(value) => handleChangeQuantity(value, item.id)}
-                  style={{ width: 65 }}
-                  title="Quantity"
+          {total_unique_items > 0 ? (
+            line_items?.map((item) => (
+              <Row
+                key={item.id}
+                className={`border-b p-4 ${
+                  (isPendingCart || isShoppingCart) &&
+                  flagRef.current === true &&
+                  'opacity-40'
+                }`}
+                align="middle"
+              >
+                <Col span={9}>
+                  <Row align="middle">
+                    <Col span={6}>
+                      <img
+                        className="w-10 lg:w-16"
+                        alt={item.image.filename}
+                        src={item.image.url}
+                      />
+                    </Col>
+                    <Col span={18}>
+                      <div
+                        onClick={() => handleNavigateProduct(item.product_id)}
+                        className="text-xs lg:text-base break-all cursor-pointer ml-2  "
+                      >
+                        {item.product_name}
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col span={3}>{item.price?.formatted_with_symbol}</Col>
+                <Col span={5}>
+                  <InputNumber
+                    size="large"
+                    min={1}
+                    max={50}
+                    defaultValue={item.quantity}
+                    onChange={(value) => handleChangeQuantity(value, item.id)}
+                    style={{ width: 65 }}
+                    title="Quantity"
+                  />
+                </Col>
+                <Col span={4}>{item.line_total?.formatted_with_symbol}</Col>
+                <Col span={3}>
+                  <div
+                    className="mb-2 cursor-pointer"
+                    onClick={() => {
+                      flagRef.current = true;
+                      dispatch(deleteProductToCart(item.id));
+                    }}
+                  >
+                    <CloseCircleOutlined />
+                  </div>
+                </Col>
+              </Row>
+            ))
+          ) : (
+            <Row className="border-b">
+              <div className="text-center mt-4">
+                <img
+                  className="mx-auto"
+                  src={emptyCartIcon}
+                  alt="empltyCartIcon"
                 />
-              </Col>
-              <Col span={4}>{item.line_total?.formatted_with_symbol}</Col>
-              <Col span={2}>
-                <div
-                  className="mb-2 cursor-pointer"
-                  onClick={() => {
-                    flagRef.current = true;
-                    dispatch(deleteProductToCart(item.id));
-                  }}
-                >
-                  <CloseCircleOutlined />
-                </div>
-              </Col>
+                <p className="text-lg mt-4 lg:mx-4">
+                  Please add products in the cart
+                </p>
+              </div>
             </Row>
-          ))}
+          )}
           <div className="m-4 lg:text-left text-center">
             <NavLink
               className="hover:border-[#272727] border hover:text-[#272727] text-xs font-bold rounded-full hover:bg-transparent bg-black px-7 py-3 text-white ease-out duration-300"
@@ -138,13 +184,13 @@ export const ShoppingCart = () => {
               {subtotal?.formatted_with_symbol}
             </Col>
           </Row>
-          <div className="flex items-center justify-center pb-4">
+          <Row className="flex items-center justify-center pb-4">
             <ButtonCustom11
-              onClick={() => navigate(`/cart-checkout/${id*1 + 1}`)}
-              className="lg:text-base text-md"
+              onClick={() => navigate(`/cart-checkout/${id * 1 + 1}`)}
+              className="lg:text-md text-xs"
               textButton="PROCEED TO CHECKOUT"
             />
-          </div>
+          </Row>
         </div>
       </Col>
     </Row>
