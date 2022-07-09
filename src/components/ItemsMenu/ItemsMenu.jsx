@@ -1,5 +1,5 @@
 import { Avatar, Badge, Popover, Progress } from 'antd';
-import { memo, useEffect } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import emptyCartIcon from '../../assets/svg/cart_remove.svg';
@@ -72,17 +72,26 @@ const ItemsMenu = () => {
 };
 
 const ItemCart = memo(({ cart }) => {
+  const { isPendingCart } = useSelector((state) => state.othersReducer);
   const dispatch = useDispatch();
   const { subtotal, total_items, line_items, id } = cart ?? {};
+  const flagRef = useRef(false);
+
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isPendingCart]);
+
   const contentCart = (
     <>
       <div>
         {total_items > 0 && cart !== null ? (
           <>
-            {line_items.map((item) => (
+            {line_items?.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between my-4"
+                className={`flex items-center justify-between my-4 relative ${
+                  isPendingCart && flagRef.current === true && 'opacity-40'
+                }`}
               >
                 <div className="flex items-center justify-center">
                   <img
@@ -103,6 +112,7 @@ const ItemCart = memo(({ cart }) => {
                 </div>
                 <img
                   onClick={() => {
+                    flagRef.current = true;
                     dispatch(deleteProductToCart(item.id));
                   }}
                   className="cursor-pointer"

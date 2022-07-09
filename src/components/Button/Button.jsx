@@ -73,7 +73,7 @@ const ButtonCustom7 = memo(({ textButton, ...props }) => {
   );
 });
 
-const ButtonCustom8 = memo(({ textButton, className, onClick,...props }) => {
+const ButtonCustom8 = memo(({ textButton, className, onClick, ...props }) => {
   return (
     <>
       <button
@@ -110,10 +110,11 @@ const ButtonCustom10 = memo(({ textButton, className, ...props }) => {
   );
 });
 
-const ButtonCustom11 = memo(({ textButton, className, ...props }) => {
+const ButtonCustom11 = memo(({ textButton, className, onClick, ...props }) => {
   return (
     <>
       <button
+        onClick={onClick}
         className={`hover:border-[#272727] border hover:text-[#272727] text-xs font-bold rounded-full hover:bg-transparent bg-black px-7 py-3 text-white ease-out duration-300 ${className}`}
       >
         {textButton}

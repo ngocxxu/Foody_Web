@@ -7,7 +7,7 @@ import { addProductToCart } from '../../services/CartService';
 import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
-export const ProductItem = memo(({ product}) => {
+export const ProductItem = memo(({ product }) => {
   // console.log({product});
   const flagRef = useRef(false);
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export const ProductItem = memo(({ product}) => {
 
   // Handle button appear only one LazyLoading
   useEffect(() => {
-    flagRef.current = false
+    flagRef.current = false;
   }, [isButtonLazyLoading]);
 
   return (
@@ -55,7 +55,10 @@ export const ProductItem = memo(({ product}) => {
           />
         </div>
       </div>
-      <NavLink to={`/shop/burgers/${id}`} className="containerImage relative">
+      <NavLink state={{ productURL: product }}
+        to={`/shop/${categories.find((c) => c.name !== 'Hot')?.slug}/${id}`}
+        className="containerImage relative"
+      >
         <img src={assets[0].url} alt="product1" />
         <div className="overlay">
           <img src={assets[1].url} alt="product2" />

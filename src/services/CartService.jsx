@@ -1,8 +1,13 @@
-import { openNotificationWithIcon } from '../components/Notifications/Notifications';
+import { openNotificationWithIcon, updateCartNotification } from '../components/Notifications/Notifications';
 import {
   CREATE_CART,
   GET_CART,
-  OFF_BUTTON_LAZY_LOADING, ON_BUTTON_LAZY_LOADING
+  OFF_BUTTON_LAZY_LOADING,
+  OFF_CART_LAZY_LOADING,
+  OFF_SHOPPING_CART_LAZY_LOADING,
+  ON_BUTTON_LAZY_LOADING,
+  ON_CART_LAZY_LOADING,
+  ON_SHOPPING_CART_LAZY_LOADING,
 } from '../redux/consts/const';
 import { http } from './settings';
 
@@ -56,10 +61,10 @@ export const addProductToCart = (params) => {
             type: OFF_BUTTON_LAZY_LOADING,
           }),
         ]);
-        openNotificationWithIcon('success')
+        openNotificationWithIcon('success');
       }
     } catch (error) {
-      openNotificationWithIcon('error')
+      openNotificationWithIcon('error');
       console.log({ error });
     }
   };
@@ -68,11 +73,19 @@ export const addProductToCart = (params) => {
 export const deleteProductToCart = (line_item_id) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: ON_CART_LAZY_LOADING,
+      });
       const { data } = await http.delete(
         `/carts/cart_mOVKl4AEZKwprR/items/${line_item_id}`
       );
       if (data) {
-        dispatch(getCart());
+        Promise.all([
+          dispatch(getCart()),
+          dispatch({
+            type: OFF_CART_LAZY_LOADING,
+          }),
+        ]);
       }
     } catch (error) {
       console.log({ error });
@@ -83,14 +96,24 @@ export const deleteProductToCart = (line_item_id) => {
 export const updateProductToCart = (quantity, line_item_id) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: ON_SHOPPING_CART_LAZY_LOADING,
+      });
       const { data } = await http.put(
         `/carts/cart_mOVKl4AEZKwprR/items/${line_item_id}`,
         { quantity: quantity }
       );
       if (data) {
-        dispatch(getCart());
+        Promise.all([
+          dispatch(getCart()),
+          dispatch({
+            type: OFF_SHOPPING_CART_LAZY_LOADING,
+          }),
+        ]);
+        updateCartNotification('success');
       }
     } catch (error) {
+      updateCartNotification('error');
       console.log({ error });
     }
   };

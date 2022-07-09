@@ -1,22 +1,39 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Col, InputNumber, Row } from 'antd';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { ButtonCustom11 } from '../../../components/Button/Button';
-import { updateProductToCart } from '../../../services/CartService';
+import {
+  updateProductToCart,
+  deleteProductToCart,
+} from '../../../services/CartService';
 import './ShoppingCart.scss';
 
 export const ShoppingCart = () => {
   const { cart } = useSelector((state) => state.cartReducer);
+  const { isShoppingCart, isPendingCart } = useSelector(
+    (state) => state.othersReducer
+  );
   const { subtotal, line_items } = cart ?? {};
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let { id } = useParams();
+  const flagRef = useRef(false);
 
-  const handleChangeQuantity = useCallback((quantity, idItem) => {
-    dispatch(updateProductToCart(quantity, idItem))
-  }, [dispatch]);
+  const handleChangeQuantity = useCallback(
+    (quantity, idItem) => {
+      flagRef.current = true;
+      dispatch(updateProductToCart(quantity, idItem));
+    },
+    [dispatch]
+  );
 
-  console.log({line_items})
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isShoppingCart]);
+
+  console.log({ line_items });
 
   return (
     <Row>
@@ -30,7 +47,15 @@ export const ShoppingCart = () => {
             <Col span={2}></Col>
           </Row>
           {line_items?.map((item) => (
-            <Row key={item.id} className="border-b p-4" align="middle">
+            <Row
+              key={item.id}
+              className={`border-b p-4 ${
+                (isPendingCart || isShoppingCart) &&
+                flagRef.current === true &&
+                'opacity-40'
+              }`}
+              align="middle"
+            >
               <Col span={9}>
                 <Row align="middle">
                   <Col span={6}>
@@ -64,7 +89,13 @@ export const ShoppingCart = () => {
               </Col>
               <Col span={4}>{item.line_total?.formatted_with_symbol}</Col>
               <Col span={2}>
-                <div className="mb-2 cursor-pointer">
+                <div
+                  className="mb-2 cursor-pointer"
+                  onClick={() => {
+                    flagRef.current = true;
+                    dispatch(deleteProductToCart(item.id));
+                  }}
+                >
                   <CloseCircleOutlined />
                 </div>
               </Col>
@@ -109,7 +140,8 @@ export const ShoppingCart = () => {
           </Row>
           <div className="flex items-center justify-center pb-4">
             <ButtonCustom11
-              className="text-lg"
+              onClick={() => navigate(`/cart-checkout/${id*1 + 1}`)}
+              className="lg:text-base text-md"
               textButton="PROCEED TO CHECKOUT"
             />
           </div>
