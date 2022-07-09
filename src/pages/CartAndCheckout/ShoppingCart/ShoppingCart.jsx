@@ -100,7 +100,7 @@ export const ShoppingCart = () => {
                     <Col span={18}>
                       <div
                         onClick={() => handleNavigateProduct(item.product_id)}
-                        className="text-xs lg:text-base break-all cursor-pointer ml-2  "
+                        className="text-xs lg:text-base break-all cursor-pointer ml-2 hover:text-blue-500"
                       >
                         {item.product_name}
                       </div>
