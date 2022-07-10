@@ -1,27 +1,30 @@
-import React from "react";
-import "antd/dist/antd.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HomeTemplate } from "./template/HomeTemplate/HomeTemplate";
-import { Home } from "./pages/Home/Home";
-import "./App.scss";
-import { ErrorTemplate } from "./template/ErrorTemplate/ErrorTemplate";
-import { Shop } from "./pages/Shop/Shop";
-import { BlogDetail } from "./pages/BlogDetail/BlogDetail";
-import { Product } from "./pages/Product/Product";
-import { Contact } from "./pages/Contact/Contact";
-import { FoodProduct } from "./pages/Shop/FoodProduct/FoodProduct";
-import { ShoppingCart } from "./pages/CartAndCheckout/ShoppingCart/ShoppingCart";
-import { Checkout } from "./pages/CartAndCheckout/Checkout/Checkout";
-import { CartAndCheckout } from "./pages/CartAndCheckout/CartAndCheckout";
+import React from 'react';
+import 'antd/dist/antd.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HomeTemplate } from './template/HomeTemplate/HomeTemplate';
+import { Home } from './pages/Home/Home';
+import './App.scss';
+import { ErrorTemplate } from './template/ErrorTemplate/ErrorTemplate';
+import { Shop } from './pages/Shop/Shop';
+import { BlogDetail } from './pages/BlogDetail/BlogDetail';
+import { Product } from './pages/Product/Product';
+import { Contact } from './pages/Contact/Contact';
+import { FoodProduct } from './pages/Shop/FoodProduct/FoodProduct';
+import { ShoppingCart } from './pages/CartAndCheckout/ShoppingCart/ShoppingCart';
+import { Checkout } from './pages/CartAndCheckout/Checkout/Checkout';
+import { CartAndCheckout } from './pages/CartAndCheckout/CartAndCheckout';
+import { UserTemplate } from './template/UserTemplate/UserTemplate';
+import { Login } from './template/UserTemplate/LoginUser/Login';
+import { Register } from './template/UserTemplate/RegisterUser/Register';
 
 export const arrayCategory = [
-  "burgers",
-  "soda-water",
-  "starbucks",
-  "sandwich",
-  "combo-offer",
-  "kids-menu",
-  "pizza-menu",
+  'burgers',
+  'soda-water',
+  'starbucks',
+  'sandwich',
+  'combo-offer',
+  'kids-menu',
+  'pizza-menu',
 ];
 
 function App() {
@@ -50,7 +53,11 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart-checkout/:id" element={<CartAndCheckout />} />
         </Route>
-        <Route path="*" element={<ErrorTemplate />}></Route>
+        <Route element={<UserTemplate />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+        <Route path="*" element={<ErrorTemplate />} />
         {/* The default page web will navigate to /home */}
         {/* <Route path="/" element={<Navigate replace to="/home" />} /> */}
       </Routes>

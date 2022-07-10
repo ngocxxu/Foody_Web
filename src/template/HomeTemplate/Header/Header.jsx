@@ -18,9 +18,9 @@ export const Header = () => {
     };
     // List and remove listen after click is finished
     document.addEventListener('click', handleClickOutSide, true);
-    // return () => {
-    //   document.removeEventListener('click', handleClickOutSide, true);
-    // }
+    return () => {
+      document.removeEventListener('click', handleClickOutSide, true);
+    }
   }, [toggleMenuMini]);
 
   return (
