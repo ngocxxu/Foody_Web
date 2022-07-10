@@ -8,7 +8,7 @@ import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product }) => {
-  console.log({product});
+  // console.log({product});
   const flagRef = useRef(false);
   const dispatch = useDispatch();
   const {

@@ -3,13 +3,13 @@ import { Col, InputNumber, Row } from 'antd';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { ButtonCustom11 } from '../../../components/Button/Button';
 import emptyCartIcon from '../../../assets/svg/cart_remove.svg';
+import { ButtonCustom11 } from '../../../components/Button/Button';
+import { getAllProducts } from '../../../services/ProductsService';
 
 import {
-  updateProductToCart,
   deleteProductToCart,
-  empltyAllProductsToCart,
+  empltyAllProductsToCart, updateProductToCart
 } from '../../../services/CartService';
 import './ShoppingCart.scss';
 
@@ -27,8 +27,11 @@ export const ShoppingCart = () => {
 
   const handleChangeQuantity = useCallback(
     (quantity, idItem) => {
-      flagRef.current = true;
-      dispatch(updateProductToCart(quantity, idItem));
+      
+      if (quantity > 0) {
+        flagRef.current = true;
+        dispatch(updateProductToCart(quantity, idItem));
+      }
     },
     [dispatch]
   );
@@ -38,6 +41,7 @@ export const ShoppingCart = () => {
       const product = dataProductList.find(
         (product) => product.id === idProductCart
       );
+
       return navigate(
         `/shop/${
           product?.categories?.find((c) => c.name !== 'Hot')?.slug
@@ -52,9 +56,9 @@ export const ShoppingCart = () => {
     flagRef.current = false;
   }, [isShoppingCart]);
 
-  // useEffect(() => {
-  //   dispatch(getAllProducts());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   return (
     <Row>

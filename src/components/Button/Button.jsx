@@ -21,10 +21,10 @@ const ButtonCustom2 = memo(({ textButton, ...props }) => {
   );
 });
 
-const ButtonBigCustom3 = memo(({ textButton, ...props }) => {
+const ButtonBigCustom3 = memo(({ textButton, onClick, ...props }) => {
   return (
     <>
-      <button className="border-white border text-white text-base font-bold rounded-full px-8 py-4 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-white ease-out duration-300">
+      <button onClick = {onClick} className="border-white border text-white text-base font-bold rounded-full px-8 py-4 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-white ease-out duration-300">
         {textButton}
       </button>
     </>

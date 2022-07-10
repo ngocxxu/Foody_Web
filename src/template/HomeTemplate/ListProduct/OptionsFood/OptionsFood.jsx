@@ -58,7 +58,7 @@ export const OptionsFood = () => {
   }, [dispatch]);
 
   return (
-    <div className="options-food">
+    <div className="options-food" id="options-foods">
       <div className="card-container">
         <Tabs type="card">
           {tabsData.map((tab, index) => (
