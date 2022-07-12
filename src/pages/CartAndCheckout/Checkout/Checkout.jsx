@@ -1,9 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
-import { Col, Divider, Form, Input, Row } from 'antd';
+import { Col, Divider, Form, Input, Row, Select } from 'antd';
+import { Option } from 'antd/lib/mentions';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Title from 'antd/lib/typography/Title';
-import product11 from '../../../assets/images/product/Products-11-600x600.jpg';
 import { ButtonCustom11 } from '../../../components/Button/Button';
+import {
+  getListCountries,
+  getListSubCountry,
+} from '../../../services/CheckoutService';
 import './Checkout.scss';
 
 const validateMessages = {
@@ -19,11 +23,35 @@ const validateMessages = {
 
 export const Checkout = () => {
   const { cart } = useSelector((state) => state.cartReducer);
+  const { listCountries, listSubCountry } = useSelector(
+    (state) => state.checkoutReducer
+  );
   const { subtotal, line_items } = cart ?? {};
+  const dispatch = useDispatch();
+  const [subValue, setsubValue] = useState('');
+
+  const handleChangeListCountries = useCallback(
+    (value) => {
+      setsubValue(value);
+      dispatch(getListSubCountry(value));
+    },
+    [dispatch]
+  );
+
+  const handleChangeListSubCountry = useCallback(
+    (value) => {
+      dispatch(getListSubCountry(value));
+    },
+    [dispatch]
+  );
 
   const onFinish = (values) => {
-    // console.log(values);
+    console.log(values);
   };
+
+  useEffect(() => {
+    dispatch(getListCountries());
+  }, [dispatch]);
 
   return (
     <>
@@ -37,14 +65,14 @@ export const Checkout = () => {
           <Col span={14}>
             <h1 className="text-2xl">Billing details</h1>
             <Form.Item
-              name={['user', 'name']}
+              name={['user', 'firstname']}
               label="First name"
               rules={[{ required: true }]}
             >
               <Input className="w-full" />
             </Form.Item>
             <Form.Item
-              name={['user', 'name']}
+              name={['user', 'lastname']}
               label="Last name"
               rules={[{ required: true }]}
             >
@@ -55,18 +83,42 @@ export const Checkout = () => {
               label="Country / Region"
               rules={[{ required: true }]}
             >
-              <Input className="w-full" />
-            </Form.Item>
-            <Form.Item
-              name={['user', 'street_address']}
-              label="Street address"
-              rules={[{ required: true }]}
-            >
-              <Input className="w-full" />
+              <Select
+                defaultValue="Select your option"
+                style={{
+                  width: '100%',
+                }}
+                onChange={handleChangeListCountries}
+              >
+                {listCountries?.map((country, index) => (
+                  <Option key={index} value={country.key}>
+                    {country.value}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
             <Form.Item
               name={['user', 'town-city']}
               label="Town / City"
+              rules={[{ required: true }]}
+            >
+              <Select
+                defaultValue="Select your option"
+                style={{
+                  width: '100%',
+                }}
+                onChange={handleChangeListSubCountry(subValue)}
+              >
+                {listSubCountry?.map((subCountry, index) => (
+                  <Option key={index} value={subCountry.key}>
+                    {subCountry.value}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name={['user', 'street_address']}
+              label="Street address"
               rules={[{ required: true }]}
             >
               <Input className="w-full" />
@@ -79,7 +131,7 @@ export const Checkout = () => {
               <Input className="w-full" />
             </Form.Item>
             <Form.Item
-              name="phone"
+              name={['user', 'phone']}
               label="Phone Number"
               rules={[
                 {
@@ -159,7 +211,7 @@ export const Checkout = () => {
               <ButtonCustom11
                 type="submit"
                 className="text-lg w-full py-4 mt-10"
-                textButton="PLACE ORDER" 
+                textButton="PLACE ORDER"
               />
             </Form.Item>
           </Col>

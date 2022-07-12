@@ -7,7 +7,7 @@ import removeIcon from '../../assets/svg/remove_items.svg';
 import searchIcon from '../../assets/svg/searchhh.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import userIcon from '../../assets/svg/user-svgrepo-com.svg';
-import { SET_DRAWER_TABLE, SET_ITEM_MODAL } from '../../redux/consts/const';
+import { SET_DRAWER_TABLE } from '../../redux/consts/const';
 import { deleteProductToCart, getCart } from '../../services/CartService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
 import { ItemModal } from '../Modal/ItemModal';
@@ -16,6 +16,7 @@ import './ItemsMenu.scss';
 const ItemsMenu = () => {
   const { cart } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // dispatch(createCart());
@@ -38,12 +39,7 @@ const ItemsMenu = () => {
       />
       <ItemModal />
       <img
-        onClick={() => {
-          dispatch({
-            type: SET_ITEM_MODAL,
-            modalTable: true,
-          });
-        }}
+        onClick={() => navigate('/login')}
         className="cursor-pointer hover:-translate-y-1 ease-out duration-200"
         src={userIcon}
         alt="userIcon"
