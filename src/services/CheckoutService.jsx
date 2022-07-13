@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   GET_CHECKOUT_TOKEN,
   GET_LIST_COUNTRIES,
@@ -9,11 +10,12 @@ import commerce, { http } from '../services/settings';
 export const getCheckoutToken = () => {
   return async (dispatch) => {
     try {
-      const dataToken = await commerce.cart.id('cart_mOVKl4AEZKwprR')
-      console.log(dataToken)
-      const { data } = await http.get('/checkouts/cart_mOVKl4AEZKwprR', { type: 'cart' });
+      // const dataToken = await commerce.cart.id('cart_mOVKl4AEZKwprR');
+      // console.log(dataToken);
+      const { data } = await http.get('/checkouts/cart_mOVKl4AEZKwprR', {
+        type: 'cart',
+      });
       if (data) {
-        console.log({data});
         dispatch({
           type: GET_CHECKOUT_TOKEN,
           payload: data,
@@ -25,10 +27,12 @@ export const getCheckoutToken = () => {
   };
 };
 
-export const getListCountries = () => {
+export const getListCountries = (checkout_token) => {
   return async (dispatch) => {
     try {
-      const { data } = await http.get('/services/locale/countries');
+      const { data } = await http.get(
+        `/services/locale/${checkout_token}/countries`
+      );
       if (data) {
         dispatch({
           type: GET_LIST_COUNTRIES,
@@ -62,15 +66,14 @@ export const getListSubCountry = (country_code) => {
   };
 };
 
-export const getShippingMethods = (checkout_token, params) => {
+export const getShippingMethods = (checkout_token, paramsObj) => {
   return async (dispatch) => {
-    console.log({params})
     try {
       const { data } = await http.get(
-        `/checkouts/${checkout_token}/helper/shipping_options`,
-        params
+        `/checkouts/${checkout_token}/helper/shipping_options?${new URLSearchParams(
+          paramsObj
+        ).toString()}`
       );
-      console.log({ data });
       if (data) {
         dispatch({
           type: GET_SHIPPING_METHOD,
@@ -78,6 +81,34 @@ export const getShippingMethods = (checkout_token, params) => {
         });
       }
     } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+export const generateCheckoutToken = (cardId) => {
+  return async (dispatch) => {
+    const navigate = useNavigate();
+    try {
+      // dispatch({
+      //   type: ON_LAZY_LOADING,
+      // });
+      const data = await commerce.checkout.generateCheckoutToken(cardId, {
+        type: 'cart',
+      });
+      if (data) {
+        Promise.all([
+          dispatch({
+            type: GET_CHECKOUT_TOKEN,
+            payload: data,
+          }),
+          // dispatch({
+          //   type: OFF_LAZY_LOADING,
+          // }),
+        ]);
+      }
+    } catch (error) {
+      navigate('/');
       console.log({ error });
     }
   };

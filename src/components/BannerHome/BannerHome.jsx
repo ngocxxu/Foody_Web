@@ -97,7 +97,12 @@ export const BannerHome = () => {
                   </p>
                 </div>
                 <button className="border-white border text-white text-xs font-bold rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 ease-out duration-300">
-                  ORDER NOW
+                  <a
+                    className="block text-white hover:text-white px-7 py-3"
+                    href="#options-foods"
+                  >
+                    ORDER NOW
+                  </a>
                 </button>
               </div>
             </div>
@@ -115,7 +120,12 @@ export const BannerHome = () => {
                   </p>
                 </div>
                 <button className="border-white border text-white text-xs font-bold  rounded-full px-7 py-3 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-black ease-out duration-300">
-                  FREE SHIPPING
+                  <a
+                    className="block text-white hover:text-black px-7 py-3"
+                    href="#options-foods"
+                  >
+                    FREE SHIPPING
+                  </a>
                 </button>
               </div>
             </div>
@@ -133,7 +143,10 @@ export const BannerHome = () => {
                     <br /> Food to day
                   </p>
                 </div>
-                <button className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300">
+                <button
+                  onClick={() => navigate('/shop')}
+                  className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300"
+                >
                   VIEW MORE
                 </button>
               </div>

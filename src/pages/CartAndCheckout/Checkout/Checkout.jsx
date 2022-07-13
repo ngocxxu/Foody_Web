@@ -29,35 +29,37 @@ export const Checkout = memo(({ checkoutToken }) => {
     (state) => state.checkoutReducer
   );
   const { subtotal, line_items } = cart ?? {};
-  const [subValue, setsubValue] = useState('');
+  const [subValue, setSubValue] = useState('');
   const dispatch = useDispatch();
 
   const handleChangeListCountries = useCallback(
     (value) => {
-      setsubValue(value);
+      setSubValue(value);
       dispatch(getListSubCountry(value));
     },
     [dispatch]
   );
-  console.log({ shippingMethods });
-  console.log({ checkoutToken });
+
   const handleChangeListSubCountry = useCallback(
     (value, subVal) => {
       dispatch(getListSubCountry(subVal));
       dispatch(
-        getShippingMethods(checkoutToken.id, { country: subVal, region: value })
+        getShippingMethods(checkoutToken?.id, {
+          country: subVal,
+          region: value,
+        })
       );
     },
     [dispatch, checkoutToken]
   );
 
   const onFinish = (values) => {
-    console.log(values);
+    // console.log(values);
   };
 
   useEffect(() => {
-    dispatch(getListCountries());
-  }, [dispatch]);
+      dispatch(getListCountries(checkoutToken?.id));
+  }, [dispatch, checkoutToken?.id]);
 
   return (
     <Form
@@ -67,7 +69,7 @@ export const Checkout = memo(({ checkoutToken }) => {
       validateMessages={validateMessages}
     >
       <Row>
-        <Col span={14}>
+        <Col lg={14}>
           <h1 className="text-2xl">Billing details</h1>
           <Form.Item
             name={['user', 'firstname']}
@@ -164,11 +166,13 @@ export const Checkout = memo(({ checkoutToken }) => {
               style={{
                 width: '100%',
               }}
-              onChange={(value) => handleChangeListSubCountry(value, subValue)}
             >
-              {listSubCountry?.map((subCountry, index) => (
-                <Option key={index} value={subCountry.key}>
-                  {subCountry.value}
+              {shippingMethods?.map((shipMethod) => (
+                <Option
+                  key={shipMethod.id}
+                  value={shipMethod?.price?.formatted}
+                >
+                  {`${shipMethod.description} (${shipMethod?.price?.formatted_with_symbol})`}
                 </Option>
               ))}
             </Select>
@@ -182,8 +186,7 @@ export const Checkout = memo(({ checkoutToken }) => {
         </Col>
         <Col
           className="border border-black p-8 rounded-lg h-fit"
-          span={8}
-          offset={2}
+          lg={{ span: 8, offset: 2 }}
         >
           <h1 className="text-2xl">Product</h1>
           {line_items?.map((item) => (

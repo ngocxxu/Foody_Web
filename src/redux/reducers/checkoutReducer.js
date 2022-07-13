@@ -1,4 +1,5 @@
 import {
+  GET_CHECKOUT_TOKEN,
   GET_LIST_COUNTRIES,
   GET_LIST_SUB_COUNTRY,
   GET_SHIPPING_METHOD,
@@ -8,6 +9,7 @@ const initialState = {
   listCountries: [],
   listSubCountry: [],
   shippingMethods: [],
+  dataCheckoutToken: {},
 };
 
 export const checkoutReducer = (state = initialState, action) => {
@@ -34,6 +36,10 @@ export const checkoutReducer = (state = initialState, action) => {
 
     case GET_SHIPPING_METHOD:
       state.shippingMethods = action.payload;
+      return { ...state };
+
+    case GET_CHECKOUT_TOKEN:
+      state.dataCheckoutToken = action.payload;
       return { ...state };
 
     default:

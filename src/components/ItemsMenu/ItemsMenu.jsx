@@ -161,26 +161,18 @@ const ItemCart = memo(({ cart }) => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg_slider_button bg_slider2_button ease-out duration-300 bg-black"
+                className="bg_slider_button bg_slider2_button ease-out duration-300 bg-black text-white hover:text-white"
                 type="button"
+                onClick={() => navigate('/cart-checkout/1')}
               >
-                <NavLink
-                  className="text-white hover:text-white"
-                  to="/cart-checkout/1"
-                >
-                  VIEW CART
-                </NavLink>
+                VIEW CART
               </button>
               <button
-                className="bg_slider_button bg_slider3_button ease-out duration-300 bg-gray-500"
+                className="bg_slider_button bg_slider3_button ease-out duration-300 bg-gray-500 text-white hover:text-white"
                 type="button"
+                onClick={() => navigate('/cart-checkout/2')}
               >
-                <NavLink
-                  className="text-white hover:text-white"
-                  to="/cart-checkout/2"
-                >
-                  CHECK OUT
-                </NavLink>
+                CHECK OUT
               </button>
             </div>
           </>
@@ -206,4 +198,3 @@ const ItemCart = memo(({ cart }) => {
 });
 
 export { ItemCart, ItemsMenu };
-

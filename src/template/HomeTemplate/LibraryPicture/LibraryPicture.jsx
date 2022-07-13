@@ -9,7 +9,7 @@ import "./LibraryPicture.scss";
 
 export const LibraryPicture = () => {
   return (
-    <div className="lib-picture lg:flex">
+    <div className="lib-picture flex items-center justify-center flex-col lg:flex-row">
       <div className="image_insta">
         <a className="image_insta_item" href="#">
           <img src={pic1} alt="pic1" />
