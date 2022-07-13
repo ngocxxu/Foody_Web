@@ -1,16 +1,17 @@
 import React from "react";
+import { createRoot } from 'react-dom/client';
 import { Provider } from "react-redux";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import "./index.css";
 import { store } from "./redux/configStore";
 import { StoreProvider } from "./redux/context/storeContext";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+const container = document.getElementById('root');
+const rootHTML = createRoot(container);
+rootHTML.render(
   <Provider store={store}>
     <StoreProvider>
       <App />

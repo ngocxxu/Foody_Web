@@ -7,14 +7,15 @@ import {
   OFF_SHOPPING_CART_LAZY_LOADING,
   ON_BUTTON_LAZY_LOADING,
   ON_CART_LAZY_LOADING,
-  ON_SHOPPING_CART_LAZY_LOADING,
+  ON_SHOPPING_CART_LAZY_LOADING
 } from '../redux/consts/const';
-import { http } from './settings';
+import commerce from './settings';
 
+// Refresh Cart
 export const createCart = () => {
   return async (dispatch) => {
     try {
-      const { data } = await http.get('/carts');
+      const data = await commerce.cart.refresh();
       if (data) {
         Promise.all([
           dispatch({
@@ -29,10 +30,11 @@ export const createCart = () => {
   };
 };
 
+// Retrieve Cart
 export const getCart = () => {
   return async (dispatch) => {
     try {
-      const { data } = await http.get('/carts/cart_mOVKl4AEZKwprR');
+      const data = await commerce.cart.retrieve();
       if (data) {
         Promise.all([
           dispatch({
@@ -53,7 +55,7 @@ export const addProductToCart = (params) => {
       dispatch({
         type: ON_BUTTON_LAZY_LOADING,
       });
-      const { data } = await http.post('/carts/cart_mOVKl4AEZKwprR', params);
+      const data =  await commerce.cart.add(params.id, params.quantity);
       if (data) {
         Promise.all([
           dispatch(getCart()),
@@ -76,9 +78,7 @@ export const deleteProductToCart = (line_item_id) => {
       dispatch({
         type: ON_CART_LAZY_LOADING,
       });
-      const { data } = await http.delete(
-        `/carts/cart_mOVKl4AEZKwprR/items/${line_item_id}`
-      );
+      const data = await commerce.cart.remove(line_item_id);
       if (data) {
         Promise.all([
           dispatch(getCart()),
@@ -99,9 +99,7 @@ export const empltyAllProductsToCart = () => {
       dispatch({
         type: ON_CART_LAZY_LOADING,
       });
-      const { data } = await http.delete(
-        `/carts/cart_mOVKl4AEZKwprR/items`
-      );
+      const data = await commerce.cart.empty();
       if (data) {
         Promise.all([
           dispatch(getCart()),
@@ -122,10 +120,7 @@ export const updateProductToCart = (quantity, line_item_id) => {
       dispatch({
         type: ON_SHOPPING_CART_LAZY_LOADING,
       });
-      const { data } = await http.put(
-        `/carts/cart_mOVKl4AEZKwprR/items/${line_item_id}`,
-        { quantity: quantity }
-      );
+      const data = await commerce.cart.update(line_item_id, { quantity });
       if (data) {
         Promise.all([
           dispatch(getCart()),

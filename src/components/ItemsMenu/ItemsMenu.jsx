@@ -19,7 +19,6 @@ const ItemsMenu = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // dispatch(createCart());
     dispatch(getCart());
   }, [dispatch]);
 
@@ -162,7 +161,7 @@ const ItemCart = memo(({ cart }) => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg_slider_button bg_slider2_button ease-out duration-300"
+                className="bg_slider_button bg_slider2_button ease-out duration-300 bg-black"
                 type="button"
               >
                 <NavLink
@@ -173,7 +172,7 @@ const ItemCart = memo(({ cart }) => {
                 </NavLink>
               </button>
               <button
-                className="bg_slider_button bg_slider3_button ease-out duration-300"
+                className="bg_slider_button bg_slider3_button ease-out duration-300 bg-gray-500"
                 type="button"
               >
                 <NavLink

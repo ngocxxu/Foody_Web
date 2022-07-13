@@ -59,11 +59,10 @@ export const Carousel = () => {
       <div className="carousel-slick lg:block hidden">
         <Slider {...settings}>
           <div>
-            {/* <img src={slider1} alt="slider1" /> */}
             <div
               className="bg_slider1 flex justify-center items-center"
               style={{
-                background: `url(${slider1})`,
+                background: `url(${slider1})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'
               }}
             >
               <div className="bg_slider1_text absolute">
@@ -88,20 +87,18 @@ export const Carousel = () => {
             </div>
           </div>
           <div>
-            {/* <img src={slider1} alt="slider1" /> */}
             <div
               className="bg_slider1 flex justify-center items-center"
               style={{
-                background: `url(${slider2})`,
+                background: `url(${slider2})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'
               }}
             ></div>
           </div>
           <div>
-            {/* <img src={slider1} alt="slider1" /> */}
             <div
               className="bg_slider1 flex justify-center items-center"
               style={{
-                background: `url(${slider3})`,
+                background: `url(${slider3})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'
               }}
             >
               <div className="bg_slider1_text absolute">
