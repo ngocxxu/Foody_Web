@@ -145,18 +145,30 @@ const ItemCart = memo(({ cart }) => {
               </div>
             </div>
             <div className="my-6">
-              <p>
-                Buy
-                <span className="px-1 text-md font-bold underline underline-offset-4">
-                  $401
-                </span>
-                more to enjoy
-                <span className="px-1 text-md font-bold underline underline-offset-4">
-                  FREE Shipping
-                </span>
-              </p>
+              {Math.floor(500 - subtotal?.formatted) <= 500 &&
+              Math.floor(500 - subtotal?.formatted) >= 0 ? (
+                <p>
+                  Buy
+                  <span className="px-1 text-md font-bold underline underline-offset-4">
+                    {Math.floor(500 - subtotal?.formatted)}$
+                  </span>
+                  more to enjoy
+                  <span className="px-1 text-md font-bold underline underline-offset-4">
+                    FREE Shipping
+                  </span>
+                </p>
+              ) : (
+                <p>You've got free shipping!</p>
+              )}
               <div>
-                <Progress percent={50} showInfo={false} />
+                <Progress
+                  percent={Math.floor((subtotal?.formatted * 100) / 500)}
+                  showInfo={false}
+                  strokeColor={{
+                    '0%': '#0099f7',
+                    '100%': '#f11712',
+                  }}
+                />
               </div>
             </div>
             <div className="flex items-center justify-between">
