@@ -1,14 +1,16 @@
 /* eslint-disable no-template-curly-in-string */
 import { Col, Divider, Form, Input, Row, Select } from 'antd';
-import { Option } from 'antd/lib/mentions';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { ButtonCustom11 } from '../../../components/Button/Button';
 import {
+  createCaptureOrder,
   getListCountries,
   getListSubCountry,
   getShippingMethods,
 } from '../../../services/CheckoutService';
+import { Payment } from '../Payment';
 import './Checkout.scss';
 
 const validateMessages = {
@@ -31,6 +33,7 @@ export const Checkout = memo(({ checkoutToken }) => {
   const { subtotal, line_items } = cart ?? {};
   const [subValue, setSubValue] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChangeListCountries = useCallback(
     (value) => {
@@ -43,23 +46,42 @@ export const Checkout = memo(({ checkoutToken }) => {
   const handleChangeListSubCountry = useCallback(
     (value, subVal) => {
       dispatch(getListSubCountry(subVal));
-      dispatch(
-        getShippingMethods(checkoutToken?.id, {
-          country: subVal,
-          region: value,
-        })
-      );
+      if (checkoutToken) {
+        dispatch(
+          getShippingMethods(checkoutToken?.id, {
+            country: subVal,
+            region: value,
+          })
+        );
+      }
     },
     [dispatch, checkoutToken]
   );
 
-  const onFinish = (values) => {
-    // console.log(values);
-  };
+  const onFinish = useCallback(
+    (values) => {
+      console.log(values);
+      dispatch(
+        createCaptureOrder(
+          checkoutToken?.id,
+          {
+            line_items,
+            payment: {
+              gateway: 'test_gateway',
+              card: values.card,
+            },
+            ...values,
+          },
+          () => navigate('/order-success')
+        )
+      );
+    },
+    [checkoutToken, dispatch, line_items, navigate]
+  );
 
   useEffect(() => {
-      dispatch(getListCountries(checkoutToken?.id));
-  }, [dispatch, checkoutToken?.id]);
+    dispatch(getListCountries(checkoutToken?.id));
+  }, [dispatch, checkoutToken]);
 
   return (
     <Form
@@ -72,21 +94,21 @@ export const Checkout = memo(({ checkoutToken }) => {
         <Col lg={14}>
           <h1 className="text-2xl">Billing details</h1>
           <Form.Item
-            name={['user', 'firstname']}
-            label="First name"
+            name={['shipping', 'name']}
+            label="Full name"
             rules={[{ required: true }]}
           >
             <Input className="w-full" />
           </Form.Item>
-          <Form.Item
-            name={['user', 'lastname']}
+          {/* <Form.Item
+            name={['customer', 'lastname']}
             label="Last name"
             rules={[{ required: true }]}
           >
             <Input className="w-full" />
-          </Form.Item>
-          <Form.Item
-            name={['user', 'phone']}
+          </Form.Item> */}
+          {/* <Form.Item
+            name={['customer', 'phone']}
             label="Phone Number"
             rules={[
               {
@@ -96,16 +118,16 @@ export const Checkout = memo(({ checkoutToken }) => {
             ]}
           >
             <Input className="w-full" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            name={['user', 'email']}
+            name={['customer', 'email']}
             label="Email"
             rules={[{ required: true, type: 'email' }]}
           >
             <Input className="w-full" />
           </Form.Item>
           <Form.Item
-            name={['user', 'country-region']}
+            name={['shipping', 'country']}
             label="Country / Region"
             rules={[{ required: true }]}
           >
@@ -117,15 +139,15 @@ export const Checkout = memo(({ checkoutToken }) => {
               onChange={handleChangeListCountries}
             >
               {listCountries?.map((country, index) => (
-                <Option key={index} value={country.key}>
+                <Select.Option key={index} value={country.key}>
                   {country.value}
-                </Option>
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            name={['user', 'town-city']}
-            label="Town / City"
+            name={['shipping', 'county_state']}
+            label="Subdivisions of country"
             rules={[{ required: true }]}
           >
             <Select
@@ -136,28 +158,35 @@ export const Checkout = memo(({ checkoutToken }) => {
               onChange={(value) => handleChangeListSubCountry(value, subValue)}
             >
               {listSubCountry?.map((subCountry, index) => (
-                <Option key={index} value={subCountry.key}>
+                <Select.Option key={index} value={subCountry.key}>
                   {subCountry.value}
-                </Option>
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            name={['user', 'street_address']}
+            name={['shipping', 'town_city']}
+            label="Town / City"
+            rules={[{ required: true }]}
+          >
+            <Input className="w-full" placeholder="Ho Chi Minh" />
+          </Form.Item>
+          <Form.Item
+            name={['shipping', 'street']}
             label="Street address"
             rules={[{ required: true }]}
           >
             <Input className="w-full" />
           </Form.Item>
-          <Form.Item
-            name={['user', 'postcode']}
+          {/* <Form.Item
+            name={['shipping', 'postal_zip_code']}
             label="Postcode"
             rules={[{ required: true }]}
           >
             <Input className="w-full" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            name={['user', 'shipping-methods']}
+            name={['fulfillment', 'shipping_method']}
             label="Shipping Methods"
             rules={[{ required: true }]}
           >
@@ -168,21 +197,18 @@ export const Checkout = memo(({ checkoutToken }) => {
               }}
             >
               {shippingMethods?.map((shipMethod) => (
-                <Option
-                  key={shipMethod.id}
-                  value={shipMethod?.price?.formatted}
-                >
+                <Select.Option key={shipMethod.id} value={shipMethod.id}>
                   {`${shipMethod.description} (${shipMethod?.price?.formatted_with_symbol})`}
-                </Option>
+                </Select.Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name={['user', 'notes']} label="Order notes (optional)">
+          {/* <Form.Item name={['user', 'notes']} label="Order notes (optional)">
             <Input.TextArea
               className="w-full"
               placeholder="Notes about your order, e.g. special notes for delivery"
             />
-          </Form.Item>
+          </Form.Item> */}
         </Col>
         <Col
           className="border border-black p-8 rounded-lg h-fit"
@@ -234,6 +260,8 @@ export const Checkout = memo(({ checkoutToken }) => {
               {subtotal?.formatted_with_symbol}
             </Col>
           </Row>
+          <Divider className="border" />
+          <Payment />
           <Form.Item>
             <ButtonCustom11
               type="submit"

@@ -16,6 +16,7 @@ import { CartAndCheckout } from './pages/CartAndCheckout/CartAndCheckout';
 import { UserTemplate } from './template/UserTemplate/UserTemplate';
 import { Login } from './template/UserTemplate/LoginUser/Login';
 import { Register } from './template/UserTemplate/RegisterUser/Register';
+import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
 
 export const arrayCategory = [
   'burgers',
@@ -57,6 +58,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
+        <Route path="/order-success" element={<OrderSuccessTemplate />} />
         <Route path="*" element={<ErrorTemplate />} />
         {/* The default page web will navigate to /home */}
         {/* <Route path="/" element={<Navigate replace to="/home" />} /> */}
