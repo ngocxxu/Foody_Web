@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {
+  DATA_CAPTURE_ORDER,
   GET_CHECKOUT_TOKEN,
   GET_LIST_COUNTRIES,
   GET_LIST_SUB_COUNTRY,
@@ -96,24 +97,16 @@ export const generateCheckoutToken = (cardId) => {
 export const createCaptureOrder = (cardId, params, navigate) => {
   return async (dispatch) => {
     try {
-      // const navigate = useNavigate();
       delete params.card
-      // dispatch({
-      //   type: ON_LAZY_LOADING,
-      // });
       const data = await commerce.checkout.capture(cardId, params);
       if (data) {
-        navigate()
-        // navigate('/order-success')
-        // Promise.all([
-        //   dispatch({
-        //     type: GET_CHECKOUT_TOKEN,
-        //     payload: data,
-        //   }),
-        //   // dispatch({
-        //   //   type: OFF_LAZY_LOADING,
-        //   // }),
-        // ]);
+        Promise.all([
+          dispatch({
+            type: DATA_CAPTURE_ORDER,
+            payload: data,
+          }),
+          navigate()
+        ]);
       }
     } catch (error) {
       console.log({ error });

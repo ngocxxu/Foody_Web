@@ -18,10 +18,12 @@ const validateMessages = {
   types: {
     email: '${label} is not a valid email!',
     number: '${label} is not a valid number!',
+    string: '${label} is not a valid string!',
   },
   number: {
     range: '${label} must be between ${min} and ${max}',
   },
+  whitespace: '${label} do not have whitespace!',
 };
 
 export const Checkout = memo(({ checkoutToken }) => {
@@ -34,6 +36,23 @@ export const Checkout = memo(({ checkoutToken }) => {
   const [subValue, setSubValue] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  console.log({ Form });
+  const nameVal = Form.useWatch(['shipping', 'name'], form);
+  const emailVal = Form.useWatch(['customer', 'email'], form);
+  const countryVal = Form.useWatch(['shipping', 'country'], form);
+  const countyStateVal = Form.useWatch(['shipping', 'county_state'], form);
+  const townCityVal = Form.useWatch(['shipping', 'town_city'], form);
+  const streetVal = Form.useWatch(['shipping', 'street'], form);
+  const shippingMethodVal = Form.useWatch(
+    ['fulfillment', 'shipping_method'],
+    form
+  );
+  const numberVal = Form.useWatch(['card', 'number'], form);
+  const expiryYearVal = Form.useWatch(['card', 'expiry_year'], form);
+  const expiryMonthVal = Form.useWatch(['card', 'expiry_month'], form);
+  const cvcVal = Form.useWatch(['card', 'cvc'], form);
+  const postalZipCodeVal = Form.useWatch(['card', 'postal_zip_code'], form);
 
   const handleChangeListCountries = useCallback(
     (value) => {
@@ -85,6 +104,7 @@ export const Checkout = memo(({ checkoutToken }) => {
 
   return (
     <Form
+      form={form}
       layout="vertical"
       name="nest-messages"
       onFinish={onFinish}
@@ -92,13 +112,19 @@ export const Checkout = memo(({ checkoutToken }) => {
     >
       <Row>
         <Col lg={14}>
-          <h1 className="text-2xl">Billing details</h1>
+          <h1 className="text-2xl">Billing Details</h1>
           <Form.Item
             name={['shipping', 'name']}
             label="Full name"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                type: 'string',
+                required: true,
+                pattern: /^[a-z]+$/,
+              },
+            ]}
           >
-            <Input className="w-full" />
+            <Input className="w-full" placeholder="Your name" />
           </Form.Item>
           {/* <Form.Item
             name={['customer', 'lastname']}
@@ -124,7 +150,7 @@ export const Checkout = memo(({ checkoutToken }) => {
             label="Email"
             rules={[{ required: true, type: 'email' }]}
           >
-            <Input className="w-full" />
+            <Input className="w-full" placeholder="Your email" />
           </Form.Item>
           <Form.Item
             name={['shipping', 'country']}
@@ -176,7 +202,7 @@ export const Checkout = memo(({ checkoutToken }) => {
             label="Street address"
             rules={[{ required: true }]}
           >
-            <Input className="w-full" />
+            <Input className="w-full" placeholder="Your address" />
           </Form.Item>
           {/* <Form.Item
             name={['shipping', 'postal_zip_code']}
@@ -209,6 +235,63 @@ export const Checkout = memo(({ checkoutToken }) => {
               placeholder="Notes about your order, e.g. special notes for delivery"
             />
           </Form.Item> */}
+          <h1 className="text-2xl">Billing Review</h1>
+          <Row>
+            <Col span={12}>
+              <h1 className="text-xl">Your information</h1>
+              <p>
+                <b>Fullname: </b>
+                <span>{nameVal}</span>
+              </p>
+              <p>
+                <b>Email: </b>
+                <span>{emailVal}</span>
+              </p>
+              <p>
+                <b>Country / Region: </b>
+                <span>{countryVal}</span>
+              </p>
+              <p>
+                <b>Subdivisions of country: </b>
+                <span>{countyStateVal}</span>
+              </p>
+              <p>
+                <b>Town / City: </b>
+                <span>{townCityVal}</span>
+              </p>
+              <p>
+                <b>Street address: </b>
+                <span>{streetVal}</span>
+              </p>
+              <p>
+                <b>Shipping Methods: </b>
+                <span>{shippingMethodVal}</span>
+              </p>
+            </Col>
+            <Col span={12}>
+              <h1 className="text-xl">Payment</h1>
+              <p>
+                <b>Card Number: </b>
+                <span>{numberVal}</span>
+              </p>
+              <p>
+                <b>Expiry Year: </b>
+                <span>{expiryYearVal}</span>
+              </p>
+              <p>
+                <b>Expiry Month: </b>
+                <span>{expiryMonthVal}</span>
+              </p>
+              <p>
+                <b>CVC (CVV): </b>
+                <span>{cvcVal}</span>
+              </p>
+              <p>
+                <b>Post/Zip Code: </b>
+                <span>{postalZipCodeVal}</span>
+              </p>
+            </Col>
+          </Row>
         </Col>
         <Col
           className="border border-black p-8 rounded-lg h-fit"

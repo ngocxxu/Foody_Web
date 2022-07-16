@@ -1,4 +1,5 @@
 import {
+  DATA_CAPTURE_ORDER,
   GET_CHECKOUT_TOKEN,
   GET_LIST_COUNTRIES,
   GET_LIST_SUB_COUNTRY,
@@ -10,6 +11,7 @@ const initialState = {
   listSubCountry: [],
   shippingMethods: [],
   dataCheckoutToken: {},
+  dataCaptureOrder: {},
 };
 
 export const checkoutReducer = (state = initialState, action) => {
@@ -40,6 +42,10 @@ export const checkoutReducer = (state = initialState, action) => {
 
     case GET_CHECKOUT_TOKEN:
       state.dataCheckoutToken = action.payload;
+      return { ...state };
+
+    case DATA_CAPTURE_ORDER:
+      state.dataCaptureOrder = action.payload;
       return { ...state };
 
     default:
