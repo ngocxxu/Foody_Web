@@ -38,7 +38,7 @@ export const updateCartNotification = (type) => {
   }
 };
 
-export const placeOrderNotification = (type) => {
+export const placeOrderNotification = (type, message) => {
   switch (type) {
     case 'success':
       notification[type]({
@@ -48,7 +48,7 @@ export const placeOrderNotification = (type) => {
       break;
     case 'error':
       notification[type]({
-        message: 'You have placed your order unsuccessfully',
+        message: message,
         duration: 2,
       });
       break;

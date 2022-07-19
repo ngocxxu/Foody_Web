@@ -25,16 +25,18 @@ $color-gray: #a0a0a0;
 }
 
 .ant-checkbox-checked .ant-checkbox-inner {
-  background-color:$color-black;
-  border-color:$color-black;
+  background-color: $color-black;
+  border-color: $color-black;
 }
 
-.ant-btn-primary:hover, .ant-btn-primary:focus {
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
   color: #fff;
   border-color: $color-red;
   background: $color-red;
 }
-.ant-btn-danger:hover, .ant-btn-danger:focus {
+.ant-btn-danger:hover,
+.ant-btn-danger:focus {
   color: #fff;
   border-color: $color-red;
   background: $color-red;

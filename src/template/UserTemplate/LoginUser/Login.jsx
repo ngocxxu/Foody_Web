@@ -2,6 +2,7 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './LoginUser.scss';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const Login = () => {
 
   return (
     <>
-      <p className='text-lg text-center font-bold mt-2'>
+      <p className='container-login text-lg text-center font-bold mt-2 mb-4'>
         Login into your account
       </p>
       <Form
@@ -67,7 +68,7 @@ export const Login = () => {
         </div>
         <Form.Item>
           <Button
-            className='login-btn'
+            className='bg-black'
             type='primary'
             htmlType='submit'
             block
@@ -77,7 +78,7 @@ export const Login = () => {
           </Button>
           <div className='mt-4'>
             <Button
-              className='create-btn'
+              className='bg-gray-400'
               type='danger'
               block
               size='large'

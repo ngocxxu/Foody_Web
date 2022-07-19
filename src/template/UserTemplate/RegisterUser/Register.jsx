@@ -15,7 +15,7 @@ export const Register = () => {
 
   return (
     <>
-      <p className="text-lg text-center font-bold mt-2">
+      <p className="text-lg text-center font-bold mt-2 mb-4">
         Register for create account
       </p>
       <Form
@@ -53,7 +53,7 @@ export const Register = () => {
 
         <Form.Item>
           <Button
-            className="login-btn"
+            className='bg-black'
             type="primary"
             htmlType="submit"
             block
@@ -63,7 +63,7 @@ export const Register = () => {
           </Button>
           <div className="mt-4">
             <Button
-              className="create-btn"
+              className='bg-gray-400'
               type="danger"
               block
               size="large"

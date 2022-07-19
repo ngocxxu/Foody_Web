@@ -68,6 +68,9 @@ export const addProductToCart = (params) => {
     } catch (error) {
       openNotificationWithIcon('error');
       console.log({ error });
+      dispatch({
+        type: OFF_BUTTON_LAZY_LOADING,
+      })
     }
   };
 };
@@ -89,6 +92,9 @@ export const deleteProductToCart = (line_item_id) => {
       }
     } catch (error) {
       console.log({ error });
+      dispatch({
+        type: OFF_CART_LAZY_LOADING,
+      })
     }
   };
 };
@@ -110,6 +116,9 @@ export const empltyAllProductsToCart = () => {
       }
     } catch (error) {
       console.log({ error });
+      dispatch({
+        type: OFF_CART_LAZY_LOADING,
+      })
     }
   };
 };
@@ -133,6 +142,9 @@ export const updateProductToCart = (quantity, line_item_id) => {
     } catch (error) {
       updateCartNotification('error');
       console.log({ error });
+      dispatch({
+        type: OFF_SHOPPING_CART_LAZY_LOADING,
+      })
     }
   };
 };

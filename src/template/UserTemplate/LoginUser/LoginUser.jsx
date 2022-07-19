@@ -1,23 +1,25 @@
-import React from "react";
-import { Form, Input, Button, Checkbox } from "antd";
-import "./LoginUser.scss";
-import { TOGGLE_CREATE_ACCOUNT } from "../../../redux/consts/const";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { Form, Input, Button, Checkbox } from 'antd';
+import { TOGGLE_CREATE_ACCOUNT } from '../../../redux/consts/const';
+import { useDispatch } from 'react-redux';
+import './LoginUser.scss';
 
 export const LoginUser = () => {
   const dispatch = useDispatch();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
   return (
     <>
-      <h1 className="text-2xl text-center font-bold mt-2">SIGN IN</h1>
+      <h1 className='text-2xl text-center font-bold mt-2'>
+        SIGN IN
+      </h1>
       <Form
-        name="basic"
+        name='basic'
         labelCol={{
           span: 8,
         }}
@@ -29,34 +31,33 @@ export const LoginUser = () => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off"
+        autoComplete='off'
       >
         <Form.Item
-          name="username"
+          name='username'
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: 'Please input your username!',
             },
           ]}
         >
-          <Input size="large" placeholder="Your email" />
+          <Input size='large' placeholder='Your email' />
         </Form.Item>
-
         <Form.Item
-          name="password"
+          name='password'
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: 'Please input your password!',
             },
           ]}
         >
-          <Input.Password size="large" placeholder="Password" />
+          <Input.Password size='large' placeholder='Password' />
         </Form.Item>
 
         <Form.Item
-          name="remember"
+          name='remember'
           // valuePropName="checked"
         >
           <Checkbox>Remember me</Checkbox>
@@ -64,22 +65,18 @@ export const LoginUser = () => {
 
         <Form.Item>
           <Button
-            className="login-btn"
-            type="primary"
-            htmlType="submit"
-            block
-            shape="round"
-            size="large"
+            type='primary'
+            htmlType='submit'
+            shape='round'
+            size='large'
           >
             LOGIN
           </Button>
-          <div className="mt-4">
+          <div className='mt-4'>
             <Button
-              className="create-btn"
-              type="danger"
-              block
-              shape="round"
-              size="large"
+              type='danger'
+              shape='round'
+              size='large'
               onClick={() =>
                 dispatch({
                   type: TOGGLE_CREATE_ACCOUNT,

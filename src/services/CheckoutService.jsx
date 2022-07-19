@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router-dom';
 import { placeOrderNotification } from '../components/Notifications/Notifications';
 import {
   DATA_CAPTURE_ORDER,
   GET_CHECKOUT_TOKEN,
   GET_LIST_COUNTRIES,
   GET_LIST_SUB_COUNTRY,
-  GET_SHIPPING_METHOD
+  GET_SHIPPING_METHOD,
+  OFF_BUTTON_LAZY_LOADING,
+  ON_BUTTON_LAZY_LOADING
 } from '../redux/consts/const';
 import commerce, { http } from '../services/settings';
 
@@ -98,6 +99,9 @@ export const generateCheckoutToken = (cardId) => {
 export const createCaptureOrder = (cardId, params, navigate) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: ON_BUTTON_LAZY_LOADING,
+      });
       delete params.card
       const data = await commerce.checkout.capture(cardId, params);
       if (data) {
@@ -107,13 +111,19 @@ export const createCaptureOrder = (cardId, params, navigate) => {
             type: DATA_CAPTURE_ORDER,
             payload: data,
           }),
+          dispatch({
+            type: OFF_BUTTON_LAZY_LOADING,
+          }),
           // Navigate to Order Success Page
           navigate()
         ]);
       }
     } catch (error) {
-      placeOrderNotification('error');
-      console.log({ error });
+      console.log(error);
+      placeOrderNotification('error', error.data.error.message);
+      dispatch({
+        type: OFF_BUTTON_LAZY_LOADING,
+      })
     }
   };
 };

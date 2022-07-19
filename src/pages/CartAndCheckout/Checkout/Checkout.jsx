@@ -1,9 +1,10 @@
 /* eslint-disable no-template-curly-in-string */
 import { Col, Divider, Form, Input, Row, Select } from 'antd';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ButtonCustom11 } from '../../../components/Button/Button';
+import { LazyButtonLoading } from '../../../components/LazyLoading/LazyLoading';
 import { regexName } from '../../../components/Regex';
 import {
   createCaptureOrder,
@@ -30,11 +31,13 @@ const validateMessages = {
 export const Checkout = memo(({ checkoutToken }) => {
   const { cart } = useSelector((state) => state.cartReducer);
   const { shippingMethods } = useSelector((state) => state.checkoutReducer);
+  const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { listCountries, listSubCountry } = useSelector(
     (state) => state.checkoutReducer
   );
   const { subtotal, line_items } = cart ?? {};
   const [subValue, setSubValue] = useState('');
+  const flagRef = useRef(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -79,7 +82,6 @@ export const Checkout = memo(({ checkoutToken }) => {
 
   const onFinish = useCallback(
     (values) => {
-      console.log(values);
       dispatch(
         createCaptureOrder(
           checkoutToken?.id,
@@ -124,6 +126,11 @@ export const Checkout = memo(({ checkoutToken }) => {
   useEffect(() => {
     dispatch(getListCountries(checkoutToken?.id));
   }, [dispatch, checkoutToken]);
+
+  // Handle button appear only one LazyLoading
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isButtonLazyLoading]);
 
   return (
     <Form
@@ -370,7 +377,9 @@ export const Checkout = memo(({ checkoutToken }) => {
           </Row>
           <Divider className="border" />
           <Row className="p-4">
-            <Col className="font-bold text-xl" span={16}>Total</Col>
+            <Col className="font-bold text-xl" span={16}>
+              Total
+            </Col>
             <Col className="text-right font-bold text-xl" span={8}>
               {shippingMethods?.length > 0
                 ? '$' +
@@ -388,11 +397,20 @@ export const Checkout = memo(({ checkoutToken }) => {
           <Divider className="border" />
           <Payment />
           <Form.Item>
-            <ButtonCustom11
+            <button
+              onClick={() => {
+                flagRef.current = true;
+              }}
               type="submit"
-              className="text-lg w-full py-4 mt-10"
-              textButton="PLACE ORDER"
-            />
+              className={`hover:border-[#272727] border hover:text-[#272727] font-bold rounded-full hover:bg-transparent bg-black px-7 text-white ease-out duration-300 text-lg w-full py-4 mt-10`}
+            >
+              {isButtonLazyLoading && flagRef.current === true ? (
+                <LazyButtonLoading />
+              ) : (
+                'PLACE ORDER'
+              )}
+              {/* PLACE ORDER */}
+            </button>
           </Form.Item>
         </Col>
       </Row>
