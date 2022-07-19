@@ -30,11 +30,12 @@ export const Login = () => {
         autoComplete='off'
       >
         <Form.Item
-          name='username'
+          name='email'
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Please input your email!',
+              type: 'email',
             },
           ]}
         >

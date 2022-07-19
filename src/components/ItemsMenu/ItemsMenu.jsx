@@ -7,6 +7,7 @@ import removeIcon from '../../assets/svg/remove_items.svg';
 import searchIcon from '../../assets/svg/searchhh.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import userIcon from '../../assets/svg/user-svgrepo-com.svg';
+import { useAuth } from '../../firebase';
 import { SET_DRAWER_TABLE } from '../../redux/consts/const';
 import { deleteProductToCart, getCart } from '../../services/CartService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
@@ -17,6 +18,7 @@ const ItemsMenu = () => {
   const { cart } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentUser = useAuth();
 
   useEffect(() => {
     dispatch(getCart());
@@ -24,6 +26,7 @@ const ItemsMenu = () => {
 
   return (
     <div className="flex space-x-3">
+      <p>Hello {currentUser?.email}</p>
       <ItemDrawer />
       <img
         onClick={() => {

@@ -17,6 +17,7 @@ import { UserTemplate } from './template/UserTemplate/UserTemplate';
 import { Login } from './template/UserTemplate/LoginUser/Login';
 import { Register } from './template/UserTemplate/RegisterUser/Register';
 import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
+import { RegisterSuccess } from './template/UserTemplate/RegisterUser/SuccessRegister';
 
 export const arrayCategory = [
   'burgers',
@@ -31,11 +32,11 @@ export const arrayCategory = [
 function App() {
   return (
     <BrowserRouter>
-      <Routes className="App">
+      <Routes className='App'>
         <Route element={<HomeTemplate />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/shop' element={<Shop />} />
           {/* <Route path={`/shop/:foodId`} element={<FoodProduct />} /> */}
           {arrayCategory.map((item, index) => (
             <Route key={index} path={`/shop/${item}`} element={<Shop />} />
@@ -47,19 +48,23 @@ function App() {
               element={<FoodProduct />}
             />
           ))}
-          <Route path="/shop/burgers/:foodId" element={<Product />} />
-          <Route path="/blog" element={<BlogDetail />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/shopping-cart" element={<ShoppingCart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/cart-checkout/:id" element={<CartAndCheckout />} />
+          <Route path='/shop/burgers/:foodId' element={<Product />} />
+          <Route path='/blog' element={<BlogDetail />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/shopping-cart' element={<ShoppingCart />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/cart-checkout/:id' element={<CartAndCheckout />} />
         </Route>
         <Route element={<UserTemplate />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route
+            path='/register/register-success'
+            element={<RegisterSuccess />}
+          />
         </Route>
-        <Route path="/order-success" element={<OrderSuccessTemplate />} />
-        <Route path="*" element={<ErrorTemplate />} />
+        <Route path='/order-success' element={<OrderSuccessTemplate />} />
+        <Route path='*' element={<ErrorTemplate />} />
         {/* The default page web will navigate to /home */}
         {/* <Route path="/" element={<Navigate replace to="/home" />} /> */}
       </Routes>

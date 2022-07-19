@@ -1,5 +1,43 @@
 import { notification } from 'antd';
 
+export const signInNotification = (type, message) => {
+  switch (type) {
+    case 'success':
+      notification[type]({
+        message: 'Successful Login',
+        duration: 2,
+      });
+      break;
+    case 'error':
+      notification[type]({
+        message: message,
+        duration: 2,
+      });
+      break;
+    default:
+      break;
+  }
+};
+
+export const signUpNotification = (type, message) => {
+  switch (type) {
+    case 'success':
+      notification[type]({
+        message: 'You registered successfully',
+        duration: 2,
+      });
+      break;
+    case 'error':
+      notification[type]({
+        message: message,
+        duration: 2,
+      });
+      break;
+    default:
+      break;
+  }
+};
+
 export const openNotificationWithIcon = (type) => {
   switch (type) {
     case 'success':
