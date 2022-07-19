@@ -1,5 +1,6 @@
 import Countdown from "antd/lib/statistic/Countdown";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import borderSlider from "../../assets/images/others/back-42.png";
 import fastDelivery from "../../assets/svg/fast-delivery.svg";
 import { BannerHome } from "../../components/BannerHome/BannerHome";
@@ -13,6 +14,11 @@ import "./Home.scss";
 
 export const Home = () => {
   const deadline = Date.now() + 1000 * 60 * 60 * 24 * 14;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <div className="bg-[#f3efe6]">
@@ -89,7 +95,7 @@ export const Home = () => {
             </div>
           </div>
           <div className="mt-10">
-            <ButtonBigCustom3 textButton="MAKE AN ORDER" />
+            <ButtonBigCustom3 onClick={()=> navigate('/shop')} textButton="MAKE AN ORDER" />
           </div>
         </div>
       </div>

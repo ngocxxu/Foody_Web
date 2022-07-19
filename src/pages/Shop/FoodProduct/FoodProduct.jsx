@@ -41,7 +41,7 @@ const CarouselFood = memo(({ assets }) => {
   return (
     <div>
       <Slider {...settings}>
-        {assets.map((img) => (
+        {assets?.map((img) => (
           <div key={img.id}>
             <img alt={img.filename} src={img.url} />
           </div>
@@ -213,8 +213,8 @@ const RelatedProducts = memo(({relatedProducts}) => {
 
 export const FoodProduct = () => {
   const location = useLocation();
-  const { productURL } = location.state;
-  const { id, name, price, assets, categories, description, sku, related_products } = productURL;
+  const { productURL } = location.state ?? {};
+  const { name, price, assets, categories, description, sku, related_products } = productURL ?? {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -232,7 +232,7 @@ export const FoodProduct = () => {
         <div className="mt-16 lg:mt-0">
           <h1 className="text-3xl font-medium">{name}</h1>
           <h2 className="text-2xl text-[#f1252b] font-medium">
-            {price.formatted_with_symbol}
+            {price?.formatted_with_symbol}
           </h2>
           <Rate disabled defaultValue={2} />
           <hr />
@@ -276,14 +276,11 @@ export const FoodProduct = () => {
             </p>
             <p className="text-xs text-[#8d8d8d]">
               CATEGORY:
-              {categories.map((item, index) => (
+              {categories?.map((item, index) => (
                 <span key={index} className="text-black uppercase">
                   {item.name},
                 </span>
               ))}
-            </p>
-            <p className="text-xs text-[#8d8d8d]">
-              TAGS: <span className="text-black">HOT, MEN</span>
             </p>
           </div>
         </div>

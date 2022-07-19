@@ -49,6 +49,7 @@ $color-green: #00a950;
   .bg_slider1 {
     width: 100%;
     min-height: 1046px;
+    background-repeat: no-repeat;
   }
   .bg_slider1_text {
     opacity: 1;
@@ -82,7 +83,7 @@ $color-green: #00a950;
   .bg_slider1_button {
     font-weight: 700;
     background-color: $color-white;
-    padding: 12px 44px 12px 44px;
+    // padding: 12px 44px 12px 44px;
     border-radius: 25px;
   }
 

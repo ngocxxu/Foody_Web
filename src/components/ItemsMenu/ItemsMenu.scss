@@ -28,4 +28,13 @@ $color-gray: #a0a0a0;
   color: $color-white;
 }
 
+.line_item{
+  &::before{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+  }
+}
+
 

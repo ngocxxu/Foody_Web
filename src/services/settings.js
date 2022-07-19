@@ -1,12 +1,10 @@
 import axios from "axios";
 import Commerce from '@chec/commerce.js';
 
-export const TOKEN_COMMERCEJS = "";
 export const DOMAIN = "https://api.chec.io/v1";
-export const USER_LOGIN = "userLogin";
 export const ACCESSTOKEN =
   "sk_42845df8d6ccf92ba0a0d3ab31964e37bd2d92226671a";
-export const BASE_URL_IMAGE = "../../../assets/images/product";
+
 const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
 
 //setup axios interceptor
@@ -21,11 +19,10 @@ http.interceptors.request.use(
       ...config.headers, //Lấy lại tất cả các giá trị header qua thuộc tính headers
       Accept: "application/json",
       "Content-Type": "application/json",
-      // "Authorization": "Bearer " + localStorage.getItem(ACCESSTOKEN),
       "X-Authorization": ACCESSTOKEN,
-      TokenCommerceJS: TOKEN_COMMERCEJS,
       "X-Chec-Agent": "commerce.js/v2",
       "Chec-Version": "2021-10-06",
+      // "Authorization": "Bearer " + localStorage.getItem(ACCESSTOKEN),
     };
     return config;
   },

@@ -1,10 +1,13 @@
-import React from "react";
-import banner1 from "../../assets/images/carousel/banner-6.jpg";
-import banner2 from "../../assets/images/carousel/banner-7.jpg";
-import banner3 from "../../assets/images/carousel/banner-8.jpg";
-import "./BannerHome.scss";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import banner1 from '../../assets/images/carousel/banner-6.jpg';
+import banner2 from '../../assets/images/carousel/banner-7.jpg';
+import banner3 from '../../assets/images/carousel/banner-8.jpg';
+import './BannerHome.scss';
 
 export const BannerHome = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="lg:block hidden relative">
@@ -21,8 +24,13 @@ export const BannerHome = () => {
                     Buy any 2 large pizzas <br /> and get a 1.5L Pepsi Free
                   </p>
                 </div>
-                <button className="border-white border text-white text-xs font-bold rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 ease-out duration-300">
-                  ORDER NOW
+                <button className="border-white border text-white text-xs font-bold rounded-full hover:border-red-600 hover:bg-red-600 ease-out duration-300">
+                  <a
+                    className="block text-white hover:text-white px-7 py-3"
+                    href="#options-foods"
+                  >
+                    ORDER NOW
+                  </a>
                 </button>
               </div>
             </div>
@@ -39,8 +47,13 @@ export const BannerHome = () => {
                     Buy any 2 large pizzas <br /> and get a 1.5L Pepsi Free
                   </p>
                 </div>
-                <button className="border-white border text-white text-xs font-bold  rounded-full px-7 py-3 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-black ease-out duration-300">
-                  FREE SHIPPING
+                <button className="border-white border text-white text-xs font-bold  rounded-full hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-black ease-out duration-300">
+                  <a
+                    className="block text-white hover:text-black px-7 py-3"
+                    href="#options-foods"
+                  >
+                    FREE SHIPPING
+                  </a>
                 </button>
               </div>
             </div>
@@ -58,7 +71,10 @@ export const BannerHome = () => {
                     <br /> Food to day
                   </p>
                 </div>
-                <button className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300">
+                <button
+                  onClick={() => navigate('/shop')}
+                  className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300"
+                >
                   VIEW MORE
                 </button>
               </div>
@@ -67,10 +83,10 @@ export const BannerHome = () => {
         </div>
       </div>
       <div className="block lg:hidden">
-      <div className="">
+        <div className="">
           <div className="relative m-4">
             <div className="banner_banner1">
-              <img style={{ height:'220px'}} src={banner1} alt="banner1" />
+              <img style={{ height: '220px' }} src={banner1} alt="banner1" />
               <div className="text_banner1 absolute top-0 left-10 flex flex-col justify-evenly h-full">
                 <div>
                   <h1 className="text-lg-3xl text-xl font-bold text-white">
@@ -81,7 +97,12 @@ export const BannerHome = () => {
                   </p>
                 </div>
                 <button className="border-white border text-white text-xs font-bold rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 ease-out duration-300">
-                  ORDER NOW
+                  <a
+                    className="block text-white hover:text-white px-7 py-3"
+                    href="#options-foods"
+                  >
+                    ORDER NOW
+                  </a>
                 </button>
               </div>
             </div>
@@ -99,7 +120,12 @@ export const BannerHome = () => {
                   </p>
                 </div>
                 <button className="border-white border text-white text-xs font-bold  rounded-full px-7 py-3 hover:border-[#ffb219] hover:bg-[#ffb219] hover:text-black ease-out duration-300">
-                  FREE SHIPPING
+                  <a
+                    className="block text-white hover:text-black px-7 py-3"
+                    href="#options-foods"
+                  >
+                    FREE SHIPPING
+                  </a>
                 </button>
               </div>
             </div>
@@ -117,7 +143,10 @@ export const BannerHome = () => {
                     <br /> Food to day
                   </p>
                 </div>
-                <button className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300">
+                <button
+                  onClick={() => navigate('/shop')}
+                  className="border-black border text-xs font-bold  rounded-full px-7 py-3 hover:border-red-600 hover:bg-red-600 hover:text-white ease-out duration-300"
+                >
                   VIEW MORE
                 </button>
               </div>

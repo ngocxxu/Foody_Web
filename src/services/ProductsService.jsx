@@ -27,6 +27,9 @@ export const getAllProducts = () => {
       }
     } catch (error) {
       console.log({ error });
+      dispatch({
+        type: OFF_LAZY_LOADING,
+      })
     }
   };
 };
@@ -51,6 +54,9 @@ export const getAllSaleProducts = () => {
       }
     } catch (error) {
       console.log({ error });
+      dispatch({
+        type: OFF_LAZY_LOADING,
+      })
     }
   };
 };

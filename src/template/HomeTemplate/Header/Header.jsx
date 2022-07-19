@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Menu } from "antd";
-import "./Header.scss";
-import logo from "../../../assets/images/others/logo.png";
-import menuIcon from "../../../assets/svg/menuu.svg";
-import { NavLink } from "react-router-dom";
-import { ItemCart, ItemsMenu } from "../../../components/ItemsMenu/ItemsMenu";
+import { Menu } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import logo from '../../../assets/images/others/logo.png';
+import menuIcon from '../../../assets/svg/menuu.svg';
+import { ItemsMenu } from '../../../components/ItemsMenu/ItemsMenu';
+import './Header.scss';
 
 export const Header = () => {
   const [toggleMenuMini, setToggleMenuMini] = useState(false);
@@ -17,10 +17,10 @@ export const Header = () => {
       }
     };
     // List and remove listen after click is finished
-    document.addEventListener("click", handleClickOutSide, true);
-    // return () => {
-    //   document.removeEventListener('click', handleClickOutSide, true);
-    // }
+    document.addEventListener('click', handleClickOutSide, true);
+    return () => {
+      document.removeEventListener('click', handleClickOutSide, true);
+    }
   }, [toggleMenuMini]);
 
   return (
@@ -33,13 +33,13 @@ export const Header = () => {
             </NavLink>
           </div>
           <div className="w-full">
-            <Menu className="" mode="horizontal" defaultSelectedKeys={["mail"]}>
+            <Menu className="" mode="horizontal" defaultSelectedKeys={['mail']}>
               <Menu.Item key="mail">
                 <NavLink to="/home">HOME</NavLink>
               </Menu.Item>
               <Menu.Item>
-                    <NavLink to="/shop">SHOP</NavLink>
-                  </Menu.Item>
+                <NavLink to="/shop">SHOP</NavLink>
+              </Menu.Item>
               {/* <Menu.Item>
                 <NavLink to="/product">PRODUCT</NavLink>
               </Menu.Item> */}
@@ -103,9 +103,7 @@ export const Header = () => {
               <img width="110" height="41" src={logo} alt="logo" />
             </NavLink>
           </div>
-          <div className="background_badge_cart drop-shadow-lg">
-            <ItemCart/>
-          </div>
+          <ItemsMenu />
         </div>
       </div>
     </>

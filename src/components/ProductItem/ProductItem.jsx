@@ -1,25 +1,33 @@
 import clsx from 'clsx';
-import { memo, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { memo, useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { arrayCategory } from '../../App';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
-import { ButtonCustom8 } from '../Button/Button';
+import { addProductToCart } from '../../services/CartService';
+import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
-export const ProductItem = memo(({ product, ...props }) => {
+export const ProductItem = memo(({ product }) => {
   // console.log({product});
+  const flagRef = useRef(false);
+  const dispatch = useDispatch();
   const {
     dataProductSaleList: { data },
   } = useSelector((state) => state.productReducer);
-  const { id, name, price, assets, categories } = product;
-  const { product_ids, code, starts_on, expires_on, quantity, value } =
+  const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
+  const { id, name, price, assets, categories } = product ?? {};
+  const { product_ids, value } =
     (data ?? [])[0] ?? {};
 
   const handleFindIdSaleProduct = useCallback(
     () => product_ids?.find((idItem) => idItem === id),
     [product_ids, id]
   );
+
+  // Handle button appear only one LazyLoading
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isButtonLazyLoading]);
 
   return (
     <div
@@ -47,7 +55,10 @@ export const ProductItem = memo(({ product, ...props }) => {
           />
         </div>
       </div>
-      <NavLink to={`/shop/burgers/${id}`} className="containerImage relative">
+      <NavLink state={{ productURL: product }}
+        to={`/shop/${categories.find((c) => c.name !== 'Hot')?.slug}/${id}`}
+        className="containerImage relative"
+      >
         <img src={assets[0].url} alt="product1" />
         <div className="overlay">
           <img src={assets[1].url} alt="product2" />
@@ -58,7 +69,9 @@ export const ProductItem = memo(({ product, ...props }) => {
           <div className="lg:text-lg text-sm font-bold w-full h-[56px] table text-center">
             <NavLink
               state={{ productURL: product }}
-              to={`/shop/${categories.find((c) => c.name !== "Hot" )?.slug}/${id}`}
+              to={`/shop/${
+                categories.find((c) => c.name !== 'Hot')?.slug
+              }/${id}`}
               className="text-black hover:text-[#f1252b] uppercase table-cell align-middle"
             >
               {name}
@@ -75,15 +88,43 @@ export const ProductItem = memo(({ product, ...props }) => {
             >
               {handleFindIdSaleProduct()
                 ? `$${Math.floor(price.raw + (price.raw * value) / 100)}.00`
-                : price.formatted_with_symbol}
+                : price?.formatted_with_symbol}
             </div>
             {handleFindIdSaleProduct() && (
-              <div>{price.formatted_with_symbol}</div>
+              <div>{price?.formatted_with_symbol}</div>
             )}
           </div>
         </div>
         <div className="my-3 lg:my-6">
-          <ButtonCustom8 textButton="ADD TO CART" />
+          {/* <ButtonCustom8
+            onClick={() => {
+              dispatch(
+                addProductToCart({
+                  id: id,
+                  quantity: 1,
+                })
+              );
+            }}
+            textButton="ADD TO CART"
+          /> */}
+          <button
+            onClick={() => {
+              flagRef.current = true;
+              dispatch(
+                addProductToCart({
+                  id: id,
+                  quantity: 1,
+                })
+              );
+            }}
+            className={`border-[#272727] border text-[#272727] text-[10px] lg:text-xs font-bold rounded-full px-2 lg:px-7 py-3 hover:border-[#f1252b] hover:bg-[#f1252b] hover:text-white ease-out duration-300`}
+          >
+            {isButtonLazyLoading & (flagRef.current === true) ? (
+              <LazyButtonLoading />
+            ) : (
+              'ADD TO CART'
+            )}
+          </button>
         </div>
       </div>
     </div>
