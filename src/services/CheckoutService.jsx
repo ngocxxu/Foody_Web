@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { placeOrderNotification } from '../components/Notifications/Notifications';
 import {
   DATA_CAPTURE_ORDER,
   GET_CHECKOUT_TOKEN,
@@ -100,15 +101,18 @@ export const createCaptureOrder = (cardId, params, navigate) => {
       delete params.card
       const data = await commerce.checkout.capture(cardId, params);
       if (data) {
+        placeOrderNotification('success');
         Promise.all([
           dispatch({
             type: DATA_CAPTURE_ORDER,
             payload: data,
           }),
+          // Navigate to Order Success Page
           navigate()
         ]);
       }
     } catch (error) {
+      placeOrderNotification('error');
       console.log({ error });
     }
   };

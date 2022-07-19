@@ -4,6 +4,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ButtonCustom11 } from '../../../components/Button/Button';
+import { regexName } from '../../../components/Regex';
 import {
   createCaptureOrder,
   getListCountries,
@@ -37,7 +38,6 @@ export const Checkout = memo(({ checkoutToken }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  console.log({ Form });
   const nameVal = Form.useWatch(['shipping', 'name'], form);
   const emailVal = Form.useWatch(['customer', 'email'], form);
   const countryVal = Form.useWatch(['shipping', 'country'], form);
@@ -98,6 +98,29 @@ export const Checkout = memo(({ checkoutToken }) => {
     [checkoutToken, dispatch, line_items, navigate]
   );
 
+  const handleCountryVal = useCallback(() => {
+    const findCountry = listCountries?.find((f) => f.key === countryVal);
+    return <span>{findCountry?.value}</span>;
+  }, [listCountries, countryVal]);
+
+  const handleCountrySubVal = useCallback(() => {
+    if (listCountries.length > 0) {
+      const findCountry = listSubCountry?.find((f) => f.key === countyStateVal);
+      return <span>{findCountry?.value}</span>;
+    }
+  }, [listSubCountry, listCountries, countyStateVal]);
+
+  const handleShippingMethod = useCallback(() => {
+    if (listCountries.length > 0 && listSubCountry.length > 0) {
+      const findShipMed = shippingMethods?.find(
+        (f) => f.id === shippingMethodVal
+      );
+      return (
+        <span>{`${findShipMed?.description} (${findShipMed?.price?.formatted_with_symbol})`}</span>
+      );
+    }
+  }, [shippingMethods, shippingMethodVal, listCountries, listSubCountry]);
+
   useEffect(() => {
     dispatch(getListCountries(checkoutToken?.id));
   }, [dispatch, checkoutToken]);
@@ -120,7 +143,10 @@ export const Checkout = memo(({ checkoutToken }) => {
               {
                 type: 'string',
                 required: true,
-                pattern: /^[a-z]+$/,
+              },
+              {
+                pattern: regexName,
+                message: `Your name is not valid!`,
               },
             ]}
           >
@@ -235,63 +261,65 @@ export const Checkout = memo(({ checkoutToken }) => {
               placeholder="Notes about your order, e.g. special notes for delivery"
             />
           </Form.Item> */}
-          <h1 className="text-2xl">Billing Review</h1>
-          <Row>
-            <Col span={12}>
-              <h1 className="text-xl">Your information</h1>
-              <p>
-                <b>Fullname: </b>
-                <span>{nameVal}</span>
-              </p>
-              <p>
-                <b>Email: </b>
-                <span>{emailVal}</span>
-              </p>
-              <p>
-                <b>Country / Region: </b>
-                <span>{countryVal}</span>
-              </p>
-              <p>
-                <b>Subdivisions of country: </b>
-                <span>{countyStateVal}</span>
-              </p>
-              <p>
-                <b>Town / City: </b>
-                <span>{townCityVal}</span>
-              </p>
-              <p>
-                <b>Street address: </b>
-                <span>{streetVal}</span>
-              </p>
-              <p>
-                <b>Shipping Methods: </b>
-                <span>{shippingMethodVal}</span>
-              </p>
-            </Col>
-            <Col span={12}>
-              <h1 className="text-xl">Payment</h1>
-              <p>
-                <b>Card Number: </b>
-                <span>{numberVal}</span>
-              </p>
-              <p>
-                <b>Expiry Year: </b>
-                <span>{expiryYearVal}</span>
-              </p>
-              <p>
-                <b>Expiry Month: </b>
-                <span>{expiryMonthVal}</span>
-              </p>
-              <p>
-                <b>CVC (CVV): </b>
-                <span>{cvcVal}</span>
-              </p>
-              <p>
-                <b>Post/Zip Code: </b>
-                <span>{postalZipCodeVal}</span>
-              </p>
-            </Col>
-          </Row>
+          <div className="border border-black shadow-md p-4 mb-6 lg:mb-0">
+            <h1 className="text-2xl lg:mb-2">Billing Review</h1>
+            <Row className="justify-start">
+              <Col lg={12}>
+                <h1 className="text-xl mt-2 lg:mt-0">Your information</h1>
+                <p>
+                  <b>Fullname: </b>
+                  <span>{nameVal}</span>
+                </p>
+                <p>
+                  <b>Email: </b>
+                  <span>{emailVal}</span>
+                </p>
+                <p>
+                  <b>Country / Region: </b>
+                  {handleCountryVal()}
+                </p>
+                <p>
+                  <b>Subdivisions of country: </b>
+                  {handleCountrySubVal()}
+                </p>
+                <p>
+                  <b>Town / City: </b>
+                  <span>{townCityVal}</span>
+                </p>
+                <p>
+                  <b>Street address: </b>
+                  <span>{streetVal}</span>
+                </p>
+                <p>
+                  <b>Shipping Methods: </b>
+                  {handleShippingMethod()}
+                </p>
+              </Col>
+              <Col lg={12}>
+                <h1 className="text-xl mt-2 lg:mt-0">Payment</h1>
+                <p>
+                  <b>Card Number: </b>
+                  <span>{numberVal}</span>
+                </p>
+                <p>
+                  <b>Expiry Year: </b>
+                  <span>{expiryYearVal}</span>
+                </p>
+                <p>
+                  <b>Expiry Month: </b>
+                  <span>{expiryMonthVal}</span>
+                </p>
+                <p>
+                  <b>CVC (CVV): </b>
+                  <span>{cvcVal}</span>
+                </p>
+                <p>
+                  <b>Post/Zip Code: </b>
+                  <span>{postalZipCodeVal}</span>
+                </p>
+              </Col>
+            </Row>
+          </div>
         </Col>
         <Col
           className="border border-black p-8 rounded-lg h-fit"
@@ -333,14 +361,28 @@ export const Checkout = memo(({ checkoutToken }) => {
           <Row className="p-4">
             <Col span={16}>Shipping</Col>
             <Col className="text-right" span={8}>
-              {subtotal?.formatted_with_symbol}
+              {shippingMethods?.length > 0
+                ? shippingMethods?.map(
+                    (shipMethod) => shipMethod?.price?.formatted_with_symbol
+                  )
+                : '$0.00'}
             </Col>
           </Row>
           <Divider className="border" />
           <Row className="p-4">
-            <Col span={16}>Total</Col>
-            <Col className="text-right" span={8}>
-              {subtotal?.formatted_with_symbol}
+            <Col className="font-bold text-xl" span={16}>Total</Col>
+            <Col className="text-right font-bold text-xl" span={8}>
+              {shippingMethods?.length > 0
+                ? '$' +
+                  Number(
+                    Number(subtotal?.formatted) +
+                      Number(
+                        shippingMethods?.map(
+                          (shipMethod) => shipMethod?.price?.formatted
+                        )
+                      )
+                  )
+                : subtotal?.formatted_with_symbol}
             </Col>
           </Row>
           <Divider className="border" />
