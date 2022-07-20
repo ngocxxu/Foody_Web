@@ -63,6 +63,7 @@ function App() {
             path='/register/register-success'
             element={<RegisterSuccess />}
           />
+          <Route path='/reset-password/success' element={<RegisterSuccess />} />
           <Route path='/reset-password' element={<ResetPassword />} />
         </Route>
         <Route path='/order-success' element={<OrderSuccessTemplate />} />

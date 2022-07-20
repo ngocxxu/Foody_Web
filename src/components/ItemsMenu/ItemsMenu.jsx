@@ -8,7 +8,11 @@ import searchIcon from '../../assets/svg/searchhh.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import { useAuth } from '../../firebase';
 import { SET_DRAWER_TABLE } from '../../redux/consts/const';
-import { deleteProductToCart, getCart } from '../../services/CartService';
+import {
+  deleteProductToCart,
+  empltyAllProductsToCart,
+  getCart,
+} from '../../services/CartService';
 import { handleSignOut } from '../../services/UserService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
 import './ItemsMenu.scss';
@@ -42,7 +46,12 @@ const ItemsMenu = () => {
           key: '3',
           label: (
             <div
-              onClick={() => dispatch(handleSignOut(() => navigate('/home')))}
+              onClick={() => {
+                Promise.all([
+                  dispatch(empltyAllProductsToCart()),
+                  dispatch(handleSignOut(() => navigate('/home'))),
+                ]);
+              }}
             >
               Sign Out
             </div>
@@ -55,7 +64,12 @@ const ItemsMenu = () => {
   return (
     <div className='container-item-menu flex space-x-3'>
       {currentUser ? (
-        <Dropdown className='my-auto font-medium' overlay={menu} placement='bottomRight' arrow>
+        <Dropdown
+          className='my-auto font-medium'
+          overlay={menu}
+          placement='bottomRight'
+          arrow
+        >
           <Button
             icon={
               <Avatar
@@ -262,4 +276,3 @@ const ItemCart = memo(({ cart }) => {
 });
 
 export { ItemCart, ItemsMenu };
-

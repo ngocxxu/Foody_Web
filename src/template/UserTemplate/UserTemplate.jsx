@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/others/logo.png';
+import { handleFacebookSignIn, handleGoogleSignIn } from '../../firebase';
 import './UserTemplate.scss';
 
 export const UserTemplate = () => {
@@ -15,34 +16,34 @@ export const UserTemplate = () => {
           <img width='120' height='46' src={logo} alt='logo' />
         </div>
         <Outlet />
-        {location.pathname !== '/register/register-success' ||
-          (location.pathname !== '/reset-password' && (
-            <>
-              <div>
-                <p className='user-template_info_text relative'>
-                  Or Login With
-                </p>
-              </div>
-              <div>
-                <Button
-                  className='mr-1'
-                  type='default'
-                  icon={<GoogleOutlined />}
-                  size='large'
-                >
-                  Google
-                </Button>
-                <Button
-                  className='ml-1'
-                  type='text '
-                  icon={<FacebookOutlined />}
-                  size='large'
-                >
-                  Facebook
-                </Button>
-              </div>
-            </>
-          ))}
+        {(location.pathname === '/login' ||
+          location.pathname === '/register') && (
+          <>
+            <div>
+              <p className='user-template_info_text relative'>Or Login With</p>
+            </div>
+            <div>
+              <Button
+                className='mr-1'
+                type='default'
+                icon={<GoogleOutlined />}
+                size='large'
+                onClick={handleGoogleSignIn}
+              >
+                Google
+              </Button>
+              <Button
+                className='ml-1'
+                type='text '
+                icon={<FacebookOutlined />}
+                size='large'
+                onClick={handleFacebookSignIn}
+              >
+                Facebook
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

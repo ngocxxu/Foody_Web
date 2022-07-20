@@ -1,5 +1,24 @@
 import { notification } from 'antd';
 
+export const resetPasswordNotification = (type, message) => {
+  switch (type) {
+    case 'success':
+      notification[type]({
+        message: 'Successful Reset',
+        duration: 2,
+      });
+      break;
+    case 'error':
+      notification[type]({
+        message: message,
+        duration: 2,
+      });
+      break;
+    default:
+      break;
+  }
+};
+
 export const signInNotification = (type, message) => {
   switch (type) {
     case 'success':

@@ -43,7 +43,6 @@ export const Register = () => {
         >
           <Input size='large' placeholder='Your email' />
         </Form.Item>
-
         <Form.Item
           name='password'
           rules={[
@@ -55,7 +54,6 @@ export const Register = () => {
         >
           <Input.Password size='large' placeholder='Password' />
         </Form.Item>
-
         <Form.Item>
           <Button
             className='bg-black'
