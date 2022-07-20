@@ -1,4 +1,4 @@
-import { Avatar, Badge, Popover, Progress } from 'antd';
+import { Avatar, Badge, Button, Dropdown, Menu, Popover, Progress } from 'antd';
 import { memo, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -6,12 +6,11 @@ import emptyCartIcon from '../../assets/svg/cart_remove.svg';
 import removeIcon from '../../assets/svg/remove_items.svg';
 import searchIcon from '../../assets/svg/searchhh.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
-import userIcon from '../../assets/svg/user-svgrepo-com.svg';
 import { useAuth } from '../../firebase';
 import { SET_DRAWER_TABLE } from '../../redux/consts/const';
 import { deleteProductToCart, getCart } from '../../services/CartService';
+import { handleSignOut } from '../../services/UserService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
-import { ItemModal } from '../Modal/ItemModal';
 import './ItemsMenu.scss';
 
 const ItemsMenu = () => {
@@ -24,9 +23,59 @@ const ItemsMenu = () => {
     dispatch(getCart());
   }, [dispatch]);
 
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: <div onClick={() => navigate('/home')}>My Account</div>,
+        },
+        {
+          key: '2',
+          label: (
+            <div onClick={() => navigate('/cart-checkout/1')}>
+              Purchase Order
+            </div>
+          ),
+        },
+        {
+          key: '3',
+          label: (
+            <div
+              onClick={() => dispatch(handleSignOut(() => navigate('/home')))}
+            >
+              Sign Out
+            </div>
+          ),
+        },
+      ]}
+    />
+  );
+
   return (
-    <div className="flex space-x-3">
-      <p>Hello {currentUser?.email}</p>
+    <div className='container-item-menu flex space-x-3'>
+      {currentUser ? (
+        <Dropdown className='my-auto font-medium' overlay={menu} placement='bottomRight' arrow>
+          <Button
+            icon={
+              <Avatar
+                className='mr-2'
+                size='small'
+                src='https://i.pravatar.cc/50'
+              />
+            }
+          >
+            {currentUser?.email.split('@')[0]}
+          </Button>
+        </Dropdown>
+      ) : (
+        <p
+          onClick={() => navigate('/login')}
+          className='font-bold my-auto whitespace-nowrap cursor-pointer'
+        >
+          Sign In | Sign Up
+        </p>
+      )}
       <ItemDrawer />
       <img
         onClick={() => {
@@ -35,17 +84,17 @@ const ItemsMenu = () => {
             boolDrawer: true,
           });
         }}
-        className="cursor-pointer hover:-translate-y-1 ease-out duration-200"
+        className='cursor-pointer hover:-translate-y-1 ease-out duration-200 ml-0'
         src={searchIcon}
-        alt="searchIcon"
+        alt='searchIcon'
       />
-      <ItemModal />
+      {/* <ItemModal />
       <img
         onClick={() => navigate('/login')}
-        className="cursor-pointer hover:-translate-y-1 ease-out duration-200"
+        className='cursor-pointer hover:-translate-y-1 ease-out duration-200'
         src={userIcon}
-        alt="userIcon"
-      />
+        alt='userIcon'
+      /> */}
       {/* <div className="background_badge_heart hover:-translate-y-1 ease-out duration-200">
         <WishlistModal />
         <Badge size="small" count={5}>
@@ -62,7 +111,7 @@ const ItemsMenu = () => {
           />
         </Badge>
       </div> */}
-      <div className="background_badge_cart drop-shadow-lg">
+      <div className='background_badge_cart drop-shadow-lg'>
         <ItemCart cart={cart} />
       </div>
     </div>
@@ -108,24 +157,24 @@ const ItemCart = memo(({ cart }) => {
                   isPendingCart && flagRef.current === true && 'opacity-40'
                 }`}
               >
-                <div className="flex items-center justify-center">
+                <div className='flex items-center justify-center'>
                   <img
-                    width="78px"
-                    height="78px"
+                    width='78px'
+                    height='78px'
                     src={item.image.url}
                     alt={item.image.filename}
                   />
-                  <div className="ml-4">
+                  <div className='ml-4'>
                     <h3
                       onClick={() => handleNavigateProduct(item.product_id)}
-                      className="mb-0 font-bold hover:text-blue-500 cursor-pointer"
+                      className='mb-0 font-bold hover:text-blue-500 cursor-pointer'
                     >
                       {item.product_name}
                     </h3>
-                    <p className="my-0 text-gray-500 font-semibold">
+                    <p className='my-0 text-gray-500 font-semibold'>
                       Qty: {item.quantity}
                     </p>
-                    <h2 className="text-lg text-red-500 font-bold">
+                    <h2 className='text-lg text-red-500 font-bold'>
                       {item?.price?.formatted_with_symbol}
                     </h2>
                   </div>
@@ -135,28 +184,28 @@ const ItemCart = memo(({ cart }) => {
                     flagRef.current = true;
                     dispatch(deleteProductToCart(item.id));
                   }}
-                  className="cursor-pointer"
+                  className='cursor-pointer'
                   src={removeIcon}
-                  alt="removeIcon"
+                  alt='removeIcon'
                 />
               </div>
             ))}
-            <div className="flex items-center justify-between border-y border-black py-3">
-              <div className="text-lg font-bold">Total:</div>
-              <div className="text-2xl font-bold">
+            <div className='flex items-center justify-between border-y border-black py-3'>
+              <div className='text-lg font-bold'>Total:</div>
+              <div className='text-2xl font-bold'>
                 {subtotal?.formatted_with_symbol}
               </div>
             </div>
-            <div className="my-6">
+            <div className='my-6'>
               {Math.floor(500 - subtotal?.formatted) <= 500 &&
               Math.floor(500 - subtotal?.formatted) >= 0 ? (
                 <p>
                   Buy
-                  <span className="px-1 text-md font-bold underline underline-offset-4">
+                  <span className='px-1 text-md font-bold underline underline-offset-4'>
                     {Math.floor(500 - subtotal?.formatted)}$
                   </span>
                   more to enjoy
-                  <span className="px-1 text-md font-bold underline underline-offset-4">
+                  <span className='px-1 text-md font-bold underline underline-offset-4'>
                     FREE Shipping
                   </span>
                 </p>
@@ -174,17 +223,17 @@ const ItemCart = memo(({ cart }) => {
                 />
               </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className='flex items-center justify-between'>
               <button
-                className="bg_slider_button bg_slider2_button ease-out duration-300 bg-black text-white hover:text-white"
-                type="button"
+                className='bg_slider_button bg_slider2_button ease-out duration-300 bg-black text-white hover:text-white'
+                type='button'
                 onClick={() => navigate('/cart-checkout/1')}
               >
                 VIEW CART
               </button>
               <button
-                className="bg_slider_button bg_slider3_button ease-out duration-300 bg-gray-500 text-white hover:text-white"
-                type="button"
+                className='bg_slider_button bg_slider3_button ease-out duration-300 bg-gray-500 text-white hover:text-white'
+                type='button'
                 onClick={() => navigate('/cart-checkout/2')}
               >
                 CHECK OUT
@@ -192,10 +241,10 @@ const ItemCart = memo(({ cart }) => {
             </div>
           </>
         ) : (
-          <div className="text-center">
-            <img className="mx-auto" src={emptyCartIcon} alt="empltyCartIcon" />
-            <p className="text-lg mt-4 lg:mx-4">No products in the cart</p>
-            <NavLink to="/shop">GO TO SHOP &rarr;</NavLink>
+          <div className='text-center'>
+            <img className='mx-auto' src={emptyCartIcon} alt='empltyCartIcon' />
+            <p className='text-lg mt-4 lg:mx-4'>No products in the cart</p>
+            <NavLink to='/shop'>GO TO SHOP &rarr;</NavLink>
           </div>
         )}
       </div>
@@ -203,9 +252,9 @@ const ItemCart = memo(({ cart }) => {
   );
   return (
     <>
-      <Popover content={contentCart} placement="bottomRight">
-        <Badge size="small" count={total_items}>
-          <Avatar shape="square" size="large" src={cartIcon} />
+      <Popover content={contentCart} placement='bottomRight'>
+        <Badge size='small' count={total_items}>
+          <Avatar shape='square' size='large' src={cartIcon} />
         </Badge>
       </Popover>
     </>
@@ -213,3 +262,4 @@ const ItemCart = memo(({ cart }) => {
 });
 
 export { ItemCart, ItemsMenu };
+

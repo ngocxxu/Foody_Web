@@ -15,31 +15,34 @@ export const UserTemplate = () => {
           <img width='120' height='46' src={logo} alt='logo' />
         </div>
         <Outlet />
-        {location.pathname !== '/register/register-success' && (
-          <>
-            <div>
-              <p className='user-template_info_text relative'>Or Login With</p>
-            </div>
-            <div>
-              <Button
-                className='mr-1'
-                type='default'
-                icon={<GoogleOutlined />}
-                size='large'
-              >
-                Google
-              </Button>
-              <Button
-                className='ml-1'
-                type='text '
-                icon={<FacebookOutlined />}
-                size='large'
-              >
-                Facebook
-              </Button>
-            </div>
-          </>
-        )}
+        {location.pathname !== '/register/register-success' ||
+          (location.pathname !== '/reset-password' && (
+            <>
+              <div>
+                <p className='user-template_info_text relative'>
+                  Or Login With
+                </p>
+              </div>
+              <div>
+                <Button
+                  className='mr-1'
+                  type='default'
+                  icon={<GoogleOutlined />}
+                  size='large'
+                >
+                  Google
+                </Button>
+                <Button
+                  className='ml-1'
+                  type='text '
+                  icon={<FacebookOutlined />}
+                  size='large'
+                >
+                  Facebook
+                </Button>
+              </div>
+            </>
+          ))}
       </div>
     </div>
   );

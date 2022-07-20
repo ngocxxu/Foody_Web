@@ -4,6 +4,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,6 +27,14 @@ const auth = getAuth();
 
 export function SignUp(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
+}
+
+export function SignIn(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+export function SignOut() {
+  return signOut(auth);
 }
 
 // Custom Hooks

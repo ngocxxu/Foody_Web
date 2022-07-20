@@ -18,6 +18,7 @@ import { Login } from './template/UserTemplate/LoginUser/Login';
 import { Register } from './template/UserTemplate/RegisterUser/Register';
 import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
 import { RegisterSuccess } from './template/UserTemplate/RegisterUser/SuccessRegister';
+import { ResetPassword } from './template/UserTemplate/LoginUser/ResetPassword';
 
 export const arrayCategory = [
   'burgers',
@@ -62,6 +63,7 @@ function App() {
             path='/register/register-success'
             element={<RegisterSuccess />}
           />
+          <Route path='/reset-password' element={<ResetPassword />} />
         </Route>
         <Route path='/order-success' element={<OrderSuccessTemplate />} />
         <Route path='*' element={<ErrorTemplate />} />
