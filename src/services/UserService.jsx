@@ -71,7 +71,7 @@ export const handleResetPassword = ({ email }, navigate) => {
       // dispatch({
       //   type: ON_LAZY_LOADING,
       // });
-      const data = await ResetPassword(email);
+      await ResetPassword(email);
       Promise.all([resetPasswordNotification('success'), navigate()]);
     } catch (error) {
       resetPasswordNotification('error', error.code);

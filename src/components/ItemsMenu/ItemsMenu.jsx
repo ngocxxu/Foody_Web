@@ -9,6 +9,7 @@ import heartIcon from '../../assets/svg/heart-svgrepo-com.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import { useAuth } from '../../firebase';
 import {
+  EMPTY_WISH_LIST,
   SET_DRAWER_TABLE,
   SET_WHISHLIST_MODAL,
 } from '../../redux/consts/const';
@@ -50,6 +51,7 @@ const ItemsMenu = () => {
             <div
               onClick={() => {
                 Promise.all([
+                  dispatch({ type: EMPTY_WISH_LIST }),
                   dispatch(empltyAllProductsToCart()),
                   dispatch(handleSignOut(() => navigate('/home'))),
                 ]);
@@ -123,7 +125,7 @@ const ItemsMenu = () => {
       /> */}
       <div className='background_badge_heart hover:-translate-y-1 ease-out duration-200'>
         <WishlistModal />
-        <Badge size='small' count={wishListCart.length}>
+        <Badge size='small' count={wishListCart?.length}>
           <Avatar
             shape='square'
             size='large'

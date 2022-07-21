@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { useAuth } from '../../firebase';
+import { ADD_WISH_LIST } from '../../redux/consts/const';
 import { addProductToCart } from '../../services/CartService';
 import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
@@ -18,6 +19,7 @@ export const ProductItem = memo(({ product }) => {
     dataProductSaleList: { data },
   } = useSelector((state) => state.productReducer);
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
+  const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
   const { id, name, price, assets, categories } = product ?? {};
   const { product_ids, value } = (data ?? [])[0] ?? {};
 
@@ -50,11 +52,24 @@ export const ProductItem = memo(({ product }) => {
             <div className='bg-[#fff] w-8 h-8 lg:w-10 lg:h-10'></div>
           )}
         </div>
-        <div className='cursor-pointer group'>
-          <HeartSVG
+        <div
+          className='cursor-pointer group'
+        >
+          {wishListCart?.find((item) => item.id === product.id) ? (
+            <HeartSVG className='ease-out duration-300' fill='#ffb219' />
+          ) : (
+            <HeartSVG
+              className='group-hover:fill-[#ffb219] ease-out duration-300'
+              fill='#e9e9e9'
+              onClick={() =>
+                dispatch({ type: ADD_WISH_LIST, payload: product })
+              }
+            />
+          )}
+          {/* <HeartSVG
             className='group-hover:fill-[#ffb219] ease-out duration-300'
             fill='#e9e9e9'
-          />
+          /> */}
         </div>
       </div>
       <NavLink
