@@ -53,7 +53,7 @@ export const handleSignIn = ({ email, password }, navigate) => {
       });
       const data = await SignIn(email, password);
       if (data) {
-        Promise.all([signInNotification('success'), navigate()]);
+        Promise.all([navigate()]);
       }
     } catch (error) {
       signInNotification('error', error.code);

@@ -108,7 +108,7 @@ export const Shop = () => {
                           categoryList.find((i) => i.nameCategory === item.name)
                             ?.url
                         }
-                        className="text-[#868686]"
+                        className="text-[#868686] mt-2"
                         key={item.id}
                       >
                         <div className="flex justify-between items-center">
@@ -123,7 +123,7 @@ export const Shop = () => {
               </div>
             </div>
             <div>
-              <h1 className="text-lg">PRICE</h1>
+              <h1 className="text-lg mt-2">PRICE</h1>
               <div>
                 <Slider
                   range
@@ -171,7 +171,7 @@ export const Shop = () => {
                       className="text-[#868686]"
                       key={item.id}
                     >
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-center mt-2">
                         <p>{item.name}</p>
                         <p className="text-center text-xs w-5 h-5 leading-5 bg-gray-200 rounded-full">
                           {item.products}
@@ -183,7 +183,7 @@ export const Shop = () => {
             </div>
           </div>
           <div>
-            <h1 className="text-lg">PRICE</h1>
+            <h1 className="text-lg mt-2">PRICE</h1>
             <div>
               <Slider
                 range

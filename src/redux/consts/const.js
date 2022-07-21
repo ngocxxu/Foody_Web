@@ -35,4 +35,7 @@ export const DATA_CAPTURE_ORDER = "DATA_CAPTURE_ORDER"
 export const SIGN_IN = "SIGN_IN"
 export const SIGN_UP = "SIGN_UP"
 export const AUTH_USER_GOOGLE = "AUTH_USER_GOOGLE"
+export const ADD_WISH_LIST = "ADD_WISH_LIST"
+export const DELETE_WISH_LIST = "DELETE_WISH_LIST"
+export const EMPTY_WISH_LIST = "EMPTY_WISH_LIST"
 

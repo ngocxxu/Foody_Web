@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { memo, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { useAuth } from '../../firebase';
 import { addProductToCart } from '../../services/CartService';

@@ -5,9 +5,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import emptyCartIcon from '../../assets/svg/cart_remove.svg';
 import removeIcon from '../../assets/svg/remove_items.svg';
 import searchIcon from '../../assets/svg/searchhh.svg';
+import heartIcon from '../../assets/svg/heart-svgrepo-com.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import { useAuth } from '../../firebase';
-import { SET_DRAWER_TABLE } from '../../redux/consts/const';
+import {
+  SET_DRAWER_TABLE,
+  SET_WHISHLIST_MODAL,
+} from '../../redux/consts/const';
 import {
   deleteProductToCart,
   empltyAllProductsToCart,
@@ -15,17 +19,15 @@ import {
 } from '../../services/CartService';
 import { handleSignOut } from '../../services/UserService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
+import { WishlistModal } from '../WishlistModal/WishlistModal';
 import './ItemsMenu.scss';
 
 const ItemsMenu = () => {
   const { cart } = useSelector((state) => state.cartReducer);
+  const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useAuth();
-
-  useEffect(() => {
-    dispatch(getCart());
-  }, [dispatch]);
 
   const menu = (
     <Menu
@@ -61,6 +63,10 @@ const ItemsMenu = () => {
     />
   );
 
+  useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch]);
+
   return (
     <div className='container-item-menu flex space-x-3'>
       {currentUser ? (
@@ -75,11 +81,17 @@ const ItemsMenu = () => {
               <Avatar
                 className='mr-2'
                 size='small'
-                src='https://i.pravatar.cc/50'
+                src={`${
+                  currentUser?.photoURL
+                    ? currentUser?.photoURL
+                    : 'https://i.pravatar.cc/50'
+                }`}
               />
             }
           >
-            {currentUser?.email.split('@')[0]}
+            {currentUser?.reloadUserInfo?.displayName
+              ? currentUser.reloadUserInfo.displayName
+              : currentUser?.email.split('@')[0]}
           </Button>
         </Dropdown>
       ) : (
@@ -109,12 +121,12 @@ const ItemsMenu = () => {
         src={userIcon}
         alt='userIcon'
       /> */}
-      {/* <div className="background_badge_heart hover:-translate-y-1 ease-out duration-200">
+      <div className='background_badge_heart hover:-translate-y-1 ease-out duration-200'>
         <WishlistModal />
-        <Badge size="small" count={5}>
+        <Badge size='small' count={wishListCart.length}>
           <Avatar
-            shape="square"
-            size="large"
+            shape='square'
+            size='large'
             src={heartIcon}
             onClick={() => {
               dispatch({
@@ -124,7 +136,7 @@ const ItemsMenu = () => {
             }}
           />
         </Badge>
-      </div> */}
+      </div>
       <div className='background_badge_cart drop-shadow-lg'>
         <ItemCart cart={cart} />
       </div>
