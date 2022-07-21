@@ -34,4 +34,5 @@ export const GET_SHIPPING_METHOD = "GET_SHIPPING_METHOD"
 export const DATA_CAPTURE_ORDER = "DATA_CAPTURE_ORDER"
 export const SIGN_IN = "SIGN_IN"
 export const SIGN_UP = "SIGN_UP"
+export const AUTH_USER_GOOGLE = "AUTH_USER_GOOGLE"
 

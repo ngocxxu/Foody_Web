@@ -1,15 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Form, Input, InputNumber, Rate, Tabs } from 'antd';
-import { memo, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { memo, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { ReactComponent as HeartSVG } from '../../../assets/svg/heart-2.svg';
 import { BreadcrumbURL } from '../../../components/Breadcrumb/BreadcrumbURL';
+import { LazyButtonLoading } from '../../../components/LazyLoading/LazyLoading';
+import { useAuth } from '../../../firebase';
 import {
-  ButtonCustom10,
-  ButtonCustom9
-} from '../../../components/Button/Button';
+  addProductToCart
+} from '../../../services/CartService';
 import { SaleProduct } from '../../../template/HomeTemplate/SaleProduct/SaleProduct';
 import './FoodProduct.scss';
 
@@ -93,34 +95,34 @@ const FoodReview = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className="mt-6 lg:mb-12 text-base">
+    <div className='mt-6 lg:mb-12 text-base'>
       <div>
-        <h1 className="text-2xl">
-          1 review for <span className="text-[#f1252b]">Alsatian</span>
+        <h1 className='text-2xl'>
+          1 review for <span className='text-[#f1252b]'>Alsatian</span>
         </h1>
-        <div className="border p-5 rounded-xl">
-          <div className="lg:flex justify-between items-center">
-            <div className="flex justify-center items-center">
-              <div className="w-12 h-12 bg-red-400 rounded-full"></div>
-              <div className="ml-4 my-auto">
-                <div className="text-black font-semibold">WPBINGO</div>
+        <div className='border p-5 rounded-xl'>
+          <div className='lg:flex justify-between items-center'>
+            <div className='flex justify-center items-center'>
+              <div className='w-12 h-12 bg-red-400 rounded-full'></div>
+              <div className='ml-4 my-auto'>
+                <div className='text-black font-semibold'>WPBINGO</div>
                 <div>February 22, 2021</div>
               </div>
             </div>
-            <div className="mb-auto ml-20 lg:ml-0">
+            <div className='mb-auto ml-20 lg:ml-0'>
               <Rate defaultValue={2} />
             </div>
           </div>
-          <div className="mt-4">
+          <div className='mt-4'>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat.
           </div>
         </div>
-        <div className="lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4">
+        <div className='lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4'>
           <EditOutlined style={{ fontSize: '25px' }} />
-          <span className="pl-4">ADD A REVIEW</span>
+          <span className='pl-4'>ADD A REVIEW</span>
         </div>
       </div>
       {/* <div>
@@ -131,24 +133,24 @@ const FoodReview = () => {
           <span className="pl-4">BE THE FIRST TO REVIEW “CHEESECAKE”</span>
         </div>
       </div> */}
-      <p className="lg:mt-12 mt-6">
+      <p className='lg:mt-12 mt-6'>
         Your email address will not be published. Required fields are marked
-        <span className="text-[#f1252b]">*</span>
+        <span className='text-[#f1252b]'>*</span>
       </p>
       <Form form={form} onFinish={onFinish}>
-        <Form.Item name="rate" label="Your Rating">
+        <Form.Item name='rate' label='Your Rating'>
           <Rate defaultValue={2} />
         </Form.Item>
-        <div className="lg:grid grid-cols-2 gap-5">
+        <div className='lg:grid grid-cols-2 gap-5'>
           <div>
             <Form.Item
-              name="username"
+              name='username'
               rules={[{ required: true, message: 'Please input your Name!' }]}
             >
-              <Input size="large" placeholder="Name*" />
+              <Input size='large' placeholder='Name*' />
             </Form.Item>
             <Form.Item
-              name="email"
+              name='email'
               rules={[
                 {
                   type: 'email',
@@ -160,15 +162,15 @@ const FoodReview = () => {
                 },
               ]}
             >
-              <Input size="large" placeholder="Email*" />
+              <Input size='large' placeholder='Email*' />
             </Form.Item>
             <Form.Item>
               <Button
-                className="mt-2"
-                size="large"
+                className='mt-2'
+                size='large'
                 block
-                htmlType="submit"
-                type="primary"
+                htmlType='submit'
+                type='primary'
               >
                 SUBMIT
               </Button>
@@ -176,12 +178,12 @@ const FoodReview = () => {
           </div>
           <div>
             <Form.Item
-              name="intro"
+              name='intro'
               rules={[{ required: true, message: 'Please input your Reviews' }]}
             >
               <Input.TextArea
-                size="large"
-                placeholder="Your Reviews*"
+                size='large'
+                placeholder='Your Reviews*'
                 showCount
                 maxLength={100}
                 rows={7}
@@ -194,7 +196,7 @@ const FoodReview = () => {
   );
 };
 
-const RelatedProducts = memo(({relatedProducts}) => {
+const RelatedProducts = memo(({ relatedProducts }) => {
   return (
     <>
       <h1
@@ -204,80 +206,144 @@ const RelatedProducts = memo(({relatedProducts}) => {
       >
         Related Products
       </h1>
-      <div className="flex items-center justify-center">
-        <SaleProduct relatedProducts = {relatedProducts} />
+      <div className='flex items-center justify-center'>
+        <SaleProduct relatedProducts={relatedProducts} />
       </div>
     </>
   );
 });
 
 export const FoodProduct = () => {
+  const currentUser = useAuth();
+  const flagRef = useRef(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [quatityFood, setQuantityFood] = useState(1);
+  const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { productURL } = location.state ?? {};
-  const { name, price, assets, categories, description, sku, related_products } = productURL ?? {};
+  const {
+    id,
+    name,
+    price,
+    assets,
+    categories,
+    description,
+    sku,
+    related_products,
+  } = productURL ?? {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
+  // Handle button appear only one LazyLoading
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isButtonLazyLoading]);
+
   return (
-    <div className="container-food w-3/4 pt-28 mx-auto">
-      <div className="border-t py-4">
+    <div className='container-food w-3/4 pt-28 mx-auto'>
+      <div className='border-t py-4'>
         <BreadcrumbURL />
       </div>
-      <div className="lg:grid grid-cols-2 gap-14">
+      <div className='lg:grid grid-cols-2 gap-14'>
         <div>
           <CarouselFood assets={assets} />
         </div>
-        <div className="mt-16 lg:mt-0">
-          <h1 className="text-3xl font-medium">{name}</h1>
-          <h2 className="text-2xl text-[#f1252b] font-medium">
+        <div className='mt-16 lg:mt-0'>
+          <h1 className='text-3xl font-medium'>{name}</h1>
+          <h2 className='text-2xl text-[#f1252b] font-medium'>
             {price?.formatted_with_symbol}
           </h2>
           <Rate disabled defaultValue={2} />
           <hr />
           <div
-            className="py-7 text-[#8d8d8d] text-base"
+            className='py-7 text-[#8d8d8d] text-base'
             dangerouslySetInnerHTML={{ __html: description }}
           ></div>
-          <div className="grid grid-cols-2 gap-2 my-2">
-            <div className="my-auto">
+          <div className='grid grid-cols-2 gap-2 my-2'>
+            <div className='my-auto'>
               <InputNumber
-                size="large"
+                size='large'
                 min={1}
                 max={50}
-                defaultValue={3}
-                onChange={onChange}
-                style={{ width: 150 }}
-                title="Quantity"
+                defaultValue={quatityFood}
+                onChange={(value) => setQuantityFood(value)}
+                style={{ width: 65 }}
+                title='Quantity'
               />
             </div>
-            <ButtonCustom9
-              className="lg:py-4 lg:text-base"
-              textButton="ADD TO CART"
-            />
+            <button
+              onClick={() => {
+                if (currentUser) {
+                  flagRef.current = true;
+                  dispatch(
+                    addProductToCart({
+                      id: id,
+                      quantity: quatityFood,
+                    })
+                  );
+                } else {
+                  navigate('/login');
+                }
+              }}
+              className={`bg-[#a0a0a0] border-[#a0a0a0] border text-white text-xs font-bold rounded-full px-7 py-3 hover:border-[#f1252b] hover:bg-[#f1252b] hover:text-white ease-out duration-300 lg:py-4 lg:text-base`}
+            >
+              {isButtonLazyLoading & (flagRef.current === true) ? (
+                <LazyButtonLoading />
+              ) : (
+                'ADD TO CART'
+              )}
+            </button>
           </div>
-          <ButtonCustom10
-            className="py-4 lg:text-base "
-            textButton="BUY IT NOW"
-          />
-          <div className="cursor-pointer group flex py-7">
-            <div className="group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300">
-              <HeartSVG className="group-hover:fill-[#fff]" fill="#8d8d8d" />
+          {/* <ButtonCustom10
+            className='py-4 lg:text-base '
+            textButton='BUY IT NOW'
+          /> */}
+          <button
+            onClick={() => {
+              if (currentUser) {
+                flagRef.current = true;
+                dispatch(
+                  addProductToCart(
+                    {
+                      id: id,
+                      quantity: quatityFood,
+                    },
+                    true,
+                    () => navigate('/cart-checkout/2')
+                  )
+                );
+              } else {
+                navigate('/login');
+              }
+            }}
+            className={`w-full border-black border text-xs font-bold rounded-full px-7 hover:border-[#f1252b] hover:bg-[#f1252b] hover:text-white ease-out duration-300 py-4 lg:text-base`}
+          >
+            {isButtonLazyLoading & (flagRef.current === true) ? (
+              <LazyButtonLoading />
+            ) : (
+              'BUY IT NOW'
+            )}
+          </button>
+          <div className='cursor-pointer group flex py-7'>
+            <div className='group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300'>
+              <HeartSVG className='group-hover:fill-[#fff]' fill='#8d8d8d' />
             </div>
-            <p className="group-hover:text-[#f1252b] ml-2 my-auto text-base">
+            <p className='group-hover:text-[#f1252b] ml-2 my-auto text-base'>
               Add to wishlist
             </p>
           </div>
           <hr />
-          <div className="py-4">
-            <p className="text-xs text-[#8d8d8d]">
-              SKU: <span className="text-black">{sku}</span>
+          <div className='py-4'>
+            <p className='text-xs text-[#8d8d8d]'>
+              SKU: <span className='text-black'>{sku}</span>
             </p>
-            <p className="text-xs text-[#8d8d8d]">
+            <p className='text-xs text-[#8d8d8d]'>
               CATEGORY:
               {categories?.map((item, index) => (
-                <span key={index} className="text-black uppercase">
+                <span key={index} className='text-black uppercase'>
                   {item.name},
                 </span>
               ))}
@@ -285,13 +351,13 @@ export const FoodProduct = () => {
           </div>
         </div>
       </div>
-      <hr className="border-t mt-6" />
-      <div className="mt-6">
-        <Tabs defaultActiveKey="1" centered large onChange={onChangeTab}>
+      <hr className='border-t mt-6' />
+      <div className='mt-6'>
+        <Tabs defaultActiveKey='1' centered large onChange={onChangeTab}>
           <TabPane
-            className="text-[#8d8d8d] text-base leading-7 mt-6 lg:mb-12"
-            tab="Description"
-            key="1"
+            className='text-[#8d8d8d] text-base leading-7 mt-6 lg:mb-12'
+            tab='Description'
+            key='1'
           >
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -310,13 +376,13 @@ export const FoodProduct = () => {
             quia non numquam eius modi tempora incidunt ut labore et dolore
             magnam aliquam quaerat voluptatem.
           </TabPane>
-          <TabPane className="text-[#8d8d8d]" tab="Reviews (0)" key="2">
+          <TabPane className='text-[#8d8d8d]' tab='Reviews (0)' key='2'>
             <FoodReview />
           </TabPane>
         </Tabs>
       </div>
-      <hr className="border-t mt-6" />
-      <RelatedProducts relatedProducts = {related_products} />
+      <hr className='border-t mt-6' />
+      <RelatedProducts relatedProducts={related_products} />
     </div>
   );
 };

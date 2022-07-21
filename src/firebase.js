@@ -2,9 +2,9 @@
 import { initializeApp } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
-  FacebookAuthProvider,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -13,6 +13,8 @@ import {
   updatePassword,
 } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { signInNotification } from './components/Notifications/Notifications';
+import { AUTH_USER_GOOGLE } from './redux/consts/const';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -32,16 +34,22 @@ const auth = getAuth();
 
 // Handle Login by Google
 const authGoogle = getAuth(app);
+const provider = new GoogleAuthProvider();
 export const handleGoogleSignIn = () => {
-  const provider = new GoogleAuthProvider();
   signInWithPopup(authGoogle, provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // ...
+      if (result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+
+        // The signed-in user info.
+        const user = result.user;
+        Promise.all([
+          // dispatch({ type: AUTH_USER_GOOGLE, payload: user }),
+          signInNotification('success'),
+        ]);
+      }
     })
     .catch((error) => {
       // Handle Errors here.
@@ -55,20 +63,54 @@ export const handleGoogleSignIn = () => {
     });
 };
 
+// export const handleGoogleSignIn = (navigate) => {
+//   const provider = new GoogleAuthProvider();
+//   return async (dispatch) => {
+//     try {
+//       const result = await signInWithPopup(authGoogle, provider);
+//       if (result) {
+//         // This gives you a Google Access Token. You can use it to access the Google API.
+//         // const credential = GoogleAuthProvider.credentialFromResult(result);
+//         // const token = credential.accessToken;
+
+//         // The signed-in user info.
+//         const user = result.user;
+//         console.log(user);
+//         Promise.all([
+//           dispatch({ type: AUTH_USER_GOOGLE, payload: user }),
+//           signInNotification('success'),
+//           navigate(),
+//         ]);
+//       }
+//     } catch (error) {
+//       // Handle Errors here.
+//       const errorCode = error.code;
+//       const errorMessage = error.message;
+//       // The email of the user's account used.
+//       const email = error.customData.email;
+//       // The AuthCredential type that was used.
+//       const credential = GoogleAuthProvider.credentialFromError(error);
+
+//       signInNotification('error', errorMessage);
+//       console.log({ error });
+//     }
+//   };
+// };
+
 // Handle Login by Facebook
 const authFacebook = getAuth(app);
 export const handleFacebookSignIn = () => {
   const provider = new FacebookAuthProvider();
-  signInWithPopup(auth, provider)
+  signInWithPopup(authFacebook, provider)
     .then((result) => {
-      // The signed-in user info.
-      const user = result.user;
+      if (result) {
+        // The signed-in user info.
+        const user = result.user;
 
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      const accessToken = credential.accessToken;
-
-      // ...
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+      }
     })
     .catch((error) => {
       // Handle Errors here.
@@ -92,7 +134,9 @@ export function SignIn(email, password) {
 }
 
 export function SignOut() {
-  return signOut(auth);
+  signOut(authGoogle);
+  signOut(authFacebook);
+  signOut(auth);
 }
 
 export function ResetPassword(email) {
@@ -127,6 +171,19 @@ export function useAuth() {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+    return unsub;
+  }, []);
+
+  return currentUser;
+}
+
+export function useAuthGoogle() {
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(authGoogle, (user) =>
+      setCurrentUser(user)
+    );
     return unsub;
   }, []);
 

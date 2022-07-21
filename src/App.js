@@ -19,6 +19,8 @@ import { Register } from './template/UserTemplate/RegisterUser/Register';
 import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
 import { RegisterSuccess } from './template/UserTemplate/RegisterUser/SuccessRegister';
 import { ResetPassword } from './template/UserTemplate/LoginUser/ResetPassword';
+import { ProtectedRoutes } from './pages/Auth';
+import { ProtectedLoginRoutes } from './pages/Auth/ProtectedLoginRoutes';
 
 export const arrayCategory = [
   'burgers',
@@ -38,7 +40,6 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
           <Route path='/shop' element={<Shop />} />
-          {/* <Route path={`/shop/:foodId`} element={<FoodProduct />} /> */}
           {arrayCategory.map((item, index) => (
             <Route key={index} path={`/shop/${item}`} element={<Shop />} />
           ))}
@@ -49,24 +50,36 @@ function App() {
               element={<FoodProduct />}
             />
           ))}
-          <Route path='/shop/burgers/:foodId' element={<Product />} />
           <Route path='/blog' element={<BlogDetail />} />
           <Route path='/contact' element={<Contact />} />
-          <Route path='/shopping-cart' element={<ShoppingCart />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/cart-checkout/:id' element={<CartAndCheckout />} />
+          {/* <Route path={`/shop/:foodId`} element={<FoodProduct />} /> */}
+          {/* <Route path='/shop/burgers/:foodId' element={<Product />} /> */}
+          {/* <Route path='/shopping-cart' element={<ShoppingCart />} /> */}
+          {/* <Route path='/checkout' element={<Checkout />} /> */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path='/cart-checkout/:id' element={<CartAndCheckout />} />
+          </Route>
         </Route>
         <Route element={<UserTemplate />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route
-            path='/register/register-success'
-            element={<RegisterSuccess />}
-          />
-          <Route path='/reset-password/success' element={<RegisterSuccess />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
+          <Route element={<ProtectedLoginRoutes />}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/reset-password' element={<ResetPassword />} />
+          </Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route
+              path='/register/register-success'
+              element={<RegisterSuccess />}
+            />
+            <Route
+              path='/reset-password/success'
+              element={<RegisterSuccess />}
+            />
+          </Route>
         </Route>
-        <Route path='/order-success' element={<OrderSuccessTemplate />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path='/order-success' element={<OrderSuccessTemplate />} />
+        </Route>
         <Route path='*' element={<ErrorTemplate />} />
         {/* The default page web will navigate to /home */}
         {/* <Route path="/" element={<Navigate replace to="/home" />} /> */}

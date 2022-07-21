@@ -1,4 +1,8 @@
-import { openNotificationWithIcon, updateCartNotification } from '../components/Notifications/Notifications';
+import { Navigate } from 'react-router-dom';
+import {
+  openNotificationWithIcon,
+  updateCartNotification,
+} from '../components/Notifications/Notifications';
 import {
   CREATE_CART,
   GET_CART,
@@ -7,7 +11,7 @@ import {
   OFF_SHOPPING_CART_LAZY_LOADING,
   ON_BUTTON_LAZY_LOADING,
   ON_CART_LAZY_LOADING,
-  ON_SHOPPING_CART_LAZY_LOADING
+  ON_SHOPPING_CART_LAZY_LOADING,
 } from '../redux/consts/const';
 import commerce from './settings';
 
@@ -49,13 +53,13 @@ export const getCart = () => {
   };
 };
 
-export const addProductToCart = (params) => {
+export const addProductToCart = (params, isBuyNow = false, navigate = null) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: ON_BUTTON_LAZY_LOADING,
       });
-      const data =  await commerce.cart.add(params.id, params.quantity);
+      const data = await commerce.cart.add(params.id, params.quantity);
       if (data) {
         Promise.all([
           dispatch(getCart()),
@@ -64,13 +68,16 @@ export const addProductToCart = (params) => {
           }),
         ]);
         openNotificationWithIcon('success');
+        if (isBuyNow) {
+          navigate();
+        }
       }
     } catch (error) {
       openNotificationWithIcon('error');
       console.log({ error });
       dispatch({
         type: OFF_BUTTON_LAZY_LOADING,
-      })
+      });
     }
   };
 };
@@ -94,7 +101,7 @@ export const deleteProductToCart = (line_item_id) => {
       console.log({ error });
       dispatch({
         type: OFF_CART_LAZY_LOADING,
-      })
+      });
     }
   };
 };
@@ -118,7 +125,7 @@ export const empltyAllProductsToCart = () => {
       console.log({ error });
       dispatch({
         type: OFF_CART_LAZY_LOADING,
-      })
+      });
     }
   };
 };
@@ -144,7 +151,7 @@ export const updateProductToCart = (quantity, line_item_id) => {
       console.log({ error });
       dispatch({
         type: OFF_SHOPPING_CART_LAZY_LOADING,
-      })
+      });
     }
   };
 };

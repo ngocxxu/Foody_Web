@@ -27,7 +27,6 @@ export const ShoppingCart = () => {
 
   const handleChangeQuantity = useCallback(
     (quantity, idItem) => {
-      
       if (quantity > 0) {
         flagRef.current = true;
         dispatch(updateProductToCart(quantity, idItem));

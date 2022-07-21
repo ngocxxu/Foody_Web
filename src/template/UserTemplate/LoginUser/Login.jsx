@@ -12,7 +12,7 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    dispatch(handleSignIn(values, () => navigate('/home')));
+    dispatch(handleSignIn(values, () => navigate(-1)));
   };
 
   const onFinishFailed = (errorInfo) => {
