@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { useAuth } from '../../firebase';
-import { ADD_WISH_LIST } from '../../redux/consts/const';
 import { addProductToCart } from '../../services/CartService';
+import { handleAddWishList } from '../../services/WishListService';
 import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
 export const ProductItem = memo(({ product }) => {
   // console.log({product});
+
   const currentUser = useAuth();
   const flagRef = useRef(false);
   const navigate = useNavigate();
@@ -52,18 +53,16 @@ export const ProductItem = memo(({ product }) => {
             <div className='bg-[#fff] w-8 h-8 lg:w-10 lg:h-10'></div>
           )}
         </div>
-        <div
-          className='cursor-pointer group'
-        >
-          {wishListCart?.find((item) => item.id === product.id) ? (
+        <div className='cursor-pointer group'>
+          {wishListCart?.find((item) => item.product_item.id === product.id) ? (
             <HeartSVG className='ease-out duration-300' fill='#ffb219' />
           ) : (
             <HeartSVG
               className='group-hover:fill-[#ffb219] ease-out duration-300'
               fill='#e9e9e9'
-              onClick={() =>
-                dispatch({ type: ADD_WISH_LIST, payload: product })
-              }
+              onClick={() => {
+                dispatch(handleAddWishList(product));
+              }}
             />
           )}
           {/* <HeartSVG
@@ -114,17 +113,6 @@ export const ProductItem = memo(({ product }) => {
           </div>
         </div>
         <div className='my-3 lg:my-6'>
-          {/* <ButtonCustom8
-            onClick={() => {
-              dispatch(
-                addProductToCart({
-                  id: id,
-                  quantity: 1,
-                })
-              );
-            }}
-            textButton="ADD TO CART"
-          /> */}
           <button
             onClick={() => {
               if (currentUser) {

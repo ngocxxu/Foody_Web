@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
+import { getFirestore } from 'firebase/firestore';
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -18,17 +20,19 @@ import { useEffect, useState } from 'react';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDwZ-GU21dY7wQIttGmgVcAwpZoGok7vQk',
-  authDomain: 'papzi-food.firebaseapp.com',
-  projectId: 'papzi-food',
-  storageBucket: 'papzi-food.appspot.com',
-  messagingSenderId: '655607096389',
-  appId: '1:655607096389:web:5ad8fba5daa1d1f400ef2c',
+  apiKey: "AIzaSyA6R9D7-FKezham0ONOwe3ErddMZP-99Uo",
+  authDomain: "papzi-foody.firebaseapp.com",
+  projectId: "papzi-foody",
+  storageBucket: "papzi-foody.appspot.com",
+  messagingSenderId: "796856700065",
+  appId: "1:796856700065:web:b2655f1b96b05efb3874e0"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+export const db = getDatabase(app);
+export const dbFs = getFirestore(app);
 
 // Handle Login by Google
 const authGoogle = getAuth(app);

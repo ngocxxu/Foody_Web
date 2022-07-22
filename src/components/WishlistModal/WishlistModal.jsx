@@ -1,13 +1,14 @@
 import { Button, Modal } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import heartIcon from '../../assets/svg/heart-2.svg';
 import xIcon from '../../assets/svg/x-symbol.svg';
+import { SET_WHISHLIST_MODAL } from '../../redux/consts/const';
 import {
-  DELETE_WISH_LIST,
-  SET_WHISHLIST_MODAL
-} from '../../redux/consts/const';
+  handleDeleteWish,
+  handleGetWishList,
+} from '../../services/WishListService';
 import './WishlistModal.scss';
 
 export const WishlistModal = () => {
@@ -21,6 +22,10 @@ export const WishlistModal = () => {
       modalWishlist: false,
     });
   };
+  
+  useEffect(() => {
+    dispatch(handleGetWishList());
+  }, [dispatch]);
 
   return (
     <>
@@ -38,24 +43,15 @@ export const WishlistModal = () => {
           </p>
         </div>
         <div className='border-b'>
-          {wishListCart?.length === 0 ? (
-            <p className='text-center mb-4'>
-              There are no products on the wishlist!
-            </p>
-          ) : (
+          {wishListCart?.length > 0 ? (
             wishListCart?.map((product) => (
               <div
-                key={product.id}
+                key={product.product_item.id}
                 className='flex my-3 justify-between items-center'
               >
                 <div className='flex'>
                   <img
-                    onClick={() =>
-                      dispatch({
-                        type: DELETE_WISH_LIST,
-                        productId: product.id,
-                      })
-                    }
+                    onClick={() => dispatch(handleDeleteWish(product.uuid))}
                     className='cursor-pointer'
                     src={xIcon}
                     alt='xIcon'
@@ -67,23 +63,25 @@ export const WishlistModal = () => {
                     <img
                       width='100%'
                       className='img_wishlist'
-                      src={product.image.url}
-                      alt={product.image.filename}
+                      src={product.product_item.image.url}
+                      alt={product.product_item.image.filename}
                     />
                   </div>
                   <div className='flex flex-col justify-center'>
                     <NavLink
                       onClick={handleCancel}
-                      state={{ productURL: product }}
+                      state={{ productURL: product.product_item }}
                       to={`/shop/${
-                        product.categories?.find((c) => c.name !== 'Hot')?.slug
-                      }/${product.id}`}
+                        product.product_item.categories?.find(
+                          (c) => c.name !== 'Hot'
+                        )?.slug
+                      }/${product.product_item.id}`}
                       className='font-bold mb-0 cursor-pointer hover:text-blue-500'
                     >
-                      {product.name}
+                      {product.product_item.name}
                     </NavLink>
                     <h2 className='text-lg text-red-500 font-semibold mb-0'>
-                      {product.price?.formatted_with_symbol}
+                      {product.product_item.price?.formatted_with_symbol}
                     </h2>
                     {/* <div className='text-gray-400 text-xs'>
                         April 24, 2022
@@ -98,6 +96,10 @@ export const WishlistModal = () => {
                 </div>
               </div>
             ))
+          ) : (
+            <p className='text-center mb-4'>
+              There are no products on the wishlist!
+            </p>
           )}
           {/* <div className='flex my-3 justify-between items-center'>
             <div className='flex'>

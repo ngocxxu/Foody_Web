@@ -6,7 +6,6 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import emptyCartIcon from '../../../assets/svg/cart_remove.svg';
 import { ButtonCustom11 } from '../../../components/Button/Button';
 import { getAllProducts } from '../../../services/ProductsService';
-
 import {
   deleteProductToCart,
   empltyAllProductsToCart, updateProductToCart

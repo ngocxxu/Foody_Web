@@ -38,4 +38,6 @@ export const AUTH_USER_GOOGLE = "AUTH_USER_GOOGLE"
 export const ADD_WISH_LIST = "ADD_WISH_LIST"
 export const DELETE_WISH_LIST = "DELETE_WISH_LIST"
 export const EMPTY_WISH_LIST = "EMPTY_WISH_LIST"
+export const GET_WISH_LIST = "GET_WISH_LIST"
+export const GET_WISH_LIST_FS = "GET_WISH_LIST_FS"
 
