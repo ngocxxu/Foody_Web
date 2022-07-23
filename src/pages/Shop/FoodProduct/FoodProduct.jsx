@@ -9,9 +9,8 @@ import { ReactComponent as HeartSVG } from '../../../assets/svg/heart-2.svg';
 import { BreadcrumbURL } from '../../../components/Breadcrumb/BreadcrumbURL';
 import { LazyButtonLoading } from '../../../components/LazyLoading/LazyLoading';
 import { useAuth } from '../../../firebase';
-import {
-  addProductToCart
-} from '../../../services/CartService';
+import { ADD_WISH_LIST } from '../../../redux/consts/const';
+import { addProductToCart } from '../../../services/CartService';
 import { SaleProduct } from '../../../template/HomeTemplate/SaleProduct/SaleProduct';
 import './FoodProduct.scss';
 
@@ -166,7 +165,7 @@ const FoodReview = () => {
             </Form.Item>
             <Form.Item>
               <Button
-                className='mt-2'
+                className='mt-2 text-black'
                 size='large'
                 block
                 htmlType='submit'
@@ -216,11 +215,13 @@ const RelatedProducts = memo(({ relatedProducts }) => {
 export const FoodProduct = () => {
   const currentUser = useAuth();
   const flagRef = useRef(false);
+  const flagRefBuyNow = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [quatityFood, setQuantityFood] = useState(1);
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
+  const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
   const { productURL } = location.state ?? {};
   const {
     id,
@@ -240,6 +241,7 @@ export const FoodProduct = () => {
   // Handle button appear only one LazyLoading
   useEffect(() => {
     flagRef.current = false;
+    flagRefBuyNow.current = false;
   }, [isButtonLazyLoading]);
 
   return (
@@ -277,7 +279,7 @@ export const FoodProduct = () => {
             <button
               onClick={() => {
                 if (currentUser) {
-                  flagRef.current = true;
+                  flagRefBuyNow.current = true;
                   dispatch(
                     addProductToCart({
                       id: id,
@@ -290,7 +292,7 @@ export const FoodProduct = () => {
               }}
               className={`bg-[#a0a0a0] border-[#a0a0a0] border text-white text-xs font-bold rounded-full px-7 py-3 hover:border-[#f1252b] hover:bg-[#f1252b] hover:text-white ease-out duration-300 lg:py-4 lg:text-base`}
             >
-              {isButtonLazyLoading & (flagRef.current === true) ? (
+              {isButtonLazyLoading & (flagRefBuyNow.current === true) ? (
                 <LazyButtonLoading />
               ) : (
                 'ADD TO CART'
@@ -327,13 +329,41 @@ export const FoodProduct = () => {
               'BUY IT NOW'
             )}
           </button>
-          <div className='cursor-pointer group flex py-7'>
-            <div className='group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300'>
-              <HeartSVG className='group-hover:fill-[#fff]' fill='#8d8d8d' />
-            </div>
-            <p className='group-hover:text-[#f1252b] ml-2 my-auto text-base'>
-              Add to wishlist
-            </p>
+          <div>
+            {wishListCart?.find((item) => item.id === id) ? (
+              <div className='cursor-pointer group flex py-7'>
+                <div className='group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300'>
+                  <HeartSVG
+                    className='group-hover:fill-[#fff]'
+                    fill='#f1252b'
+                  />
+                </div>
+                <p className='group-hover:text-[#f1252b] ml-2 my-auto text-base'>
+                  Browse wishlist
+                </p>
+              </div>
+            ) : (
+              <div
+                className='cursor-pointer group flex py-7'
+                onClick={() => {
+                  if (currentUser) {
+                    dispatch({ type: ADD_WISH_LIST, payload: productURL });
+                  } else {
+                    navigate('/login');
+                  }
+                }}
+              >
+                <div className='group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300'>
+                  <HeartSVG
+                    className='group-hover:fill-[#fff]'
+                    fill='#8d8d8d'
+                  />
+                </div>
+                <p className='group-hover:text-[#f1252b] ml-2 my-auto text-base'>
+                  Add to wishlist
+                </p>
+              </div>
+            )}
           </div>
           <hr />
           <div className='py-4'>

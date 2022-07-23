@@ -1,7 +1,6 @@
-import { Navigate } from 'react-router-dom';
 import {
   openNotificationWithIcon,
-  updateCartNotification,
+  updateCartNotification
 } from '../components/Notifications/Notifications';
 import {
   CREATE_CART,
@@ -11,7 +10,7 @@ import {
   OFF_SHOPPING_CART_LAZY_LOADING,
   ON_BUTTON_LAZY_LOADING,
   ON_CART_LAZY_LOADING,
-  ON_SHOPPING_CART_LAZY_LOADING,
+  ON_SHOPPING_CART_LAZY_LOADING
 } from '../redux/consts/const';
 import commerce from './settings';
 

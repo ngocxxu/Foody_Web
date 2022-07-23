@@ -1,20 +1,29 @@
 import { Button, Modal } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import heartIcon from '../../assets/svg/heart-2.svg';
 import xIcon from '../../assets/svg/x-symbol.svg';
-import { SET_WHISHLIST_MODAL } from '../../redux/consts/const';
+import { useAuth } from '../../firebase';
+import {
+  SET_WHISHLIST_MODAL
+} from '../../redux/consts/const';
+import { addProductToCart } from '../../services/CartService';
 import {
   handleDeleteWish,
-  handleGetWishList,
+  handleGetWishList
 } from '../../services/WishListService';
+import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './WishlistModal.scss';
 
 export const WishlistModal = () => {
+  const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { modalWishlist } = useSelector((state) => state.menuReducer);
   const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const flagRef = useRef(false);
+  const currentUser = useAuth();
 
   const handleCancel = () => {
     dispatch({
@@ -26,6 +35,11 @@ export const WishlistModal = () => {
   useEffect(() => {
     dispatch(handleGetWishList());
   }, [dispatch]);
+
+  // Handle button appear only one LazyLoading
+  useEffect(() => {
+    flagRef.current = false;
+  }, [isButtonLazyLoading]);
 
   return (
     <>
@@ -90,8 +104,29 @@ export const WishlistModal = () => {
                 </div>
                 <div>
                   <p className='text-right text-gray-400 text-xs'>In stock</p>
-                  <Button type='dashed' shape='round' size='small'>
-                    Add to cart
+                  <Button
+                    onClick={() => {
+                      if (currentUser) {
+                        flagRef.current = true;
+                        dispatch(
+                          addProductToCart({
+                            id: product.id,
+                            quantity: 1,
+                          })
+                        );
+                      } else {
+                        navigate('/login');
+                      }
+                    }}
+                    type='dashed'
+                    shape='round'
+                    size='small'
+                  >
+                    {isButtonLazyLoading & (flagRef.current === true) ? (
+                      <LazyButtonLoading />
+                    ) : (
+                      'Add to cart'
+                    )}
                   </Button>
                 </div>
               </div>

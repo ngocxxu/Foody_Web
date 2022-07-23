@@ -1,26 +1,23 @@
-import React from 'react';
 import 'antd/dist/antd.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { HomeTemplate } from './template/HomeTemplate/HomeTemplate';
-import { Home } from './pages/Home/Home';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss';
-import { ErrorTemplate } from './template/ErrorTemplate/ErrorTemplate';
-import { Shop } from './pages/Shop/Shop';
-import { BlogDetail } from './pages/BlogDetail/BlogDetail';
-import { Product } from './pages/Product/Product';
-import { Contact } from './pages/Contact/Contact';
-import { FoodProduct } from './pages/Shop/FoodProduct/FoodProduct';
-import { ShoppingCart } from './pages/CartAndCheckout/ShoppingCart/ShoppingCart';
-import { Checkout } from './pages/CartAndCheckout/Checkout/Checkout';
-import { CartAndCheckout } from './pages/CartAndCheckout/CartAndCheckout';
-import { UserTemplate } from './template/UserTemplate/UserTemplate';
-import { Login } from './template/UserTemplate/LoginUser/Login';
-import { Register } from './template/UserTemplate/RegisterUser/Register';
-import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
-import { RegisterSuccess } from './template/UserTemplate/RegisterUser/SuccessRegister';
-import { ResetPassword } from './template/UserTemplate/LoginUser/ResetPassword';
 import { ProtectedRoutes } from './pages/Auth';
 import { ProtectedLoginRoutes } from './pages/Auth/ProtectedLoginRoutes';
+import { BlogDetail } from './pages/BlogDetail/BlogDetail';
+import { CartAndCheckout } from './pages/CartAndCheckout/CartAndCheckout';
+import { Contact } from './pages/Contact/Contact';
+import { Home } from './pages/Home/Home';
+import { FoodProduct } from './pages/Shop/FoodProduct/FoodProduct';
+import { Shop } from './pages/Shop/Shop';
+import { ErrorTemplate } from './template/ErrorTemplate/ErrorTemplate';
+import { HomeTemplate } from './template/HomeTemplate/HomeTemplate';
+import { OrderSuccessTemplate } from './template/OrderSuccessTemplate';
+import { Login } from './template/UserTemplate/LoginUser/Login';
+import { ResetPassword } from './template/UserTemplate/LoginUser/ResetPassword';
+import { Register } from './template/UserTemplate/RegisterUser/Register';
+import { RegisterSuccess } from './template/UserTemplate/RegisterUser/SuccessRegister';
+import { UserTemplate } from './template/UserTemplate/UserTemplate';
 
 export const arrayCategory = [
   'burgers',
