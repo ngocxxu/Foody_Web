@@ -8,6 +8,7 @@ import { shopReducer } from "./reducers/shopReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import { checkoutReducer } from "./reducers/checkoutReducer";
 import { wishListReducer } from "./reducers/wishListReducer";
+import { reviewReducer } from "./reducers/reviewReducer";
 
 const middleware = [ thunk ];
 
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   cartReducer: cartReducer,
   checkoutReducer: checkoutReducer,
   wishListReducer: wishListReducer,
+  reviewReducer: reviewReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(...middleware));

@@ -1,8 +1,7 @@
 import { onValue, ref, remove, set, update } from 'firebase/database';
-import { addDoc, collection, onSnapshot, query } from 'firebase/firestore';
 import { uid } from 'uid';
-import { db, dbFs } from '../firebase';
-import { GET_WISH_LIST, GET_WISH_LIST_FS } from '../redux/consts/const';
+import { db } from '../firebase';
+import { GET_WISH_LIST } from '../redux/consts/const';
 
 export const handleAddWishList = (product_item) => {
   return async () => {
@@ -18,18 +17,18 @@ export const handleAddWishList = (product_item) => {
   };
 };
 
-export const handleAddWishListFS = (product_item) => {
-  return async () => {
-    try {
-      const data = await addDoc(collection(dbFs, 'wish_list'), {
-        product_item,
-      });
-      return data;
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-};
+// export const handleAddWishListFS = (product_item) => {
+//   return async () => {
+//     try {
+//       const data = await addDoc(collection(dbFs, 'wish_list'), {
+//         product_item,
+//       });
+//       return data;
+//     } catch (error) {
+//       console.log({ error });
+//     }
+//   };
+// };
 
 export const handleGetWishList = () => {
   return async (dispatch) => {
@@ -44,22 +43,22 @@ export const handleGetWishList = () => {
   };
 };
 
-export const handleGetWishListFS = () => {
-  return async (dispatch) => {
-    try {
-      const q = query(collection(dbFs, 'wish_list'));
-      const unsub = onSnapshot(q, (querySnapshot) => {
-        if (querySnapshot) {
-          console.log(querySnapshot);
-          dispatch({ type: GET_WISH_LIST_FS, payload: querySnapshot });
-        }
-      });
-      return () => unsub();
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-};
+// export const handleGetWishListFS = () => {
+//   return async (dispatch) => {
+//     try {
+//       const q = query(collection(dbFs, 'wish_list'));
+//       const unsub = onSnapshot(q, (querySnapshot) => {
+//         if (querySnapshot) {
+//           console.log(querySnapshot);
+//           dispatch({ type: GET_WISH_LIST_FS, payload: querySnapshot });
+//         }
+//       });
+//       return () => unsub();
+//     } catch (error) {
+//       console.log({ error });
+//     }
+//   };
+// };
 
 export const handleDeleteWish = (uuid) => {
   return async (dispatch) => {

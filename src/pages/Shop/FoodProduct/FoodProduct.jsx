@@ -1,7 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, InputNumber, Rate, Tabs } from 'antd';
-import { memo, useEffect, useRef, useState } from 'react';
+import { Avatar, Button, Form, Input, InputNumber, Rate, Tabs } from 'antd';
+import * as dayjs from 'dayjs';
+import {
+  createRef,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -9,8 +17,12 @@ import { ReactComponent as HeartSVG } from '../../../assets/svg/heart-2.svg';
 import { BreadcrumbURL } from '../../../components/Breadcrumb/BreadcrumbURL';
 import { LazyButtonLoading } from '../../../components/LazyLoading/LazyLoading';
 import { useAuth } from '../../../firebase';
-import { ADD_WISH_LIST } from '../../../redux/consts/const';
 import { addProductToCart } from '../../../services/CartService';
+import {
+  handleAddReviewFS,
+  handleGetReviewFS,
+} from '../../../services/ReviewService';
+import { handleAddWishList } from '../../../services/WishListService';
 import { SaleProduct } from '../../../template/HomeTemplate/SaleProduct/SaleProduct';
 import './FoodProduct.scss';
 
@@ -76,73 +88,100 @@ const CarouselFood = memo(({ assets }) => {
   );
 });
 
-const onChange = (value) => {
-  // console.log("changed", value);
-};
-
 const { TabPane } = Tabs;
 
 const onChangeTab = (key) => {
   // console.log(key);
 };
 
-const onFinish = (values) => {
-  //console.log('Finish:', values);
-};
-
-const FoodReview = () => {
-  const [form] = Form.useForm();
-
-  return (
-    <div className='mt-6 lg:mb-12 text-base'>
-      <div>
-        <h1 className='text-2xl'>
-          1 review for <span className='text-[#f1252b]'>Alsatian</span>
-        </h1>
-        <div className='border p-5 rounded-xl'>
-          <div className='lg:flex justify-between items-center'>
-            <div className='flex justify-center items-center'>
-              <div className='w-12 h-12 bg-red-400 rounded-full'></div>
-              <div className='ml-4 my-auto'>
-                <div className='text-black font-semibold'>WPBINGO</div>
-                <div>February 22, 2021</div>
-              </div>
-            </div>
-            <div className='mb-auto ml-20 lg:ml-0'>
-              <Rate defaultValue={2} />
-            </div>
-          </div>
-          <div className='mt-4'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </div>
-        </div>
-        <div className='lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4'>
-          <EditOutlined style={{ fontSize: '25px' }} />
-          <span className='pl-4'>ADD A REVIEW</span>
-        </div>
-      </div>
-      {/* <div>
-        <h1 className="text-2xl">Reviews</h1>
-        <p className="lg:mb-12 mb-6">There are no reviews yet.</p>
-        <div className="border-2 border-gray-500 rounded-full w-fit p-4">
-          <EditOutlined style={{ fontSize: "30px" }} />
-          <span className="pl-4">BE THE FIRST TO REVIEW “CHEESECAKE”</span>
-        </div>
-      </div> */}
-      <p className='lg:mt-12 mt-6'>
-        Your email address will not be published. Required fields are marked
-        <span className='text-[#f1252b]'>*</span>
-      </p>
-      <Form form={form} onFinish={onFinish}>
-        <Form.Item name='rate' label='Your Rating'>
-          <Rate defaultValue={2} />
-        </Form.Item>
-        <div className='lg:grid grid-cols-2 gap-5'>
+const FoodReview = memo(
+  ({ productId, productName, reviewList, countReview }) => {
+    return (
+      <div className='mt-6 lg:mb-12 text-base'>
+        {countReview > 0 ? (
           <div>
-            <Form.Item
+            <h1 className='text-2xl mb-4'>
+              {countReview > 0 && `${countReview} `}
+              review for <span className='text-[#f1252b]'>{productName}</span>
+            </h1>
+            {reviewList.length > 0 &&
+              reviewList
+                .filter((review1) => {
+                  return review1?.review.product_id === productId;
+                })
+                .map((review2) => (
+                  <div key={review2.id} className='border p-5 rounded-xl mb-4'>
+                    <div className='flex justify-between items-center'>
+                      <div className='flex justify-center items-center'>
+                        <Avatar
+                          size={50}
+                          className='mr-2'
+                          src={review2?.review.image}
+                        />
+                        <div className='ml-4 my-auto'>
+                          <div className='text-black font-semibold'>
+                            {review2?.review.name}
+                          </div>
+                          <div>
+                            {dayjs(`${review2?.review.review_time}`).format(
+                              'MMMM D, YYYY h:mm A'
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='mb-auto ml-20 lg:ml-0'>
+                        <Rate defaultValue={review2?.review.rate} />
+                      </div>
+                    </div>
+                    <div className='mt-4'>{review2?.review.content_review}</div>
+                  </div>
+                ))}
+            <div className='lg:mt-12 mt-4 border-2 border-gray-500 rounded-full w-fit p-4'>
+              <EditOutlined style={{ fontSize: '25px' }} />
+              <span className='pl-4'>ADD A REVIEW</span>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h1 className='text-2xl'>Reviews</h1>
+            <p className='lg:mb-12 mb-6'>There are no reviews yet.</p>
+            <div className='border-2 border-gray-500 rounded-full w-fit p-4'>
+              <EditOutlined style={{ fontSize: '30px' }} />
+              <span className='pl-4 uppercase'>
+                BE THE FIRST TO REVIEW {`“${productName}”`}
+              </span>
+            </div>
+          </div>
+        )}
+        <p className='lg:mt-12 mt-6'>
+          Your email address will not be published. Required fields are marked
+          <span className='text-[#f1252b]'>*</span>
+        </p>
+        <div>
+          <Form.Item className='mt-4 font-bold' name='rate' label='Your Rating'>
+            <Rate
+              rules={[{ required: true, message: 'Please vote your stars' }]}
+            />
+          </Form.Item>
+          <div className='lg:grid grid-cols-2 gap-5'>
+            <div>
+              <Form.Item
+                name='content_review'
+                rules={[
+                  { required: true, message: 'Please input your reviews' },
+                ]}
+              >
+                <Input.TextArea
+                  size='large'
+                  placeholder='Your Reviews*'
+                  showCount
+                  maxLength={100}
+                  rows={3}
+                />
+              </Form.Item>
+            </div>
+            <div>
+              {/* <Form.Item
               name='username'
               rules={[{ required: true, message: 'Please input your Name!' }]}
             >
@@ -162,38 +201,25 @@ const FoodReview = () => {
               ]}
             >
               <Input size='large' placeholder='Email*' />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                className='mt-2 text-black'
-                size='large'
-                block
-                htmlType='submit'
-                type='primary'
-              >
-                SUBMIT
-              </Button>
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item
-              name='intro'
-              rules={[{ required: true, message: 'Please input your Reviews' }]}
-            >
-              <Input.TextArea
-                size='large'
-                placeholder='Your Reviews*'
-                showCount
-                maxLength={100}
-                rows={7}
-              />
-            </Form.Item>
+            </Form.Item> */}
+              <Form.Item>
+                <Button
+                  className='text-black'
+                  size='large'
+                  block
+                  htmlType='submit'
+                  type='primary'
+                >
+                  SUBMIT
+                </Button>
+              </Form.Item>
+            </div>
           </div>
         </div>
-      </Form>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+);
 
 const RelatedProducts = memo(({ relatedProducts }) => {
   return (
@@ -213,6 +239,8 @@ const RelatedProducts = memo(({ relatedProducts }) => {
 });
 
 export const FoodProduct = () => {
+  const [form] = Form.useForm();
+  const formRef = createRef();
   const currentUser = useAuth();
   const flagRef = useRef(false);
   const flagRefBuyNow = useRef(false);
@@ -220,8 +248,10 @@ export const FoodProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [quatityFood, setQuantityFood] = useState(1);
+  const [countReview, setCountReview] = useState(0);
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
+  const { reviewList } = useSelector((state) => state.reviewReducer) || [];
   const { productURL } = location.state ?? {};
   const {
     id,
@@ -234,6 +264,38 @@ export const FoodProduct = () => {
     related_products,
   } = productURL ?? {};
 
+  const onFinish = useCallback(
+    (values) => {
+      formRef.current.resetFields();
+      dispatch(
+        handleAddReviewFS({
+          ...values,
+          // user_id: currentUser?.uuid,
+          product_id: id,
+          review_time: new Date().toJSON(),
+          image: currentUser?.photoURL
+            ? currentUser?.photoURL
+            : `https://i.pravatar.cc/50/${currentUser?.uid}`,
+          name: currentUser?.reloadUserInfo?.displayName
+            ? currentUser.reloadUserInfo.displayName
+            : currentUser?.email.split('@')[0],
+        })
+      );
+    },
+    [dispatch, currentUser, id, formRef]
+  );
+
+  const averageStarReview = useCallback(() => {
+    if (reviewList.length > 0) {
+      return (
+        reviewList
+          .filter((review1) => review1?.review.product_id === id)
+          .map((num) => num?.review.rate)
+          .reduce((prevVal, curVal) => prevVal + curVal, 0) / countReview
+      );
+    }
+  }, [reviewList, countReview, id]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
@@ -244,8 +306,32 @@ export const FoodProduct = () => {
     flagRefBuyNow.current = false;
   }, [isButtonLazyLoading]);
 
+  useEffect(() => {
+    dispatch(handleGetReviewFS());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setCountReview(
+      reviewList.filter((review1) => {
+        return review1?.review.product_id === id;
+      }).length
+    );
+  }, [id, reviewList]);
+
+  useEffect(() => {
+    form.setFieldsValue({ 'average-rate': averageStarReview() ?? 5 });
+  }, [form, averageStarReview]);
+
   return (
-    <div className='container-food w-3/4 pt-28 mx-auto'>
+    <Form
+      ref={formRef}
+      form={form}
+      onFinish={onFinish}
+      initialValues={{
+        rate: 5,
+      }}
+      className='container-food w-3/4 pt-28 mx-auto'
+    >
       <div className='border-t py-4'>
         <BreadcrumbURL />
       </div>
@@ -258,7 +344,9 @@ export const FoodProduct = () => {
           <h2 className='text-2xl text-[#f1252b] font-medium'>
             {price?.formatted_with_symbol}
           </h2>
-          <Rate disabled defaultValue={2} />
+          <Form.Item className='mt-4 font-bold' name='average-rate'>
+            <Rate disabled allowHalf />
+          </Form.Item>
           <hr />
           <div
             className='py-7 text-[#8d8d8d] text-base'
@@ -299,10 +387,6 @@ export const FoodProduct = () => {
               )}
             </button>
           </div>
-          {/* <ButtonCustom10
-            className='py-4 lg:text-base '
-            textButton='BUY IT NOW'
-          /> */}
           <button
             onClick={() => {
               if (currentUser) {
@@ -330,7 +414,7 @@ export const FoodProduct = () => {
             )}
           </button>
           <div>
-            {wishListCart?.find((item) => item.id === id) ? (
+            {wishListCart?.find((item) => item.product_item.id === id) ? (
               <div className='cursor-pointer group flex py-7'>
                 <div className='group-hover:bg-[#f1252b] p-4 rounded-full border-2 group-hover:border-2 group-hover:border-[#f1252b] ease-out duration-300'>
                   <HeartSVG
@@ -347,7 +431,7 @@ export const FoodProduct = () => {
                 className='cursor-pointer group flex py-7'
                 onClick={() => {
                   if (currentUser) {
-                    dispatch({ type: ADD_WISH_LIST, payload: productURL });
+                    dispatch(handleAddWishList(productURL));
                   } else {
                     navigate('/login');
                   }
@@ -406,13 +490,22 @@ export const FoodProduct = () => {
             quia non numquam eius modi tempora incidunt ut labore et dolore
             magnam aliquam quaerat voluptatem.
           </TabPane>
-          <TabPane className='text-[#8d8d8d]' tab='Reviews (0)' key='2'>
-            <FoodReview />
+          <TabPane
+            className='text-[#8d8d8d]'
+            tab={`Reviews (${countReview})`}
+            key='2'
+          >
+            <FoodReview
+              productId={id}
+              productName={name}
+              reviewList={reviewList}
+              countReview={countReview}
+            />
           </TabPane>
         </Tabs>
       </div>
       <hr className='border-t mt-6' />
       <RelatedProducts relatedProducts={related_products} />
-    </div>
+    </Form>
   );
 };

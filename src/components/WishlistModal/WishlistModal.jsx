@@ -5,13 +5,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import heartIcon from '../../assets/svg/heart-2.svg';
 import xIcon from '../../assets/svg/x-symbol.svg';
 import { useAuth } from '../../firebase';
-import {
-  SET_WHISHLIST_MODAL
-} from '../../redux/consts/const';
+import { SET_WHISHLIST_MODAL } from '../../redux/consts/const';
 import { addProductToCart } from '../../services/CartService';
 import {
   handleDeleteWish,
-  handleGetWishList
+  handleGetWishList,
 } from '../../services/WishListService';
 import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './WishlistModal.scss';
@@ -31,7 +29,7 @@ export const WishlistModal = () => {
       modalWishlist: false,
     });
   };
-  
+
   useEffect(() => {
     dispatch(handleGetWishList());
   }, [dispatch]);
@@ -56,9 +54,13 @@ export const WishlistModal = () => {
             {wishListCart?.length === 0 ? '' : ` (${wishListCart?.length})`}
           </p>
         </div>
-        <div className='border-b'>
+        <div
+          className={`border-b ${
+            isButtonLazyLoading && flagRef.current === true && 'opacity-40'
+          }`}
+        >
           {wishListCart?.length > 0 ? (
-            wishListCart?.map((product) => (
+            wishListCart?.map((product, _, array) => (
               <div
                 key={product.product_item.id}
                 className='flex my-3 justify-between items-center'
@@ -110,7 +112,7 @@ export const WishlistModal = () => {
                         flagRef.current = true;
                         dispatch(
                           addProductToCart({
-                            id: product.id,
+                            id: product.product_item.id,
                             quantity: 1,
                           })
                         );
@@ -122,11 +124,7 @@ export const WishlistModal = () => {
                     shape='round'
                     size='small'
                   >
-                    {isButtonLazyLoading & (flagRef.current === true) ? (
-                      <LazyButtonLoading />
-                    ) : (
-                      'Add to cart'
-                    )}
+                    Add to cart
                   </Button>
                 </div>
               </div>
@@ -136,35 +134,6 @@ export const WishlistModal = () => {
               There are no products on the wishlist!
             </p>
           )}
-          {/* <div className='flex my-3 justify-between items-center'>
-            <div className='flex'>
-              <img className='cursor-pointer' src={xIcon} alt='xIcon' />
-              <div
-                style={{ width: '80px', height: '80px' }}
-                className='my-auto mx-4'
-              >
-                <img
-                  width='100%'
-                  className='img_wishlist'
-                  src={product2}
-                  alt='product2'
-                />
-              </div>
-              <div className='flex flex-col justify-center'>
-                <h4 className='font-bold mb-0 cursor-pointer'>Cheesecake</h4>
-                <h2 className='text-lg text-red-500 font-semibold mb-0'>
-                  $99.00
-                </h2>
-                <div className='text-gray-400 text-xs'>April 24, 2022</div>
-              </div>
-            </div>
-            <div>
-              <p className='text-right text-gray-400 text-xs'>In stock</p>
-              <Button type='dashed' shape='round' size='small'>
-                Add to cart
-              </Button>
-            </div>
-          </div> */}
         </div>
         <div className='mt-6 flex justify-between'>
           {/* <button className="text-white font-semibold bg-black  py-2 px-4 rounded-full hover:bg-red-600 ease-out duration-300">

@@ -10,7 +10,6 @@ import searchIcon from '../../assets/svg/searchhh.svg';
 import cartIcon from '../../assets/svg/shopping-basket-svgrepo-com.svg';
 import { useAuth } from '../../firebase';
 import {
-  EMPTY_WISH_LIST,
   SET_DRAWER_TABLE,
   SET_WHISHLIST_MODAL,
 } from '../../redux/consts/const';
@@ -20,6 +19,7 @@ import {
   getCart,
 } from '../../services/CartService';
 import { handleSignOut } from '../../services/UserService';
+import { handleDeleteWish } from '../../services/WishListService';
 import { ItemDrawer } from '../ItemDrawer/ItemDrawer';
 import { WishlistModal } from '../WishlistModal/WishlistModal';
 import './ItemsMenu.scss';
@@ -30,6 +30,12 @@ const ItemsMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useAuth();
+
+  const handleDeleteAllWishList = useCallback(() => {
+    wishListCart.forEach((product) => {
+      dispatch(handleDeleteWish(product.uuid));
+    });
+  }, [wishListCart, dispatch]);
 
   const menu = (
     <Menu
@@ -52,7 +58,7 @@ const ItemsMenu = () => {
             <div
               onClick={() => {
                 Promise.all([
-                  dispatch({ type: EMPTY_WISH_LIST }),
+                  handleDeleteAllWishList(),
                   dispatch(empltyAllProductsToCart()),
                   dispatch(handleSignOut(() => navigate('/home'))),
                 ]);
@@ -87,7 +93,7 @@ const ItemsMenu = () => {
                 src={`${
                   currentUser?.photoURL
                     ? currentUser?.photoURL
-                    : 'https://i.pravatar.cc/50'
+                    : `https://i.pravatar.cc/50/${currentUser?.uid}`
                 }`}
               />
             }

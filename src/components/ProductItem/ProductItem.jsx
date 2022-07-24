@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ReactComponent as HeartSVG } from '../../assets/svg/heart-2.svg';
 import { useAuth } from '../../firebase';
-import { ADD_WISH_LIST } from '../../redux/consts/const';
 import { addProductToCart } from '../../services/CartService';
+import { handleAddWishList } from '../../services/WishListService';
 import { LazyButtonLoading } from '../LazyLoading/LazyLoading';
 import './ProductItem.scss';
 
@@ -54,7 +54,7 @@ export const ProductItem = memo(({ product }) => {
           )}
         </div>
         <div className='cursor-pointer group'>
-          {wishListCart?.find((item) => item.id === product.id) ? (
+          {wishListCart?.find((item) => item.product_item.id === product.id) ? (
             <HeartSVG className='ease-out duration-300' fill='#ffb219' />
           ) : (
             <HeartSVG
@@ -62,7 +62,7 @@ export const ProductItem = memo(({ product }) => {
               fill='#e9e9e9'
               onClick={() => {
                 if (currentUser) {
-                  dispatch({ type: ADD_WISH_LIST, payload: product });
+                  dispatch(handleAddWishList(product));
                 } else {
                   navigate('/login');
                 }
