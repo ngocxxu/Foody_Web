@@ -270,6 +270,7 @@ export const FoodProduct = () => {
 
   const onFinish = useCallback(
     (values) => {
+      if (!currentUser) return navigate('/login');
       formRef.current.resetFields();
       dispatch(
         handleAddReviewFS({
@@ -286,7 +287,7 @@ export const FoodProduct = () => {
         })
       );
     },
-    [dispatch, currentUser, id, formRef]
+    [dispatch, currentUser, id, formRef, navigate]
   );
 
   const averageStarReview = useCallback(() => {
