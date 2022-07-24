@@ -1,6 +1,6 @@
 import { Avatar, Badge, Button, Dropdown, Menu, Popover, Progress } from 'antd';
 import clsx from 'clsx';
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import emptyCartIcon from '../../assets/svg/cart_remove.svg';
@@ -27,6 +27,10 @@ import './ItemsMenu.scss';
 const ItemsMenu = () => {
   const { cart } = useSelector((state) => state.cartReducer);
   const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useAuth();
@@ -76,8 +80,21 @@ const ItemsMenu = () => {
     dispatch(getCart());
   }, [dispatch]);
 
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    return (_) => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
+
   return (
-    <div className='container-item-menu flex space-x-3'>
+    <div className='container-item-menu flex space-x-2 md:space-x-3'>
       {currentUser ? (
         <Dropdown
           className='my-auto font-medium'
@@ -98,7 +115,9 @@ const ItemsMenu = () => {
               />
             }
           >
-            {currentUser?.reloadUserInfo?.displayName
+            {dimensions.width < 500
+              ? ''
+              : currentUser?.reloadUserInfo?.displayName
               ? currentUser.reloadUserInfo.displayName
               : currentUser?.email.split('@')[0]}
           </Button>
@@ -111,7 +130,7 @@ const ItemsMenu = () => {
           Sign In | Sign Up
         </p>
       )}
-      <ItemDrawer />
+      {/* <ItemDrawer />
       <img
         onClick={() => {
           dispatch({
@@ -122,7 +141,7 @@ const ItemsMenu = () => {
         className='cursor-pointer hover:-translate-y-1 ease-out duration-200 ml-0'
         src={searchIcon}
         alt='searchIcon'
-      />
+      /> */}
       {/* <ItemModal />
       <img
         onClick={() => navigate('/login')}

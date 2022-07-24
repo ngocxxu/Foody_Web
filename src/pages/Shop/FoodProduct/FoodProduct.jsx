@@ -95,7 +95,7 @@ const onChangeTab = (key) => {
 };
 
 const FoodReview = memo(
-  ({ productId, productName, reviewList, countReview }) => {
+  ({ productId, productName, reviewList, countReview, dimensions }) => {
     return (
       <div className='mt-6 lg:mb-12 text-base'>
         {countReview > 0 ? (
@@ -111,14 +111,14 @@ const FoodReview = memo(
                 })
                 .map((review2) => (
                   <div key={review2.id} className='border p-5 rounded-xl mb-4'>
-                    <div className='flex justify-between items-center'>
-                      <div className='flex justify-center items-center'>
+                    <div className='md:flex justify-between items-center'>
+                      <div className='md:flex justify-center items-center'>
                         <Avatar
-                          size={50}
+                          size={dimensions.width < 650 ? 30 : 50}
                           className='mr-2'
                           src={review2?.review.image}
                         />
-                        <div className='ml-4 my-auto'>
+                        <div className='md:ml-4 ml-0 my-auto'>
                           <div className='text-black font-semibold'>
                             {review2?.review.name}
                           </div>
@@ -129,7 +129,7 @@ const FoodReview = memo(
                           </div>
                         </div>
                       </div>
-                      <div className='mb-auto ml-20 lg:ml-0'>
+                      <div className='mb-auto'>
                         <Rate defaultValue={review2?.review.rate} />
                       </div>
                     </div>
@@ -249,6 +249,10 @@ export const FoodProduct = () => {
   const dispatch = useDispatch();
   const [quatityFood, setQuantityFood] = useState(1);
   const [countReview, setCountReview] = useState(0);
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
   const { wishListCart } = useSelector((state) => state.wishListReducer) || [];
   const { reviewList } = useSelector((state) => state.reviewReducer) || [];
@@ -322,6 +326,19 @@ export const FoodProduct = () => {
     form.setFieldsValue({ 'average-rate': averageStarReview() ?? 5 });
   }, [form, averageStarReview]);
 
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    return (_) => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
+
   return (
     <Form
       ref={formRef}
@@ -330,7 +347,7 @@ export const FoodProduct = () => {
       initialValues={{
         rate: 5,
       }}
-      className='container-food w-3/4 pt-28 mx-auto'
+      className='container-food w-3/4 lg:pt-28 mx-auto'
     >
       <div className='border-t py-4'>
         <BreadcrumbURL />
@@ -500,6 +517,7 @@ export const FoodProduct = () => {
               productName={name}
               reviewList={reviewList}
               countReview={countReview}
+              dimensions={dimensions}
             />
           </TabPane>
         </Tabs>
