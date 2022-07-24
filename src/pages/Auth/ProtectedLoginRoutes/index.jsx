@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../firebase';
 
-export const ProtectedLoginRoutes = ({ redirectPath = '/home', children }) => {
+export const ProtectedLoginRoutes = ({ redirectPath = -1, children }) => {
   const currentUser = useAuth();
   const navigate = useNavigate();
 
