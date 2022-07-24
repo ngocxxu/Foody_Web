@@ -6,22 +6,25 @@ $color-green: #00a950;
 $color-gray: #a0a0a0;
 $color-redred: #bb2d2f;
 
-.ant-modal-footer {
-  display: none;
+.container-wishlist {
+  .ant-modal-footer {
+    display: none;
+  }
+
+  .ant-btn-dashed {
+    color: #fff;
+    border-color: $color-red;
+    background: $color-red;
+  }
+
+  .ant-btn-dashed:hover,
+  .ant-btn-dashed:focus {
+    color: #fff;
+    border-color: $color-redred;
+    background: $color-redred;
+  }
 }
 
-.ant-btn-dashed {
-  color: #fff;
-  border-color: $color-red;
-  background: $color-red;
-}
-
-.ant-btn-dashed:hover, .ant-btn-dashed:focus {
-  color: #fff;
-  border-color: $color-redred;
-  background: $color-redred;
-}
-
-.img_wishlist{
+.img_wishlist {
   border: 1px solid #e5e7eb;
 }

@@ -20,17 +20,17 @@ export const getAllProducts = () => {
             type: GET_PRODUCT_LIST_DATA,
             payload: data,
           }),
-          dispatch({
-            type: OFF_LAZY_LOADING,
-          }),
         ]);
       }
     } catch (error) {
       console.log({ error });
-      dispatch({
-        type: OFF_LAZY_LOADING,
-      })
+      // dispatch({
+      //   type: OFF_LAZY_LOADING,
+      // })
     }
+    dispatch({
+      type: OFF_LAZY_LOADING,
+    })
   };
 };
 
@@ -47,17 +47,20 @@ export const getAllSaleProducts = () => {
             type: GET_PRODUCT_SALE_LIST_DATA,
             payload: data,
           }),
-          dispatch({
-            type: OFF_LAZY_LOADING,
-          }),
+          // dispatch({
+          //   type: OFF_LAZY_LOADING,
+          // }),
         ]);
       }
     } catch (error) {
       console.log({ error });
-      dispatch({
-        type: OFF_LAZY_LOADING,
-      })
+      // dispatch({
+      //   type: OFF_LAZY_LOADING,
+      // })
     }
+    dispatch({
+      type: OFF_LAZY_LOADING,
+    })
   };
 };
 

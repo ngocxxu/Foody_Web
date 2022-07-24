@@ -3,9 +3,9 @@ import { Col, Divider, Form, Input, Row, Select } from 'antd';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ButtonCustom11 } from '../../../components/Button/Button';
 import { LazyButtonLoading } from '../../../components/LazyLoading/LazyLoading';
 import { regexName } from '../../../components/Regex';
+import { useAuth } from '../../../firebase';
 import {
   createCaptureOrder,
   getListCountries,
@@ -29,6 +29,7 @@ const validateMessages = {
 };
 
 export const Checkout = memo(({ checkoutToken }) => {
+  const { email } = useAuth() || {};
   const { cart } = useSelector((state) => state.cartReducer);
   const { shippingMethods } = useSelector((state) => state.checkoutReducer);
   const { isButtonLazyLoading } = useSelector((state) => state.othersReducer);
@@ -42,7 +43,7 @@ export const Checkout = memo(({ checkoutToken }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const nameVal = Form.useWatch(['shipping', 'name'], form);
-  const emailVal = Form.useWatch(['customer', 'email'], form);
+  // const emailVal = Form.useWatch(['customer', 'email'], form);
   const countryVal = Form.useWatch(['shipping', 'country'], form);
   const countyStateVal = Form.useWatch(['shipping', 'county_state'], form);
   const townCityVal = Form.useWatch(['shipping', 'town_city'], form);
@@ -118,7 +119,10 @@ export const Checkout = memo(({ checkoutToken }) => {
         (f) => f.id === shippingMethodVal
       );
       return (
-        <span>{`${findShipMed?.description} (${findShipMed?.price?.formatted_with_symbol})`}</span>
+        <span>
+          {`${findShipMed?.description} (${findShipMed?.price?.formatted_with_symbol})` ??
+            ''}
+        </span>
       );
     }
   }, [shippingMethods, shippingMethodVal, listCountries, listSubCountry]);
@@ -132,20 +136,24 @@ export const Checkout = memo(({ checkoutToken }) => {
     flagRef.current = false;
   }, [isButtonLazyLoading]);
 
+  useEffect(() => {
+    form.setFieldsValue({ customer: { email: email } });
+  }, [email, form]);
+
   return (
     <Form
       form={form}
-      layout="vertical"
-      name="nest-messages"
+      layout='vertical'
+      name='nest-messages'
       onFinish={onFinish}
       validateMessages={validateMessages}
     >
       <Row>
         <Col lg={14}>
-          <h1 className="text-2xl">Billing Details</h1>
+          <h1 className='text-2xl'>Billing Details</h1>
           <Form.Item
             name={['shipping', 'name']}
-            label="Full name"
+            label='Full name'
             rules={[
               {
                 type: 'string',
@@ -157,7 +165,7 @@ export const Checkout = memo(({ checkoutToken }) => {
               },
             ]}
           >
-            <Input className="w-full" placeholder="Your name" />
+            <Input className='w-full' placeholder='Your name' />
           </Form.Item>
           {/* <Form.Item
             name={['customer', 'lastname']}
@@ -180,18 +188,18 @@ export const Checkout = memo(({ checkoutToken }) => {
           </Form.Item> */}
           <Form.Item
             name={['customer', 'email']}
-            label="Email"
-            rules={[{ required: true, type: 'email' }]}
+            label='Email'
+            // rules={[{ required: true, type: 'email' }]}
           >
-            <Input className="w-full" placeholder="Your email" />
+            <Input disabled className='w-full' placeholder='Your email' />
           </Form.Item>
           <Form.Item
             name={['shipping', 'country']}
-            label="Country / Region"
+            label='Country / Region'
             rules={[{ required: true }]}
           >
             <Select
-              defaultValue="Select your option"
+              defaultValue='Select your option'
               style={{
                 width: '100%',
               }}
@@ -206,11 +214,11 @@ export const Checkout = memo(({ checkoutToken }) => {
           </Form.Item>
           <Form.Item
             name={['shipping', 'county_state']}
-            label="Subdivisions of country"
+            label='Subdivisions of country'
             rules={[{ required: true }]}
           >
             <Select
-              defaultValue="Select your option"
+              defaultValue='Select your option'
               style={{
                 width: '100%',
               }}
@@ -225,17 +233,17 @@ export const Checkout = memo(({ checkoutToken }) => {
           </Form.Item>
           <Form.Item
             name={['shipping', 'town_city']}
-            label="Town / City"
+            label='Town / City'
             rules={[{ required: true }]}
           >
-            <Input className="w-full" placeholder="Ho Chi Minh" />
+            <Input className='w-full' placeholder='Ho Chi Minh' />
           </Form.Item>
           <Form.Item
             name={['shipping', 'street']}
-            label="Street address"
+            label='Street address'
             rules={[{ required: true }]}
           >
-            <Input className="w-full" placeholder="Your address" />
+            <Input className='w-full' placeholder='Your address' />
           </Form.Item>
           {/* <Form.Item
             name={['shipping', 'postal_zip_code']}
@@ -246,11 +254,11 @@ export const Checkout = memo(({ checkoutToken }) => {
           </Form.Item> */}
           <Form.Item
             name={['fulfillment', 'shipping_method']}
-            label="Shipping Methods"
+            label='Shipping Methods'
             rules={[{ required: true }]}
           >
             <Select
-              defaultValue="Select your option"
+              defaultValue='Select your option'
               style={{
                 width: '100%',
               }}
@@ -268,18 +276,18 @@ export const Checkout = memo(({ checkoutToken }) => {
               placeholder="Notes about your order, e.g. special notes for delivery"
             />
           </Form.Item> */}
-          <div className="border border-black shadow-md p-4 mb-6 lg:mb-0">
-            <h1 className="text-2xl lg:mb-2">Billing Review</h1>
-            <Row className="justify-start">
+          <div className='border border-black shadow-md p-4 mb-6 lg:mb-0'>
+            <h1 className='text-2xl lg:mb-2'>Billing Review</h1>
+            <Row className='justify-start'>
               <Col lg={12}>
-                <h1 className="text-xl mt-2 lg:mt-0">Your information</h1>
+                <h1 className='text-xl mt-2 lg:mt-0'>Your information</h1>
                 <p>
                   <b>Fullname: </b>
                   <span>{nameVal}</span>
                 </p>
                 <p>
                   <b>Email: </b>
-                  <span>{emailVal}</span>
+                  <span>{email}</span>
                 </p>
                 <p>
                   <b>Country / Region: </b>
@@ -303,7 +311,7 @@ export const Checkout = memo(({ checkoutToken }) => {
                 </p>
               </Col>
               <Col lg={12}>
-                <h1 className="text-xl mt-2 lg:mt-0">Payment</h1>
+                <h1 className='text-xl mt-2 lg:mt-0'>Payment</h1>
                 <p>
                   <b>Card Number: </b>
                   <span>{numberVal}</span>
@@ -329,45 +337,45 @@ export const Checkout = memo(({ checkoutToken }) => {
           </div>
         </Col>
         <Col
-          className="border border-black p-8 rounded-lg h-fit"
+          className='border border-black p-8 rounded-lg h-fit'
           lg={{ span: 8, offset: 2 }}
         >
-          <h1 className="text-2xl">Product</h1>
+          <h1 className='text-2xl'>Product</h1>
           {line_items?.map((item) => (
-            <Row key={item.id} className="p-4 pb-0">
+            <Row key={item.id} className='p-4 pb-0'>
               <Col span={16}>
                 <Row>
                   <Col span={8}>
                     <img
-                      className="w-10 lg:w-16"
+                      className='w-10 lg:w-16'
                       alt={item.image.filename}
                       src={item.image.url}
                     />
                   </Col>
                   <Col span={16}>
                     {item.product_name}
-                    <div className="text-md font-bold" level={5}>
+                    <div className='text-md font-bold' level={5}>
                       QTY: {item.quantity}
                     </div>
                   </Col>
                 </Row>
               </Col>
-              <Col className="text-right" span={8}>
+              <Col className='text-right' span={8}>
                 {item.line_total?.formatted_with_symbol}
               </Col>
             </Row>
           ))}
-          <Divider className="border" />
-          <Row className="p-4">
+          <Divider className='border' />
+          <Row className='p-4'>
             <Col span={16}>Subtotal</Col>
-            <Col className="text-right" span={8}>
+            <Col className='text-right' span={8}>
               {subtotal?.formatted_with_symbol}
             </Col>
           </Row>
-          <Divider className="border" />
-          <Row className="p-4">
+          <Divider className='border' />
+          <Row className='p-4'>
             <Col span={16}>Shipping</Col>
-            <Col className="text-right" span={8}>
+            <Col className='text-right' span={8}>
               {shippingMethods?.length > 0
                 ? shippingMethods?.map(
                     (shipMethod) => shipMethod?.price?.formatted_with_symbol
@@ -375,12 +383,12 @@ export const Checkout = memo(({ checkoutToken }) => {
                 : '$0.00'}
             </Col>
           </Row>
-          <Divider className="border" />
-          <Row className="p-4">
-            <Col className="font-bold text-xl" span={16}>
+          <Divider className='border' />
+          <Row className='p-4'>
+            <Col className='font-bold text-xl' span={16}>
               Total
             </Col>
-            <Col className="text-right font-bold text-xl" span={8}>
+            <Col className='text-right font-bold text-xl' span={8}>
               {shippingMethods?.length > 0
                 ? '$' +
                   Number(
@@ -394,14 +402,14 @@ export const Checkout = memo(({ checkoutToken }) => {
                 : subtotal?.formatted_with_symbol}
             </Col>
           </Row>
-          <Divider className="border" />
+          <Divider className='border' />
           <Payment />
           <Form.Item>
             <button
               onClick={() => {
                 flagRef.current = true;
               }}
-              type="submit"
+              type='submit'
               className={`hover:border-[#272727] border hover:text-[#272727] font-bold rounded-full hover:bg-transparent bg-black px-7 text-white ease-out duration-300 text-lg w-full py-4 mt-10`}
             >
               {isButtonLazyLoading && flagRef.current === true ? (

@@ -6,7 +6,6 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import emptyCartIcon from '../../../assets/svg/cart_remove.svg';
 import { ButtonCustom11 } from '../../../components/Button/Button';
 import { getAllProducts } from '../../../services/ProductsService';
-
 import {
   deleteProductToCart,
   empltyAllProductsToCart, updateProductToCart
@@ -27,7 +26,6 @@ export const ShoppingCart = () => {
 
   const handleChangeQuantity = useCallback(
     (quantity, idItem) => {
-      
       if (quantity > 0) {
         flagRef.current = true;
         dispatch(updateProductToCart(quantity, idItem));

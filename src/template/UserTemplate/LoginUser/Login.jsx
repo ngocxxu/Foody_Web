@@ -1,14 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { handleSignIn } from '../../../services/UserService';
 import './LoginUser.scss';
 
 export const Login = () => {
+  const { isLazyLoading } = useSelector((state) => state.othersReducer);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    // console.log('Success:', values);
+    dispatch(handleSignIn(values, () => navigate(-1)));
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -30,11 +34,12 @@ export const Login = () => {
         autoComplete='off'
       >
         <Form.Item
-          name='username'
+          name='email'
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Please input your email!',
+              type: 'email',
             },
           ]}
         >
@@ -60,10 +65,11 @@ export const Login = () => {
           >
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-          <div>
-            <a className='login-form-forgot' href='#'>
-              Forgot?
-            </a>
+          <div
+            onClick={() => navigate('/reset-password')}
+            className='login-form-forgot cursor-pointer text-blue-500'
+          >
+            Forgot?
           </div>
         </div>
         <Form.Item>
@@ -73,6 +79,7 @@ export const Login = () => {
             htmlType='submit'
             block
             size='large'
+            disabled={isLazyLoading}
           >
             LOGIN
           </Button>

@@ -7,7 +7,7 @@ export const OrderSuccessTemplate = () => {
 
   return (
     <div className='order-success-container relative flex items-center justify-center'>
-      <div className='absolute top-3/4 left-50 z-10 text-center'>
+      <div className='absolute top-2/3 translate-y-10 left-50 z-10 text-center'>
         <p className='font-bold text-xl text-white'>
           Your order is being processed by us, please check your e-mail for more
           details.

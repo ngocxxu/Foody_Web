@@ -37,4 +37,15 @@ $color-gray: #a0a0a0;
   }
 }
 
+.container-item-menu{
+  .ant-btn{
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .ant-btn:hover, .ant-btn:focus{
+    background: transparent;
+  }
+}
+
 
